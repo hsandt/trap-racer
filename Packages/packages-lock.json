@@ -1,5 +1,23 @@
 {
   "dependencies": {
+    "com.komehara.commons-debug": {
+      "version": "file:CommonsDebug",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.komehara.commons-editor": {
+      "version": "file:CommonsEditor",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.komehara.commons-helper": {
+      "version": "file:CommonsHelper",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "4.2.5",
       "depth": 0,
