@@ -18,6 +18,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.komehara.commons-pattern": {
+      "version": "file:CommonsPattern",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "4.2.5",
       "depth": 0,
