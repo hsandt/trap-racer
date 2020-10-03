@@ -13,15 +13,15 @@ TagManager:
   - UI
   - 
   - 
+  - Ground
+  - Obstacle
+  - 
+  - 
+  - Interactable
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Character
   - 
   - 
   - 
