@@ -65,7 +65,11 @@ public class CharacterRun : MonoBehaviour
             {
                 // detected ground, leave Jump, adjust position Y and reset velocity Y
                 m_State = CharacterState.Run;
-                m_Rigidbody2D.MovePosition(m_Rigidbody2D.position + groundDistance * Vector2.up);
+                
+                // after MovePosition, physics velocity is not normally applied,
+                //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
+                m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
+                    new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, groundDistance));
                 m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
             }
             else
