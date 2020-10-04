@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 476853937241347366, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: KeyboardWASD
+      objectReference: {fileID: 0}
     - target: {fileID: 6727114343991617101, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
