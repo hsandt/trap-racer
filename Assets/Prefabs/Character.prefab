@@ -165,8 +165,8 @@ MonoBehaviour:
   groundDetectionStartOffset: 0.1
   groundDetectionStopOffset: 0.1
   runSpeed: 10
-  jumpSpeed: 10
-  gravity: 10
+  jumpSpeed: 15
+  gravity: 30
 --- !u!114 &476853937241347366
 MonoBehaviour:
   m_ObjectHideFlags: 0
