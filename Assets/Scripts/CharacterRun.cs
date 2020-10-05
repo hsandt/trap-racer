@@ -31,8 +31,11 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Distance below feet to stop detecting ground. Must be positive to at least detect ground at feet level, but a very small margin is enough. It is only to avoid missing ground just at the tip of a raycast, as ground detected more below will be ignored anyway.")]
     private float groundDetectionStopMargin = 0.1f;
 
-    [SerializeField, Tooltip("Run speed X")]
-    private float runSpeed = 10f;
+    [SerializeField, Tooltip("Run speed X at normal pace")]
+    private float normalRunSpeed = 10f;
+    
+    [SerializeField, Tooltip("Run speed X when slowed down")]
+    private float slowdownRunSpeed = 7f;
     
     [SerializeField, Tooltip("Jump speed Y")]
     private float jumpSpeed = 10f;
@@ -40,8 +43,16 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Gravity acceleration (positive downward)")]
     private float gravity = 10f;
 
+    [SerializeField, Tooltip("Slowdown duration on obstacle hit")]
+    private float obstacleSlowdownDuration = 1f;
+
     /* State vars */
+    
+    /// Current state
     private CharacterState m_State;
+
+    /// Slow down timer. When positive, character is currently slowed down
+    private float m_SlowDownTimer;
     
     void Awake()
     {
@@ -52,10 +63,22 @@ public class CharacterRun : MonoBehaviour
     private void Start()
     {
         m_State = CharacterState.Run;
+        m_SlowDownTimer = 0f;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        // update slowdown timer
+        bool isSlowedDown = false;
+        if (m_SlowDownTimer > 0f)
+        {
+            m_SlowDownTimer = Mathf.Max(0f, m_SlowDownTimer - Time.deltaTime);
+            if (m_SlowDownTimer > 0f)
+            {
+                isSlowedDown = true;
+            }
+        }
+            
         // Transitions
         
         if (m_State == CharacterState.Run)
@@ -108,6 +131,7 @@ public class CharacterRun : MonoBehaviour
         }
         
         // After doing all transitions, set velocity based on the resulting state
+        float runSpeed = isSlowedDown ? slowdownRunSpeed : normalRunSpeed;
         
         if (m_State == CharacterState.Run)
         {
@@ -117,7 +141,7 @@ public class CharacterRun : MonoBehaviour
         else  // airborne
         {
             // apply gravity
-            m_Rigidbody2D.velocity += gravity * Time.deltaTime * Vector2.down;
+            m_Rigidbody2D.velocity = new Vector2(runSpeed, m_Rigidbody2D.velocity.y - gravity * Time.deltaTime);
         }
     }
     
@@ -160,6 +184,14 @@ public class CharacterRun : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
     }
 
+    /// Enter Hurt state and slow down
+    /// Leave obstacle destruction to Obstacle script side
+    /// If you already hit an obstacle and timer is still active, just reset it to duration
+    public void CrashIntoObstacle()
+    {
+        m_SlowDownTimer = obstacleSlowdownDuration;
+    }
+    
     /// Input callback: Jump action
     private void OnJump()
     {

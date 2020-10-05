@@ -98,7 +98,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 6727114343991617103}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -162,8 +162,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  groundDetectionStartOffset: 0.1
-  groundDetectionStopOffset: 0.1
+  groundDetectionStartMargin: 0.1
+  groundDetectionStopMargin: 0.1
   runSpeed: 10
   jumpSpeed: 15
   gravity: 30
