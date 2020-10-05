@@ -1,5 +1,6 @@
 public enum CharacterState
 {
     Run,
-    Jump
+    Jump,
+    Fall,
 }
