@@ -22,8 +22,11 @@ public class CharacterRun : MonoBehaviour
     
     /* Parameters */
     
+    [SerializeField, Tooltip("Player number (1 or 2)")]
+    private int playerNumber = 0;
+
     [SerializeField, Tooltip("Ground raycast contact filter")]
-    private ContactFilter2D groundFilter = new ContactFilter2D();
+    private ContactFilter2D groundFilter;
 
     [SerializeField, Tooltip("Distance above feet to detect ground (must be at least expected penetration depth)")]
     private float groundDetectionStartMargin = 0.1f;
@@ -91,7 +94,7 @@ public class CharacterRun : MonoBehaviour
                 // no ground detected, fall (we can wait next frame to start applying gravity)
                 m_State = CharacterState.Fall;
 #if DEBUG_CHARACTER_RUN
-                Debug.Log("[CharacterRun] No ground detected, Fall");
+                Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, Fall", playerNumber);
 #endif
             }
         }
@@ -108,7 +111,7 @@ public class CharacterRun : MonoBehaviour
                         m_State = CharacterState.Run;
                         Land(groundDistance);
 #if DEBUG_CHARACTER_RUN
-                        Debug.LogFormat("[CharacterRun] Ground detected, Land at groundDistance: {0}", groundDistance);
+                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundDistance);
 #endif
                     }
                     break;
@@ -122,7 +125,7 @@ public class CharacterRun : MonoBehaviour
                         m_State = CharacterState.Run;
                         Land(groundDistance);
 #if DEBUG_CHARACTER_RUN
-                        Debug.LogFormat("[CharacterRun] Ground detected, Land at groundDistance: {0}", groundDistance);
+                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {0}", playerNumber, groundDistance);
 #endif
                     }
                     break;
@@ -201,7 +204,7 @@ public class CharacterRun : MonoBehaviour
             m_Rigidbody2D.velocity += jumpSpeed * Vector2.up;
             
 #if DEBUG_CHARACTER_RUN
-            Debug.LogFormat("[CharacterRun] Jump with jumpSpeed: {0}", jumpSpeed);
+            Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
 #endif
         }
     }

@@ -164,9 +164,11 @@ MonoBehaviour:
     maxNormalAngle: 0
   groundDetectionStartMargin: 0.1
   groundDetectionStopMargin: 0.1
-  runSpeed: 10
+  normalRunSpeed: 10
+  slowdownRunSpeed: 7
   jumpSpeed: 15
   gravity: 30
+  obstacleSlowdownDuration: 1
 --- !u!114 &476853937241347366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +305,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7949088270941384188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.71617925, y: -2.1485376, z: 0}
+  m_LocalPosition: {x: -1.14, y: -2.1485376, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6727114343991617101}

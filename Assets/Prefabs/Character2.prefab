@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardArrows
       objectReference: {fileID: 0}
+    - target: {fileID: 5152511473608984509, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
+      propertyPath: playerNumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6727114343991617101, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
