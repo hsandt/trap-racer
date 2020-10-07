@@ -210,6 +210,11 @@ public class CharacterRun : MonoBehaviour
         m_SlowDownTimer = obstacleSlowdownDuration;
     }
     
+    public void PlayToggleSwitchAnim()
+    {
+        // TODO
+    }
+    
     /// Input callback: Jump action
     private void OnJump()
     {

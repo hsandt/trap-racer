@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Device
+    uniqueID: 1149527975
+    locked: 0
+  - name: Platform
+    uniqueID: 3761083845
+    locked: 0
+  - name: Obstacle
+    uniqueID: 1114027543
+    locked: 0
+  - name: Character
+    uniqueID: 1938345047
+    locked: 0
