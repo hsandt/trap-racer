@@ -34,6 +34,9 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Distance below feet to stop detecting ground. Must be positive to at least detect ground at feet level, but a very small margin is enough. It is only to avoid missing ground just at the tip of a raycast, as ground detected more below will be ignored anyway.")]
     private float groundDetectionStopMargin = 0.1f;
 
+    [SerializeField, Tooltip("Distance between feet and ground under which we consider character to be just touching ground, so no Y adjustment is applied. This is used for both penetration tolerance (small positive distance sensed) and hover tolerance (small negative distance sensed). This prevents oscillations between Landing and Falling as the feet Y wouldn't exactly match ground Y due to floating precision. Should be lower than margins above.")]
+    private float groundDetectionToleranceHalfRange = 0.01f;
+
     [SerializeField, Tooltip("Run speed X at normal pace")]
     private float normalRunSpeed = 10f;
     
@@ -163,16 +166,28 @@ public class CharacterRun : MonoBehaviour
         {
             // only consider first hit
             float hitDistance = RaycastHits[0].distance;
-            
-            // only consider ground actually at feet level or above
-            if (hitDistance <= groundDetectionStartMargin)
+            outGroundDistance = groundDetectionStartMargin - hitDistance;
+
+            if (Mathf.Abs(outGroundDistance) <= groundDetectionToleranceHalfRange)
             {
-                outGroundDistance = groundDetectionStartMargin - hitDistance;
+                // we're close enough to ground (slightly inside or above)
+                // to consider we are grounded and don't need any offset (prevents oscillation around ground Y)
+                outGroundDistance = 0f;
                 return true;
+            }
+            else if (outGroundDistance >= 0)  // actually > groundDetectionToleranceHalfRange
+            {
+                // we are inside the ground by a meaningful distance
+                return true;
+            }
+            else  // outGroundDistance < - groundDetectionToleranceHalfRange
+            {
+                // we are above ground by a meaningful distance
+                return false;
             }
         }
 
-        outGroundDistance = 0f;
+        outGroundDistance = 0f;  // just because we need something for out
         return false;
     }
     
