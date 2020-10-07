@@ -26,7 +26,7 @@ public class CharacterRun : MonoBehaviour
     private int playerNumber = 0;
 
     [SerializeField, Tooltip("Ground raycast contact filter")]
-    private ContactFilter2D groundFilter;
+    private ContactFilter2D groundFilter = default;
 
     [SerializeField, Tooltip("Distance above feet to detect ground (must be at least expected penetration depth)")]
     private float groundDetectionStartMargin = 0.1f;
