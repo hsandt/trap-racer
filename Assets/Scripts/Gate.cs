@@ -34,7 +34,11 @@ public class Gate : MonoBehaviour
 
     private void OnDisable ()
     {
-        GateManager.Instance.UnregisterGate(this);
+        // when stopping the game, GateManager may have been destroyed first so check it
+        if (GateManager.Instance)
+        {
+            GateManager.Instance.UnregisterGate(this);
+        }
     }
 
     public void Toggle()
