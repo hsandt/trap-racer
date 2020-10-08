@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 767516060590166938, guid: 0fe4c620c80f0c14ab13ba68ae0de55b, type: 3}
       propertyPath: m_Name
-      value: Switch
+      value: Switch_Purple
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe4c620c80f0c14ab13ba68ae0de55b, type: 3}
