@@ -24,6 +24,7 @@ public class CharacterRun : MonoBehaviour
     
     [SerializeField, Tooltip("Player number (1 or 2)")]
     private int playerNumber = 0;
+    public int PlayerNumber => playerNumber;
 
     [SerializeField, Tooltip("Ground raycast contact filter")]
     private ContactFilter2D groundFilter = default;
@@ -211,6 +212,11 @@ public class CharacterRun : MonoBehaviour
     }
     
     public void PlayToggleSwitchAnim()
+    {
+        // TODO
+    }
+    
+    public void PlayFinishAnim()
     {
         // TODO
     }
