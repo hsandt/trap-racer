@@ -12,6 +12,12 @@ public class RaceManager : SingletonManager<RaceManager>
     
     /// List of finishing runner numbers, from 1st to last
     private List<int> rankedRunnerNumbers = new List<int>();
+
+    private void Start()
+    {
+        // hide result UI for now
+        ResultUI.Instance.gameObject.SetActive(false);
+    }
     
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
@@ -45,5 +51,7 @@ public class RaceManager : SingletonManager<RaceManager>
         Debug.LogFormat(this, "[RaceManager] Show Result Panel");
 #endif
         Debug.LogFormat("Winner: Player #{0}", rankedRunnerNumbers[0]);
+        ResultUI.Instance.gameObject.SetActive(true);
+        ResultUI.Instance.ShowResult(rankedRunnerNumbers[0]);
     }
 }
