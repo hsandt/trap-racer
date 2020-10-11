@@ -4,28 +4,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using CommonsHelper;
 using CommonsPattern;
+using UnityConstants;
 
 public class RaceManager : SingletonManager<RaceManager>
 {
+    /* External references */
+    [Tooltip("Characters parent")]
+    public Transform charactersParent;
+    
     /* State vars */
+
+    /// Flag transform (could be set as external reference, but found with tag at runtime)
+    private Transform m_FlagTr;
     
     /// List of finishing runner numbers, from 1st to last
-    private List<int> rankedRunnerNumbers = new List<int>();
+    private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
+
+    /// List of finishing runner numbers, from 1st to last
+    private readonly List<int> m_RankedRunnerNumbers = new List<int>();
 
     private void Start()
     {
         // hide result UI for now
         ResultUI.Instance.gameObject.SetActive(false);
+
+        m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
+        
+        RegisterRunners();
+        GiveFlagToRandomRunner();
+    }
+
+    private void RegisterRunners()
+    {
+        foreach (Transform characterTr in charactersParent)
+        {
+            var characterRun = characterTr.GetComponentOrFail<CharacterRun>();
+            m_Runners.Add(characterRun);
+        }
+    }
+    
+    private void GiveFlagToRandomRunner()
+    {
+        // we get a 0-based index here (number - 1), but it's convenient to get object by index so we keep it
+        int randomRunnerIndex = Random.Range(0, m_Runners.Count);
+        CharacterRun randomRunner = m_Runners[randomRunnerIndex];
+        FlagBearer randomFlagBear = randomRunner.GetComponentOrFail<FlagBearer>();
+        randomFlagBear.BearFlag(m_FlagTr);
     }
     
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
-        rankedRunnerNumbers.Add(characterRun.PlayerNumber);
+        m_RankedRunnerNumbers.Add(characterRun.PlayerNumber);
         
         // if this was the last runner in the race, finish the race now
         // when adding Character/RunnerManager, replace hardcoded 2 with RunnerManager.GetRunnerCount()
-        if (rankedRunnerNumbers.Count >= 2)
+        if (m_RankedRunnerNumbers.Count >= m_Runners.Count)
         {
             FinishRace();
         }
@@ -50,8 +85,8 @@ public class RaceManager : SingletonManager<RaceManager>
 #if DEBUG_RACE_MANAGER
         Debug.LogFormat(this, "[RaceManager] Show Result Panel");
 #endif
-        Debug.LogFormat("Winner: Player #{0}", rankedRunnerNumbers[0]);
+        Debug.LogFormat("Winner: Player #{0}", m_RankedRunnerNumbers[0]);
         ResultUI.Instance.gameObject.SetActive(true);
-        ResultUI.Instance.ShowResult(rankedRunnerNumbers[0]);
+        ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0]);
     }
 }
