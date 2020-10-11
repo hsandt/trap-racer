@@ -23,7 +23,11 @@ public class FlagBearer : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.gameObject.layer == Layers.Character)
+        // only react to collision in this direction: give flag to the opponent
+        //  (this block won't be entered on flag stealer's side)
+        // we may also use a dedicated flag hitbox on a layer Flag that collides with layer Character
+        //  so we know we are always checking collision between stealing character and flag
+        if (other.collider.gameObject.layer == Layers.Character && m_FlagTr != null)
         {
             // transfer flag to opponent
             var opponentFlagBearer = other.collider.GetComponentOrFail<FlagBearer>();
@@ -35,5 +39,6 @@ public class FlagBearer : MonoBehaviour
     public void BearFlag(Transform flagTr)
     {
         flagTr.SetParent(flagAnchor, worldPositionStays: false);
+        m_FlagTr = flagTr;
     }
 }
