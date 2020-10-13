@@ -107,4 +107,12 @@ public class RaceManager : SingletonManager<RaceManager>
         Debug.LogFormat("Winner: Player #{0}", m_RankedRunnerNumbers[0]);
         ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0]);
     }
+    
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    private void OnGUI()
+    {
+        GUIStyle guiStyle = new GUIStyle {fontSize = 48, normal = new GUIStyleState {textColor = Color.white}};
+        GUILayout.Label(m_State.ToString(), guiStyle);
+    }
+#endif
 }
