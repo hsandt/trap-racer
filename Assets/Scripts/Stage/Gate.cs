@@ -27,12 +27,13 @@ public class Gate : MonoBehaviour
         m_SpriteRenderer = this.GetComponentOrFail<SpriteRenderer>();
     }
 
-    private void OnEnable ()
+    private void Start()
     {
+        // must be done after GateManager.Awake/Init
         GateManager.Instance.RegisterGate(this);
     }
 
-    private void OnDisable ()
+    private void OnDestroy()
     {
         // when stopping the game, GateManager may have been destroyed first so check it
         if (GateManager.Instance)

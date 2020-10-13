@@ -14,13 +14,8 @@ public class FlagBearer : MonoBehaviour
     /* State vars */
 
     /// Hold flag transform. Null if flag is not hold.
-    private Transform m_FlagTr;
+    private Transform m_FlagTr = null;
 
-    private void Start()
-    {
-        m_FlagTr = null;
-    }
-    
     private void OnCollisionEnter2D(Collision2D other)
     {
         // only react to collision in this direction: give flag to the opponent

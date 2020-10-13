@@ -8,7 +8,6 @@ using UnityEngine;
 using CommonsHelper;
 using CommonsPattern;
 
-// SEO: before Gate
 public class GateManager : SingletonManager<GateManager>
 {
 	/* State vars */
