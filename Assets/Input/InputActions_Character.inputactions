@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "97582aea-8784-4928-b4e8-ca4c084ce00c",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 },
@@ -28,7 +28,7 @@
                     "id": "978bfe49-cc26-4a3d-ab7b-7d7a29327403",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": ";Gamepad",
                     "action": "Move",
                     "isComposite": false,
@@ -123,30 +123,30 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Directions",
-                    "id": "fe100662-ce62-4b31-a81b-ea8f5072d7f0",
-                    "path": "Dpad",
+                    "name": "",
+                    "id": "59abf3c3-43f4-433e-a510-a2990348dc6b",
+                    "path": "<Gamepad>/dpad",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardWASD",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Horizontal",
+                    "id": "aaf6c2ea-3d63-4b60-9c2b-2f594f99ac06",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "left",
-                    "id": "afcb7d93-7c8a-40eb-985b-319762e97bb3",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "41e724bc-76c7-435f-95c3-c4c60f4dc8f5",
+                    "name": "negative",
+                    "id": "92f64dcc-dee2-4f56-92eb-00b78c0811e8",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
@@ -156,9 +156,31 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "cd1dc8c9-c4d2-43db-84ea-0db959f2748c",
-                    "path": "<Keyboard>/d",
+                    "name": "positive",
+                    "id": "9edeb716-d3f8-431f-a68f-b043903724c8",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardArrows",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Horizontal",
+                    "id": "28ad2f34-7b19-45f8-9154-1d788558553a",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8b207fc6-4a31-46b1-a3db-d1b7487f88e5",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardWASD",
@@ -167,12 +189,12 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "aeac9aff-e7bf-4b4a-96a7-3620cb456b0b",
-                    "path": "<Keyboard>/rightArrow",
+                    "name": "positive",
+                    "id": "e955ebdb-5bb0-4803-afaa-712c52ae6a18",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardArrows",
+                    "groups": "KeyboardWASD",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true

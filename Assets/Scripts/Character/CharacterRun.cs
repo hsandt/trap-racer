@@ -3,6 +3,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 using CommonsDebug;
 using CommonsHelper;
@@ -48,6 +49,9 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Factor applied to run speed X when holding the flag")]
     private float flagSlowDownRunSpeedMultiplier = 0.7f;
     
+    [SerializeField, Tooltip("Factor applied to run speed X when actively trying to brake with left input")]
+    private float brakeSlowDownRunSpeedMultiplier = 0.7f;
+    
     [SerializeField, Tooltip("Jump speed Y")]
     private float jumpSpeed = 10f;
     
@@ -64,6 +68,9 @@ public class CharacterRun : MonoBehaviour
 
     /// Obstacle slow down timer. When positive, character is currently slowed down by the last obstacle hurt.
     private float m_ObstacleSlowDownTimer = 0f;
+    
+    /// Is the player trying to brake? (active slowdown)
+    private bool m_BrakeIntention = true;
     
     private void Awake()
     {
@@ -162,8 +169,27 @@ public class CharacterRun : MonoBehaviour
     private float GetSlowDownMultiplier()
     {
         float slowDownMultiplier = 1f;
-        if (m_ObstacleSlowDownTimer > 0f) slowDownMultiplier *= obstacleSlowDownRunSpeedMultiplier;
-        if (m_FlagBearer.HasFlag()) slowDownMultiplier *= flagSlowDownRunSpeedMultiplier;
+
+        bool isSlowedDownByObstacle = m_ObstacleSlowDownTimer > 0f;
+        bool isSlowedDownByFlag = m_FlagBearer.HasFlag();
+        
+        if (isSlowedDownByObstacle)
+        {
+            slowDownMultiplier *= obstacleSlowDownRunSpeedMultiplier;
+        }
+        
+        if (isSlowedDownByFlag)
+        {
+            slowDownMultiplier *= flagSlowDownRunSpeedMultiplier;
+        }
+        
+        // only apply active slowdown (brake) when not hurt by obstacle (lose control)
+        // nor flag (to avoid escaping the other player going more to the left)
+        if (!isSlowedDownByObstacle && !isSlowedDownByFlag && m_BrakeIntention)
+        {
+            slowDownMultiplier *= brakeSlowDownRunSpeedMultiplier;
+        }
+        
         return slowDownMultiplier;
     }
     
@@ -248,5 +274,15 @@ public class CharacterRun : MonoBehaviour
             Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
 #endif
         }
+    }
+    
+    /// Input callback: Move action
+    private void OnMove(InputValue value)
+    {
+        Debug.Log(value.Get<float>());
+        // update brake intention in every state
+        // this is because OnMove is only called on value change (-1 when holding left, 0 when releasing)
+        // so if the player holds left even before race start we don't want to miss that input for later
+        m_BrakeIntention = value.Get<float>() < 0f;
     }
 }

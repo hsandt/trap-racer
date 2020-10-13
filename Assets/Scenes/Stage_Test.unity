@@ -3703,6 +3703,14 @@ PrefabInstance:
       propertyPath: textY
       value: -0.86
       objectReference: {fileID: 0}
+    - target: {fileID: 8518030964861475720, guid: 905666dc6b325df42b97b55f3d9a453e, type: 3}
+      propertyPath: spawnPointNoFlag
+      value: 
+      objectReference: {fileID: 1919977824}
+    - target: {fileID: 8518030964861475720, guid: 905666dc6b325df42b97b55f3d9a453e, type: 3}
+      propertyPath: spawnPointFlag
+      value: 
+      objectReference: {fileID: 1522747535}
     - target: {fileID: 8518030964861475722, guid: 905666dc6b325df42b97b55f3d9a453e, type: 3}
       propertyPath: m_Name
       value: RaceManager
