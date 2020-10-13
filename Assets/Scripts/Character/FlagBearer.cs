@@ -31,6 +31,11 @@ public class FlagBearer : MonoBehaviour
         }
     }
 
+    public bool HasFlag()
+    {
+        return m_FlagTr != null;
+    }
+
     public void BearFlag(Transform flagTr)
     {
         flagTr.SetParent(flagAnchor, worldPositionStays: false);

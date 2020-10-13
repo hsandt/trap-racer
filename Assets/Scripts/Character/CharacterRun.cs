@@ -19,6 +19,7 @@ public class CharacterRun : MonoBehaviour
     /* Sibling components */
     private Rigidbody2D m_Rigidbody2D;
     private BoxCollider2D m_Collider2D;
+    private FlagBearer m_FlagBearer;
     
     /* Parameters */
     
@@ -39,10 +40,13 @@ public class CharacterRun : MonoBehaviour
     private float groundDetectionToleranceHalfRange = 0.01f;
 
     [SerializeField, Tooltip("Run speed X at normal pace")]
-    private float normalRunSpeed = 10f;
+    private float baseRunSpeed = 10f;
     
-    [SerializeField, Tooltip("Run speed X when slowed down")]
-    private float slowdownRunSpeed = 7f;
+    [SerializeField, Tooltip("Factor applied to run speed X when slowed down by an obstacle")]
+    private float obstacleSlowDownRunSpeedMultiplier = 0.7f;
+    
+    [SerializeField, Tooltip("Factor applied to run speed X when holding the flag")]
+    private float flagSlowDownRunSpeedMultiplier = 0.7f;
     
     [SerializeField, Tooltip("Jump speed Y")]
     private float jumpSpeed = 10f;
@@ -58,13 +62,14 @@ public class CharacterRun : MonoBehaviour
     /// Current state
     private CharacterState m_State = CharacterState.WaitForStart;
 
-    /// Slow down timer. When positive, character is currently slowed down
-    private float m_SlowDownTimer = 0f;
+    /// Obstacle slow down timer. When positive, character is currently slowed down by the last obstacle hurt.
+    private float m_ObstacleSlowDownTimer = 0f;
     
     private void Awake()
     {
         m_Rigidbody2D = this.GetComponentOrFail<Rigidbody2D>();
         m_Collider2D = this.GetComponentOrFail<BoxCollider2D>();
+        m_FlagBearer = this.GetComponentOrFail<FlagBearer>();
     }
 
     public void StartRunning()
@@ -81,14 +86,9 @@ public class CharacterRun : MonoBehaviour
         }
         
         // update slowdown timer
-        bool isSlowedDown = false;
-        if (m_SlowDownTimer > 0f)
+        if (m_ObstacleSlowDownTimer > 0f)
         {
-            m_SlowDownTimer = Mathf.Max(0f, m_SlowDownTimer - Time.deltaTime);
-            if (m_SlowDownTimer > 0f)
-            {
-                isSlowedDown = true;
-            }
+            m_ObstacleSlowDownTimer = Mathf.Max(0f, m_ObstacleSlowDownTimer - Time.deltaTime);
         }
             
         // Transitions
@@ -144,7 +144,7 @@ public class CharacterRun : MonoBehaviour
         }
         
         // After doing all transitions, set velocity based on the resulting state
-        float runSpeed = isSlowedDown ? slowdownRunSpeed : normalRunSpeed;
+        float runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
         
         if (m_State == CharacterState.Run)
         {
@@ -156,6 +156,15 @@ public class CharacterRun : MonoBehaviour
             // apply gravity
             m_Rigidbody2D.velocity = new Vector2(runSpeed, m_Rigidbody2D.velocity.y - gravity * Time.deltaTime);
         }
+    }
+
+    /// Compute and return slowdown multiplier from current state
+    private float GetSlowDownMultiplier()
+    {
+        float slowDownMultiplier = 1f;
+        if (m_ObstacleSlowDownTimer > 0f) slowDownMultiplier *= obstacleSlowDownRunSpeedMultiplier;
+        if (m_FlagBearer.HasFlag()) slowDownMultiplier *= flagSlowDownRunSpeedMultiplier;
+        return slowDownMultiplier;
     }
     
     /// Sense ground slightly above or at feet level and return true iff ground is detected,
@@ -209,12 +218,12 @@ public class CharacterRun : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
     }
 
-    /// Enter Hurt state and slow down
+    /// Start obstacle slow down timer
     /// Leave obstacle destruction to Obstacle script side
     /// If you already hit an obstacle and timer is still active, just reset it to duration
     public void CrashIntoObstacle()
     {
-        m_SlowDownTimer = obstacleSlowdownDuration;
+        m_ObstacleSlowDownTimer = obstacleSlowdownDuration;
     }
     
     public void PlayToggleSwitchAnim()
