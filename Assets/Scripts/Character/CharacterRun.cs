@@ -56,25 +56,30 @@ public class CharacterRun : MonoBehaviour
     /* State vars */
     
     /// Current state
-    private CharacterState m_State;
+    private CharacterState m_State = CharacterState.WaitForStart;
 
     /// Slow down timer. When positive, character is currently slowed down
-    private float m_SlowDownTimer;
+    private float m_SlowDownTimer = 0f;
     
-    void Awake()
+    private void Awake()
     {
         m_Rigidbody2D = this.GetComponentOrFail<Rigidbody2D>();
         m_Collider2D = this.GetComponentOrFail<BoxCollider2D>();
     }
 
-    private void Start()
+    public void StartRunning()
     {
         m_State = CharacterState.Run;
-        m_SlowDownTimer = 0f;
     }
 
     private void FixedUpdate()
     {
+        // don't move before race start
+        if (m_State == CharacterState.WaitForStart)
+        {
+            return;
+        }
+        
         // update slowdown timer
         bool isSlowedDown = false;
         if (m_SlowDownTimer > 0f)
@@ -104,6 +109,7 @@ public class CharacterRun : MonoBehaviour
         }
         else
         {
+            // airborne
             switch (m_State)
             {
                 case CharacterState.Jump:

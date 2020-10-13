@@ -15,6 +15,9 @@ public class RaceManager : SingletonManager<RaceManager>
     public Transform charactersParent;
     
     /* State vars */
+    
+    /// Current state
+    private RaceState m_State = RaceState.WaitForStart;
 
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;
@@ -27,13 +30,12 @@ public class RaceManager : SingletonManager<RaceManager>
 
     private void Start()
     {
-        // hide result UI for now
-        ResultUI.Instance.gameObject.SetActive(false);
-
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
         
         RegisterRunners();
         GiveFlagToRandomRunner();
+        
+        StartUI.Instance.StartCountDown();
     }
 
     private void RegisterRunners()
@@ -53,6 +55,21 @@ public class RaceManager : SingletonManager<RaceManager>
         FlagBearer randomFlagBear = randomRunner.GetComponentOrFail<FlagBearer>();
         randomFlagBear.BearFlag(m_FlagTr);
     }
+
+    public void NotifyCountDownOver()
+    {
+        StartRace();
+    }
+
+    private void StartRace()
+    {
+        m_State = RaceState.Started;
+        
+        foreach (var characterRun in m_Runners)
+        {
+            characterRun.StartRunning();
+        }
+    }
     
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
@@ -68,6 +85,8 @@ public class RaceManager : SingletonManager<RaceManager>
 
     private void FinishRace()
     {
+        m_State = RaceState.Finished;
+
         ComputeRaceResult();
         ShowResultPanel();
     }
@@ -86,7 +105,6 @@ public class RaceManager : SingletonManager<RaceManager>
         Debug.LogFormat(this, "[RaceManager] Show Result Panel");
 #endif
         Debug.LogFormat("Winner: Player #{0}", m_RankedRunnerNumbers[0]);
-        ResultUI.Instance.gameObject.SetActive(true);
         ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0]);
     }
 }
