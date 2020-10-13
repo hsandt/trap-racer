@@ -263,7 +263,7 @@ public class CharacterRun : MonoBehaviour
     }
     
     /// Input callback: Jump action
-    private void OnJump()
+    public void OnJump()
     {
         if (m_State == CharacterState.Run)
         {
@@ -277,7 +277,7 @@ public class CharacterRun : MonoBehaviour
     }
     
     /// Input callback: Move action
-    private void OnMove(InputValue value)
+    public void OnMove(InputValue value)
     {
         Debug.Log(value.Get<float>());
         // update brake intention in every state

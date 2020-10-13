@@ -35,11 +35,19 @@ public class RaceManager : SingletonManager<RaceManager>
     /// List of finishing runner numbers, from 1st to last
     private readonly List<int> m_RankedRunnerNumbers = new List<int>();
 
-    private void Start()
+    public CharacterRun GetRunner(int index)
+    {
+        return m_Runners[index];
+    }
+    
+    protected override void Init()
     {
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
-        
         RegisterRunners();
+    }
+
+    private void Start()
+    {
         GiveFlagToRandomRunner();
         
         StartUI.Instance.StartCountDown();

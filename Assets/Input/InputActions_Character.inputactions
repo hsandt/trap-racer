@@ -69,28 +69,6 @@
                 },
                 {
                     "name": "",
-                    "id": "4414b16a-0a69-4625-b374-2a71728a6990",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9f579095-2806-4f8b-b6e9-0cdbce6131b2",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardArrows",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
                     "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
@@ -121,72 +99,134 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PlayerKeyboard",
+            "id": "ad7df073-c724-4ecf-ab6d-b8ef73f29e85",
+            "actions": [
+                {
+                    "name": "MoveP1",
+                    "type": "Value",
+                    "id": "a682f6c4-2f7d-4c26-b480-f996f472c609",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
                 },
                 {
+                    "name": "MoveP2",
+                    "type": "Value",
+                    "id": "80e17a4f-0bca-472f-8192-eb26b022bb92",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "JumpP1",
+                    "type": "Button",
+                    "id": "f7733791-7ea1-4ac4-912c-002a90ea5169",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "JumpP2",
+                    "type": "Button",
+                    "id": "72e0af34-b79b-4a44-bf8b-bda959951b30",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
                     "name": "Horizontal",
-                    "id": "aaf6c2ea-3d63-4b60-9c2b-2f594f99ac06",
+                    "id": "710b6f6a-9a55-448a-ada4-2f77dcd6dbd1",
                     "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveP1",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "negative",
-                    "id": "92f64dcc-dee2-4f56-92eb-00b78c0811e8",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardArrows",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "9edeb716-d3f8-431f-a68f-b043903724c8",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardArrows",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Horizontal",
-                    "id": "28ad2f34-7b19-45f8-9154-1d788558553a",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "8b207fc6-4a31-46b1-a3db-d1b7487f88e5",
+                    "id": "cb6ae392-c33a-4000-b670-4fbfce22085b",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Move",
+                    "groups": "Keyboard",
+                    "action": "MoveP1",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "positive",
-                    "id": "e955ebdb-5bb0-4803-afaa-712c52ae6a18",
+                    "id": "8478d078-fe04-4f1d-8551-f1c68cb3b395",
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Move",
+                    "groups": "Keyboard",
+                    "action": "MoveP1",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "Horizontal",
+                    "id": "314e8c50-852a-4d1a-9ae1-7a291818df00",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveP2",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "4cd11557-1ee9-47ff-939d-154a4f629a65",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP2",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "f5b60a56-73e8-4d11-a56c-66d93021a558",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP2",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "855703db-ffe5-4e39-b2fa-f2a1b19b5035",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "JumpP1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ba61bbb-5067-49d4-9ce2-cdf6d0c1269d",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "JumpP2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -756,6 +796,17 @@
         {
             "name": "KeyboardWASD",
             "bindingGroup": "KeyboardWASD",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
