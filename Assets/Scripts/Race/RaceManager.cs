@@ -11,8 +11,15 @@ using UnityConstants;
 public class RaceManager : SingletonManager<RaceManager>
 {
     /* External references */
+    
     [Tooltip("Characters parent")]
     public Transform charactersParent;
+    
+    [Tooltip("Spawn Point for character with no flag (behind)")]
+    public Transform spawnPointNoFlag;
+    
+    [Tooltip("Spawn Point for character with flag (in front)")]
+    public Transform spawnPointFlag;
     
     /* State vars */
     
@@ -46,16 +53,22 @@ public class RaceManager : SingletonManager<RaceManager>
             m_Runners.Add(characterRun);
         }
     }
-    
+
     private void GiveFlagToRandomRunner()
     {
         // we get a 0-based index here (number - 1), but it's convenient to get object by index so we keep it
         int randomRunnerIndex = Random.Range(0, m_Runners.Count);
         CharacterRun randomRunner = m_Runners[randomRunnerIndex];
-        FlagBearer randomFlagBear = randomRunner.GetComponentOrFail<FlagBearer>();
-        randomFlagBear.BearFlag(m_FlagTr);
-    }
+        FlagBearer randomFlagBearer = randomRunner.GetComponentOrFail<FlagBearer>();
+        randomFlagBearer.BearFlag(m_FlagTr);
 
+        // move character with flag ahead
+        randomFlagBearer.transform.position = spawnPointFlag.position;
+        
+        // move character without flag behind
+        m_Runners[1 - randomRunnerIndex].transform.position = spawnPointNoFlag.position;
+    }
+    
     public void NotifyCountDownOver()
     {
         StartRace();
