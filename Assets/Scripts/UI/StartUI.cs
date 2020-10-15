@@ -32,11 +32,8 @@ public class StartUI : SingletonManager<StartUI>
     protected override void Init()
     {
         m_Canvas = this.GetComponentOrFail<Canvas>();
-    }
-
-    private void Start()
-    {
-        // hide until needed
+        
+        // hide until needed (done on Awake to avoid re-hiding after race start on Start)
         m_Canvas.enabled = false;
     }
     
