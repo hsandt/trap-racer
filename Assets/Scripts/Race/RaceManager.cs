@@ -25,6 +25,7 @@ public class RaceManager : SingletonManager<RaceManager>
     
     /// Current state
     private RaceState m_State = RaceState.WaitForStart;
+    public RaceState State => m_State;
 
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;

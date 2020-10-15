@@ -13,6 +13,9 @@ public class CharacterRun : MonoBehaviour
     /* Static member for unique raycast allocations for CharacterRun scripts */
     private static readonly RaycastHit2D[] RaycastHits = new RaycastHit2D[2];
     
+    /* Cached external references */
+    private InGameCamera m_InGameCamera;
+    
     /* Child references */
     [Tooltip("Position X from which ground is detected. Y must be at feet level. Place it slightly behind the character to allow last second jump. Actual raycast Y range is defined by Ground Detection Start/Stop Offset parameters.")]
     public Transform groundSensorXTr;
@@ -74,6 +77,8 @@ public class CharacterRun : MonoBehaviour
     
     private void Awake()
     {
+        m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
+            
         m_Rigidbody2D = this.GetComponentOrFail<Rigidbody2D>();
         m_Collider2D = this.GetComponentOrFail<BoxCollider2D>();
         m_FlagBearer = this.GetComponentOrFail<FlagBearer>();
@@ -153,6 +158,21 @@ public class CharacterRun : MonoBehaviour
         // After doing all transitions, set velocity based on the resulting state
         float runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
         
+        // If runner is behind camera left edge limit, clamp speed to minimum to catch up
+        // this is not enough as small offsets may accumulate over time,
+        // so must clamp position itself (we still clamp speed in case we have accel based on previous speed
+        //  or speed-based animations later)
+        // Currently there's some jittering due to the fact that we use positions at the beginning of the frame,
+        //  but we see the game through the camera at the end of the frame (after LateUpdate)
+        // It may be fixed by applying clamping at the end of the frame (but InGameCamera.LateUpdate should not contain
+        //  physics so we may need an external manager or something)
+        float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
+        if (m_Rigidbody2D.position.x < leftEdgeX)
+        {
+            runSpeed = m_InGameCamera.MinScrollingSpeed;
+            m_Rigidbody2D.MovePosition(new Vector2(leftEdgeX, m_Rigidbody2D.position.y));
+        }
+            
         if (m_State == CharacterState.Run)
         {
             // run horizontally
