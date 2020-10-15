@@ -9,7 +9,7 @@ public class Goal : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         var characterRun = other.collider.GetComponentOrFail<CharacterRun>();
-        characterRun.PlayFinishAnim();
+        characterRun.FinishRace();
 
         RaceManager.Instance.NotifyRunnerFinished(characterRun);
     }

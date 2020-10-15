@@ -92,7 +92,7 @@ public class CharacterRun : MonoBehaviour
     private void FixedUpdate()
     {
         // don't move before race start
-        if (m_State == CharacterState.WaitForStart)
+        if (m_State == CharacterState.WaitForStart || m_State == CharacterState.Finished)
         {
             return;
         }
@@ -275,6 +275,14 @@ public class CharacterRun : MonoBehaviour
     public void PlayToggleSwitchAnim()
     {
         // TODO
+    }
+    
+    public void FinishRace()
+    {
+        m_State = CharacterState.Finished;
+        m_Rigidbody2D.velocity = Vector2.zero;
+
+        PlayFinishAnim();
     }
     
     public void PlayFinishAnim()
