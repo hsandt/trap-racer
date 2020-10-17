@@ -45,7 +45,24 @@ public class Switch : MonoBehaviour
 
     private void Start()
     {
+        // must be done after SwitchManager.Awake/Init
+        SwitchManager.Instance.RegisterSwitch(this);
+        
+        Setup();
+    }
+
+    public void Setup()
+    {
         SetOn(true);
+    }
+    
+    private void OnDestroy()
+    {
+        // when stopping the game, SwitchManager may have been destroyed first so check it
+        if (SwitchManager.Instance)
+        {
+            SwitchManager.Instance.UnregisterSwitch(this);
+        }
     }
 
     private void SetOn(bool value)

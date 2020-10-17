@@ -16,6 +16,16 @@ public class FlagBearer : MonoBehaviour
     /// Hold flag transform. Null if flag is not hold.
     private Transform m_FlagTr = null;
 
+    public void Setup()
+    {
+        if (m_FlagTr != null)
+        {
+            // release Flag (only done on Restart, and will be given to the new first runner again immediately)
+            m_FlagTr.SetParent(null);
+        }
+        m_FlagTr = null;
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         // only react to collision in this direction: give flag to the opponent

@@ -9,11 +9,44 @@ public class Obstacle : MonoBehaviour
     /* Sibling components */
     private Collider2D m_Collider2D;
     private SpriteRenderer m_SpriteRenderer;
+    
+    /// Is the obstacle active? (set to false when hits a runner, only reset on race restart)
+    private bool m_Active = true;
 
     private void Awake()
     {
         m_Collider2D = this.GetComponentOrFail<Collider2D>();
         m_SpriteRenderer = this.GetComponentOrFail<SpriteRenderer>();
+    }
+    
+    private void Start()
+    {
+        // must be done after ObstacleManager.Awake/Init
+        ObstacleManager.Instance.RegisterObstacle(this);
+    }
+    
+    /// Managed setup
+    /// Not called on own Start, must be called in RaceManager.SetupRace > ObstacleManager.SetupObstacles
+    public void Setup()
+    {
+        // We assume collider and sprite renderer are enabled on Start
+        // And only reenable them if the gate has been opened and we are restarting
+        // This is only to avoid enabling them twice, once here and once in Gate
+        if (!m_Active)
+        {
+            m_Active = true;
+            m_Collider2D.enabled = true;
+            m_SpriteRenderer.enabled = true;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // when stopping the game, ObstacleManager may have been destroyed first so check it
+        if (ObstacleManager.Instance)
+        {
+            ObstacleManager.Instance.UnregisterObstacle(this);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -21,6 +54,9 @@ public class Obstacle : MonoBehaviour
         var characterRun = other.collider.GetComponentOrFail<CharacterRun>();
         characterRun.CrashIntoObstacle();
 
+        // for tracking and restart purpose
+        m_Active = false;
+        
         // disable collider
         m_Collider2D.enabled = false;
 

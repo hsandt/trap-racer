@@ -35,4 +35,9 @@ public class ResultUI : SingletonManager<ResultUI>
         m_Canvas.enabled = true;
         victoryText.text = string.Format(victoryTextFormat, winnerNumber);
     }
+    
+    public void Hide()
+    {
+        m_Canvas.enabled = false;
+    }
 }

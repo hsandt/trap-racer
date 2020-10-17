@@ -12,23 +12,25 @@ public class CharacterRun : MonoBehaviour
 {
     /* Static member for unique raycast allocations for CharacterRun scripts */
     private static readonly RaycastHit2D[] RaycastHits = new RaycastHit2D[2];
-    
+
     /* Cached external references */
     private InGameCamera m_InGameCamera;
-    
+
     /* Child references */
-    [Tooltip("Position X from which ground is detected. Y must be at feet level. Place it slightly behind the character to allow last second jump. Actual raycast Y range is defined by Ground Detection Start/Stop Offset parameters.")]
+    [Tooltip(
+        "Position X from which ground is detected. Y must be at feet level. Place it slightly behind the character to allow last second jump. Actual raycast Y range is defined by Ground Detection Start/Stop Offset parameters.")]
     public Transform groundSensorXTr;
-    
+
     /* Sibling components */
     private Rigidbody2D m_Rigidbody2D;
     private BoxCollider2D m_Collider2D;
     private FlagBearer m_FlagBearer;
-    
+
     /* Parameters */
-    
+
     [SerializeField, Tooltip("Player number (1 or 2)")]
     private int playerNumber = 0;
+
     public int PlayerNumber => playerNumber;
 
     [SerializeField, Tooltip("Ground raycast contact filter")]
@@ -37,27 +39,31 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Distance above feet to detect ground (must be at least expected penetration depth)")]
     private float groundDetectionStartMargin = 0.1f;
 
-    [SerializeField, Tooltip("Distance below feet to stop detecting ground. Must be positive to at least detect ground at feet level, but a very small margin is enough. It is only to avoid missing ground just at the tip of a raycast, as ground detected more below will be ignored anyway.")]
+    [SerializeField,
+     Tooltip(
+         "Distance below feet to stop detecting ground. Must be positive to at least detect ground at feet level, but a very small margin is enough. It is only to avoid missing ground just at the tip of a raycast, as ground detected more below will be ignored anyway.")]
     private float groundDetectionStopMargin = 0.1f;
 
-    [SerializeField, Tooltip("Distance between feet and ground under which we consider character to be just touching ground, so no Y adjustment is applied. This is used for both penetration tolerance (small positive distance sensed) and hover tolerance (small negative distance sensed). This prevents oscillations between Landing and Falling as the feet Y wouldn't exactly match ground Y due to floating precision. Should be lower than margins above.")]
+    [SerializeField,
+     Tooltip(
+         "Distance between feet and ground under which we consider character to be just touching ground, so no Y adjustment is applied. This is used for both penetration tolerance (small positive distance sensed) and hover tolerance (small negative distance sensed). This prevents oscillations between Landing and Falling as the feet Y wouldn't exactly match ground Y due to floating precision. Should be lower than margins above.")]
     private float groundDetectionToleranceHalfRange = 0.01f;
 
     [SerializeField, Tooltip("Run speed X at normal pace")]
     private float baseRunSpeed = 10f;
-    
+
     [SerializeField, Tooltip("Factor applied to run speed X when slowed down by an obstacle")]
     private float obstacleSlowDownRunSpeedMultiplier = 0.7f;
-    
+
     [SerializeField, Tooltip("Factor applied to run speed X when holding the flag")]
     private float flagSlowDownRunSpeedMultiplier = 0.7f;
-    
+
     [SerializeField, Tooltip("Factor applied to run speed X when actively trying to brake with left input")]
     private float brakeSlowDownRunSpeedMultiplier = 0.7f;
-    
+
     [SerializeField, Tooltip("Jump speed Y")]
     private float jumpSpeed = 10f;
-    
+
     [SerializeField, Tooltip("Gravity acceleration (positive downward)")]
     private float gravity = 10f;
 
@@ -65,23 +71,35 @@ public class CharacterRun : MonoBehaviour
     private float obstacleSlowdownDuration = 1f;
 
     /* State vars */
-    
+
     /// Current state
-    private CharacterState m_State = CharacterState.WaitForStart;
+    private CharacterState m_State;
 
     /// Obstacle slow down timer. When positive, character is currently slowed down by the last obstacle hurt.
-    private float m_ObstacleSlowDownTimer = 0f;
-    
+    private float m_ObstacleSlowDownTimer;
+
     /// Is the player trying to brake? (active slowdown)
-    private bool m_BrakeIntention = true;
-    
+    private bool m_BrakeIntention;
+
     private void Awake()
     {
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
-            
+
         m_Rigidbody2D = this.GetComponentOrFail<Rigidbody2D>();
         m_Collider2D = this.GetComponentOrFail<BoxCollider2D>();
         m_FlagBearer = this.GetComponentOrFail<FlagBearer>();
+    }
+
+    /// Managed setup
+    /// Not called on own Start, must be called in RaceManager.SetupRace
+    /// if no RaceManager is present (workshop scene), state var will keep default values
+    public void Setup()
+    {
+        m_Rigidbody2D.velocity = Vector2.zero;
+
+        m_State = CharacterState.WaitForStart;
+        m_ObstacleSlowDownTimer = 0f;
+        m_BrakeIntention = false;
     }
 
     public void StartRunning()

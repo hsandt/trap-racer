@@ -49,9 +49,32 @@ public class RaceManager : SingletonManager<RaceManager>
 
     private void Start()
     {
-        GiveFlagToRandomRunner();
+        SetupRace();
+    }
+
+    private void SetupRace()
+    {
+        ObstacleManager.Instance.SetupObstacles();
+        GateManager.Instance.SetupGates();
+        SwitchManager.Instance.SetupSwitches();
+        
+        foreach (var characterRun in m_Runners)
+        {
+            characterRun.Setup();
+            characterRun.GetComponentOrFail<FlagBearer>().Setup();
+        }
+        
+        int firstRunnerIndex = RandomlySortStartPositions();
+        GiveFlagToRunner(firstRunnerIndex);
         
         StartUI.Instance.StartCountDown();
+    }
+
+    public void RestartRace()
+    {
+        ResultUI.Instance.Hide();
+
+        SetupRace();
     }
 
     private void RegisterRunners()
@@ -63,19 +86,25 @@ public class RaceManager : SingletonManager<RaceManager>
         }
     }
 
-    private void GiveFlagToRandomRunner()
+    private int RandomlySortStartPositions()
     {
         // we get a 0-based index here (number - 1), but it's convenient to get object by index so we keep it
         int randomRunnerIndex = Random.Range(0, m_Runners.Count);
         CharacterRun randomRunner = m_Runners[randomRunnerIndex];
-        FlagBearer randomFlagBearer = randomRunner.GetComponentOrFail<FlagBearer>();
-        randomFlagBearer.BearFlag(m_FlagTr);
 
         // move character with flag ahead
-        randomFlagBearer.transform.position = spawnPointFlag.position;
+        randomRunner.transform.position = spawnPointFlag.position;
         
         // move character without flag behind
         m_Runners[1 - randomRunnerIndex].transform.position = spawnPointNoFlag.position;
+
+        return randomRunnerIndex;
+    }
+
+    private void GiveFlagToRunner(int index)
+    {
+        FlagBearer flagBearer = m_Runners[index].GetComponentOrFail<FlagBearer>();
+        flagBearer.BearFlag(m_FlagTr);
     }
     
     public void NotifyCountDownOver()
