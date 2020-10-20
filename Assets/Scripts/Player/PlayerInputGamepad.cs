@@ -13,7 +13,7 @@ public class PlayerInputGamepad : MonoBehaviour
     /// Runner controlled by this player
     private CharacterRun runner;
     
-    private void Start()
+    private void Awake()
     {
         // PlayerInputKeyboard is always present and count as player index/number 0
         // so at this point, playerCount is already 1 + this runner index + 1 = this runner number + 1
