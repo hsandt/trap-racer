@@ -21,7 +21,8 @@ public class FlagBearer : MonoBehaviour
         if (m_FlagTr != null)
         {
             // release Flag (only done on Restart, and will be given to the new first runner again immediately)
-            m_FlagTr.SetParent(null);
+            // make sure to preserve local coords not world coords or flag will be totally offset on race restart
+            m_FlagTr.SetParent(null, worldPositionStays: false);
         }
         m_FlagTr = null;
     }
