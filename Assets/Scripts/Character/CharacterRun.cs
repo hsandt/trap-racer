@@ -323,12 +323,12 @@ public class CharacterRun : MonoBehaviour
     }
     
     /// Input callback: Move action
-    public void OnMove(InputValue value)
+    public void OnMove(float value)
     {
-        Debug.Log(value.Get<float>());
+        Debug.Log(value);
         // update brake intention in every state
         // this is because OnMove is only called on value change (-1 when holding left, 0 when releasing)
         // so if the player holds left even before race start we don't want to miss that input for later
-        m_BrakeIntention = value.Get<float>() < 0f;
+        m_BrakeIntention = value < 0f;
     }
 }

@@ -6,10 +6,10 @@
             "id": "f9e662dc-fbc4-435f-a9ea-ff91e5782c76",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "MoveXY",
                     "type": "Value",
                     "id": "97582aea-8784-4928-b4e8-ca4c084ce00c",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 },
@@ -30,7 +30,7 @@
                     "interactions": "",
                     "processors": "StickDeadzone",
                     "groups": ";Gamepad",
-                    "action": "Move",
+                    "action": "MoveXY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -41,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Move",
+                    "action": "MoveXY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -52,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Move",
+                    "action": "MoveXY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -96,7 +96,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Move",
+                    "action": "MoveXY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

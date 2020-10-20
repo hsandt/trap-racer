@@ -38,12 +38,12 @@ public class PlayerInputKeyboard : MonoBehaviour
     /// Input callback: Move action for P1
     private void OnMoveP1(InputValue value)
     {
-        runner1.OnMove(value);
+        runner1.OnMove(value.Get<float>());
     }
     
     /// Input callback: Move action for P2
     private void OnMoveP2(InputValue value)
     {
-        runner2.OnMove(value);
+        runner2.OnMove(value.Get<float>());
     }
 }
