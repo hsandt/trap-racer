@@ -70,10 +70,16 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Slowdown duration on obstacle hit")]
     private float obstacleSlowdownDuration = 1f;
 
+    [SerializeField, Tooltip("Auto-deceleration on X after race finish")]
+    private float finishDecel = 3f;
+
     /* State vars */
 
     /// Current state
     private CharacterState m_State;
+    
+    /// Can the player control this runner?
+    private bool m_CanControl;
 
     /// Obstacle slow down timer. When positive, character is currently slowed down by the last obstacle hurt.
     private float m_ObstacleSlowDownTimer;
@@ -98,6 +104,7 @@ public class CharacterRun : MonoBehaviour
         m_Rigidbody2D.velocity = Vector2.zero;
 
         m_State = CharacterState.WaitForStart;
+        m_CanControl = false;
         m_ObstacleSlowDownTimer = 0f;
         m_BrakeIntention = false;
     }
@@ -105,12 +112,13 @@ public class CharacterRun : MonoBehaviour
     public void StartRunning()
     {
         m_State = CharacterState.Run;
+        m_CanControl = true;
     }
 
     private void FixedUpdate()
     {
         // don't move before race start
-        if (m_State == CharacterState.WaitForStart || m_State == CharacterState.Finished)
+        if (m_State == CharacterState.WaitForStart)
         {
             return;
         }
@@ -172,23 +180,33 @@ public class CharacterRun : MonoBehaviour
                 }
             }
         }
+
+        float runSpeed;
         
-        // After doing all transitions, set velocity based on the resulting state
-        float runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
-        
-        // If runner is behind camera left edge limit, clamp speed to minimum to catch up
-        // this is not enough as small offsets may accumulate over time,
-        // so must clamp position itself (we still clamp speed in case we have accel based on previous speed
-        //  or speed-based animations later)
-        // Currently there's some jittering due to the fact that we use positions at the beginning of the frame,
-        //  but we see the game through the camera at the end of the frame (after LateUpdate)
-        // It may be fixed by applying clamping at the end of the frame (but InGameCamera.LateUpdate should not contain
-        //  physics so we may need an external manager or something)
-        float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
-        if (m_Rigidbody2D.position.x < leftEdgeX)
+        if (m_CanControl)
         {
-            runSpeed = m_InGameCamera.MinScrollingSpeed;
-            m_Rigidbody2D.MovePosition(new Vector2(leftEdgeX, m_Rigidbody2D.position.y));
+            // After doing all transitions, set velocity based on the resulting state
+            runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
+            
+            // If runner is behind camera left edge limit, clamp speed to minimum to catch up
+            // this is not enough as small offsets may accumulate over time,
+            // so must clamp position itself (we still clamp speed in case we have accel based on previous speed
+            //  or speed-based animations later)
+            // Currently there's some jittering due to the fact that we use positions at the beginning of the frame,
+            //  but we see the game through the camera at the end of the frame (after LateUpdate)
+            // It may be fixed by applying clamping at the end of the frame (but InGameCamera.LateUpdate should not contain
+            //  physics so we may need an external manager or something)
+            float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
+            if (m_Rigidbody2D.position.x < leftEdgeX)
+            {
+                runSpeed = m_InGameCamera.MinScrollingSpeed;
+                m_Rigidbody2D.MovePosition(new Vector2(leftEdgeX, m_Rigidbody2D.position.y));
+            }
+        }
+        else
+        {
+            // we only lose control completely after finishing the race, and should slow down to a halt at this point
+            runSpeed = Mathf.Max(0f, m_Rigidbody2D.velocity.x - finishDecel * Time.deltaTime);
         }
             
         if (m_State == CharacterState.Run)
@@ -297,8 +315,7 @@ public class CharacterRun : MonoBehaviour
     
     public void FinishRace()
     {
-        m_State = CharacterState.Finished;
-        m_Rigidbody2D.velocity = Vector2.zero;
+        m_CanControl = false;
 
         PlayFinishAnim();
     }
@@ -311,7 +328,7 @@ public class CharacterRun : MonoBehaviour
     /// Input callback: Jump action
     public void OnJump()
     {
-        if (m_State == CharacterState.Run)
+        if (m_CanControl && m_State == CharacterState.Run)
         {
             m_State = CharacterState.Jump;
             m_Rigidbody2D.velocity += jumpSpeed * Vector2.up;
@@ -325,10 +342,12 @@ public class CharacterRun : MonoBehaviour
     /// Input callback: Move action
     public void OnMove(float value)
     {
-        Debug.Log(value);
-        // update brake intention in every state
-        // this is because OnMove is only called on value change (-1 when holding left, 0 when releasing)
-        // so if the player holds left even before race start we don't want to miss that input for later
-        m_BrakeIntention = value < 0f;
+        if (m_CanControl)
+        {
+            // update brake intention in every state
+            // this is because OnMove is only called on value change (-1 when holding left, 0 when releasing)
+            // so if the player holds left even before race start we don't want to miss that input for later
+            m_BrakeIntention = value < 0f;
+        }
     }
 }

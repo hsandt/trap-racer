@@ -6,9 +6,9 @@ using CommonsHelper;
 
 public class Goal : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        var characterRun = other.collider.GetComponentOrFail<CharacterRun>();
+        var characterRun = other.GetComponentOrFail<CharacterRun>();
         characterRun.FinishRace();
 
         RaceManager.Instance.NotifyRunnerFinished(characterRun);
