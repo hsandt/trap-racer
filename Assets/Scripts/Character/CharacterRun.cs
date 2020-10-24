@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 using CommonsDebug;
 using CommonsHelper;
+using UnityEngine.Serialization;
 
 public class CharacterRun : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class CharacterRun : MonoBehaviour
     [Tooltip(
         "Position X from which ground is detected. Y must be at feet level. Place it slightly behind the character to allow last second jump. Actual raycast Y range is defined by Ground Detection Start/Stop Offset parameters.")]
     public Transform groundSensorXTr;
+    
+    [FormerlySerializedAs("m_MeshAnimator")] [Tooltip("Mesh animator (Stickman)")]
+    public Animator meshAnimator;
 
     /* Sibling components */
     private Rigidbody2D m_Rigidbody2D;
@@ -87,6 +91,15 @@ public class CharacterRun : MonoBehaviour
     /// Is the player trying to brake? (active slowdown)
     private bool m_BrakeIntention;
 
+    private static readonly int Airborne = Animator.StringToHash("Airborne");
+    private static readonly int Jumping = Animator.StringToHash("Jumping");
+    private static readonly int SpeedX = Animator.StringToHash("SpeedX");
+
+    public bool IsAirborne()
+    {
+        return m_State == CharacterState.Jump || m_State == CharacterState.Fall;
+    }
+
     private void Awake()
     {
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
@@ -116,6 +129,12 @@ public class CharacterRun : MonoBehaviour
     }
 
     private void FixedUpdate()
+    {
+        UpdateMotion();
+        UpdateAnimator();
+    }
+    
+    private void UpdateMotion()
     {
         // don't move before race start
         if (m_State == CharacterState.WaitForStart)
@@ -300,6 +319,13 @@ public class CharacterRun : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
     }
 
+    private void UpdateAnimator()
+    {
+        meshAnimator.SetFloat(SpeedX, m_Rigidbody2D.velocity.x);
+        meshAnimator.SetBool(Airborne, IsAirborne());
+        meshAnimator.SetBool(Jumping, m_State == CharacterState.Jump);
+    }
+
     /// Start obstacle slow down timer
     /// Leave obstacle destruction to Obstacle script side
     /// If you already hit an obstacle and timer is still active, just reset it to duration
@@ -350,4 +376,16 @@ public class CharacterRun : MonoBehaviour
             m_BrakeIntention = value < 0f;
         }
     }
+    
+#if DEBUG_CHARACTER_RUN && (UNITY_EDITOR || DEVELOPMENT_BUILD)
+    private static readonly GUIStyle GuiStyle = new GUIStyle();
+
+    private void OnGUI()
+    {
+        GuiStyle.fontSize = 48;
+        GuiStyle.normal.textColor = playerNumber == 1 ? Color.red : Color.yellow;
+        GUILayout.Label($"Runner #{playerNumber} state: {m_State}", GuiStyle);
+        GUILayout.Label($"Runner #{playerNumber} speed X: {m_Rigidbody2D.velocity.x}", GuiStyle);
+    }
+#endif
 }

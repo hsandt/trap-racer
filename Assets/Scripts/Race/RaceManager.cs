@@ -159,11 +159,14 @@ public class RaceManager : SingletonManager<RaceManager>
         ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0]);
     }
     
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if DEBUG_RACE_MANAGER && (UNITY_EDITOR || DEVELOPMENT_BUILD)
+    private static readonly GUIStyle GuiStyle = new GUIStyle();
+
     private void OnGUI()
     {
-        GUIStyle guiStyle = new GUIStyle {fontSize = 48, normal = new GUIStyleState {textColor = Color.white}};
-        GUILayout.Label(m_State.ToString(), guiStyle);
+        GuiStyle.fontSize = 48;
+        GuiStyle.normal = new GUIStyleState {textColor = Color.white};
+        GUILayout.Label($"RaceManager state: {m_State}", GuiStyle);
     }
 #endif
 }

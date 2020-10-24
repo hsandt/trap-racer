@@ -4168,10 +4168,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1564343488}
     m_Modifications:
-    - target: {fileID: 7409931448058809025, guid: 416a7d61a8d0d3147a8700a33ba107f3, type: 3}
-      propertyPath: brakeSlowDownRunSpeedMultiplier
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 8026341196856634753, guid: 416a7d61a8d0d3147a8700a33ba107f3, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.9234855

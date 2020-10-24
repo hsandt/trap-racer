@@ -1382,6 +1382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSensorXTr: {fileID: 967723028793306014}
+  m_MeshAnimator: {fileID: 5636099136436817709}
   playerNumber: 0
   groundFilter:
     useTriggers: 0
