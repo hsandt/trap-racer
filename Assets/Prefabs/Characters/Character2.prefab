@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: playerNumber
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5636099136440906221, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6db85fc1002af7e44bf4ab4b4b085a16, type: 2}
     - target: {fileID: 6727114343991617101, guid: ce07d0cc5a4ae8e4c8e38901bb890692, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
