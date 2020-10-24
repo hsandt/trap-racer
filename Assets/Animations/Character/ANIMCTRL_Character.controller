@@ -183,7 +183,7 @@ BlendTree:
     m_Motion: {fileID: -203655887218126122, guid: 98703a9442fc5a742958b57b4f6c2af2, type: 3}
     m_Threshold: 7
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 0.7566752
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
@@ -238,7 +238,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Running Blend Tree
-  m_Speed: 1
+  m_Speed: 0.15
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7466982499177170429}
@@ -248,13 +248,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -2829431959916045345}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: SpeedX
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
