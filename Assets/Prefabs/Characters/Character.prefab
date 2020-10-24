@@ -1382,7 +1382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSensorXTr: {fileID: 967723028793306014}
-  m_MeshAnimator: {fileID: 5636099136436817709}
+  meshAnimator: {fileID: 5636099136436817709}
   playerNumber: 0
   groundFilter:
     useTriggers: 0
@@ -1401,7 +1401,7 @@ MonoBehaviour:
   groundDetectionStartMargin: 0.1
   groundDetectionStopMargin: 0.1
   groundDetectionToleranceHalfRange: 0.01
-  baseRunSpeed: 10
+  baseRunSpeed: 7
   obstacleSlowDownRunSpeedMultiplier: 0.7
   flagSlowDownRunSpeedMultiplier: 0.7
   brakeSlowDownRunSpeedMultiplier: 0.7
