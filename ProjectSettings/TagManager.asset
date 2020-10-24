@@ -44,10 +44,10 @@ TagManager:
     locked: 0
   - name: Device
     uniqueID: 1149527975
-    locked: 0
+    locked: 1
   - name: Platform
     uniqueID: 3761083845
-    locked: 0
+    locked: 1
   - name: Obstacle
     uniqueID: 1114027543
     locked: 0
