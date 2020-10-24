@@ -63,7 +63,10 @@ public class InGameCamera : MonoBehaviour
         // center position between all the characters on X, but preserve Y for stability
         float newPositionX = m_CharacterTransforms.Average(tr => tr.position.x);
 
-        Vector3 position = transform.position;
+        // Camera is now placed on anchor so we can add an offset on X (backward) to make sure we keep the characters
+        // in sight despite using a perspective angle (tilted forward)
+        // so we move the parent anchor instead of the camera itself
+        Vector3 position = transform.parent.position;
         
         if (RaceManager.Instance.State == RaceState.Started)
         {
@@ -72,7 +75,7 @@ public class InGameCamera : MonoBehaviour
             newPositionX = Mathf.Max(newPositionX, position.x + minScrollingSpeed * Time.deltaTime);
         }
 
-        transform.position = new Vector3(newPositionX, position.y, position.z);
+        transform.parent.position = new Vector3(newPositionX, position.y, position.z);
     }
 
     private void AdjustZoomToShowFixedWidth()
@@ -83,6 +86,10 @@ public class InGameCamera : MonoBehaviour
 
     public float GetLeftEdgeX()
     {
-        return transform.position.x - fixedHalfWidth + leftEdgeMargin;
+        // Left Edge is still defined from anchor placed around center of two characters
+        // This doesn't mean that characters are really hitting the screen edge since in 3D it's hard to define
+        // "screen edge". Instead the camera offset from its parent anchor will give us some margin to keep
+        // leftmost character on-screen.
+        return transform.parent.position.x - fixedHalfWidth + leftEdgeMargin;
     }
 }
