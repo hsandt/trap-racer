@@ -1406,6 +1406,7 @@ MonoBehaviour:
   flagSlowDownRunSpeedMultiplier: 0.7
   brakeSlowDownRunSpeedMultiplier: 0.7
   jumpSpeed: 15
+  trampolineJumpSpeed: 20
   gravity: 30
   obstacleSlowdownDuration: 1
   finishDecel: 3
