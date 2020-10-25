@@ -4810,7 +4810,7 @@ Halo:
   m_Color:
     serializedVersion: 2
     rgba: 4287200513
-  m_Size: 50
+  m_Size: 0.25
 --- !u!199 &910691436467765880
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4897,8 +4897,8 @@ MonoBehaviour:
   rotationSpeed: 1
   floatSpeed: 0.05
   floatRate: 0.1
-  startScale: {x: 60, y: 60, z: 60}
-  endScale: {x: 70, y: 70, z: 70}
+  startScale: {x: 0.9, y: 0.9, z: 0.9}
+  endScale: {x: 1, y: 1, z: 1}
   scaleSpeed: 1
   scaleRate: 0
 --- !u!1 &2459268513091788304
@@ -4910,7 +4910,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2459268513091813936}
-  - component: {fileID: 2459268513017826247}
   - component: {fileID: 4274350102751003913}
   m_Layer: 12
   m_Name: Diamondo5side
@@ -4934,30 +4933,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2459268513017826247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2459268513091788304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ff967b7ed48f2441bcf509edf6b889a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAnimated: 1
-  isRotating: 1
-  isFloating: 0
-  isScaling: 0
-  rotationAngle: {x: 0, y: 0, z: 30}
-  rotationSpeed: 1
-  floatSpeed: 0.05
-  floatRate: 0.1
-  startScale: {x: 60, y: 60, z: 60}
-  endScale: {x: 70, y: 70, z: 70}
-  scaleSpeed: 1
-  scaleRate: 0
 --- !u!61 &4274350102751003913
 BoxCollider2D:
   m_ObjectHideFlags: 0
