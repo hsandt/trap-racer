@@ -68,6 +68,9 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Jump speed Y")]
     private float jumpSpeed = 10f;
 
+    [SerializeField, Tooltip("Trampoline jump speed Y")]
+    private float trampolineJumpSpeed = 10f;
+
     [SerializeField, Tooltip("Gravity acceleration (positive downward)")]
     private float gravity = 10f;
 
@@ -325,6 +328,8 @@ public class CharacterRun : MonoBehaviour
         meshAnimator.SetBool(Airborne, IsAirborne());
         meshAnimator.SetBool(Jumping, m_State == CharacterState.Jump);
     }
+    
+    // Obstacle
 
     /// Start obstacle slow down timer
     /// Leave obstacle destruction to Obstacle script side
@@ -334,9 +339,19 @@ public class CharacterRun : MonoBehaviour
         m_ObstacleSlowDownTimer = obstacleSlowdownDuration;
     }
     
+    // Switch
+    
     public void PlayToggleSwitchAnim()
     {
         // TODO
+    }
+    
+    // Trampoline
+    
+    public void JumpWithTrampoline()
+    {
+        m_State = CharacterState.Jump;
+        m_Rigidbody2D.velocity += trampolineJumpSpeed * Vector2.up;
     }
     
     public void FinishRace()
