@@ -11,6 +11,13 @@ using UnityEngine.Serialization;
 [SelectionBase]
 public class CharacterRun : MonoBehaviour
 {
+    public struct GroundInfo
+    {
+        public Collider2D groundCollider;
+        public float groundDistance;
+        public Vector2 tangentDir;
+    }
+    
     /* Static member for unique raycast allocations for CharacterRun scripts */
     private static readonly RaycastHit2D[] RaycastHits = new RaycastHit2D[2];
 
@@ -94,6 +101,9 @@ public class CharacterRun : MonoBehaviour
     /// Is the player trying to brake? (active slowdown)
     private bool m_BrakeIntention;
 
+    /// Current ground collider
+    private Collider2D currentGround;
+    
     /// Current tangent direction (unit vector)
     private Vector2 tangentDir;
     
@@ -128,6 +138,7 @@ public class CharacterRun : MonoBehaviour
         m_CanControl = false;
         m_ObstacleSlowDownTimer = 0f;
         m_BrakeIntention = false;
+        currentGround = null;
         tangentDir = Vector2.right;
     }
 
@@ -164,14 +175,20 @@ public class CharacterRun : MonoBehaviour
             // sense ground to check if no ground anymore
             // for now, we ignore the result groundDistance if ground is detected
             //  as we assume that all platforms are flat and we don't need to escape ground while running
-            if (!SenseGround(out var groundDistance, out var outTangentDir))
+            if (!SenseGround(out GroundInfo groundInfo))
             {
                 // no ground detected, fall (we can wait next frame to start applying gravity)
                 m_State = CharacterState.Fall;
-                tangentDir = outTangentDir;
+                currentGround = null;
+                tangentDir = groundInfo.tangentDir;
 #if DEBUG_CHARACTER_RUN
                 Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, Fall", playerNumber);
 #endif
+            }
+            else
+            {
+                currentGround = groundInfo.groundCollider;
+                tangentDir = groundInfo.tangentDir;
             }
         }
         else
@@ -182,12 +199,13 @@ public class CharacterRun : MonoBehaviour
                 case CharacterState.Jump:
                 {
                     // sense ground when character starts falling
-                    if (m_Rigidbody2D.velocity.y < 0f && SenseGround(out var groundDistance, out var outTangentDir))
+                    if (m_Rigidbody2D.velocity.y < 0f && SenseGround(out GroundInfo groundInfo))
                     {
                         // detected ground, leave Jump, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        tangentDir = outTangentDir;
-                        Land(groundDistance);
+                        currentGround = groundInfo.groundCollider;
+                        tangentDir = groundInfo.tangentDir;
+                        Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
                         Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundDistance);
 #endif
@@ -197,12 +215,13 @@ public class CharacterRun : MonoBehaviour
                 case CharacterState.Fall:
                 {
                     // we assume falling character is moving downward so always sense ground in this state
-                    if (SenseGround(out var groundDistance, out var outTangentDir))
+                    if (SenseGround(out GroundInfo groundInfo))
                     {
                         // detected ground, leave Fall, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        tangentDir = outTangentDir;
-                        Land(groundDistance);
+                        currentGround = groundInfo.groundCollider;
+                        tangentDir = groundInfo.tangentDir;
+                        Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
                         Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {0}", playerNumber, groundDistance);
 #endif
@@ -293,8 +312,10 @@ public class CharacterRun : MonoBehaviour
     /// along with out distance to it, positive upward.
     /// Out distance should be positive or zero, zero if just touching ground and positive if slightly above.
     /// If ground is too high or below feet, no ground is detected, return false with outDistance 0 (unused).
-    private bool SenseGround(out float outGroundDistance, out Vector2 outTangentDir)
+    private bool SenseGround(out GroundInfo outGroundInfo)
     {
+        outGroundInfo = new GroundInfo();
+        
         Vector2 origin = (Vector2) groundSensorXTr.position + groundDetectionStartMargin * Vector2.up;
         // make sure to compute sum of start and stop margin, not difference,
         // as the former is upward, the latter backward
@@ -305,25 +326,29 @@ public class CharacterRun : MonoBehaviour
             // only consider first hit
             RaycastHit2D hit = RaycastHits[0];
             float hitDistance = hit.distance;
-            outGroundDistance = groundDetectionStartMargin - hitDistance;
+            outGroundInfo.groundDistance = groundDetectionStartMargin - hitDistance;
 
-            if (outGroundDistance < -groundDetectionToleranceHalfRange)
+            if (outGroundInfo.groundDistance < -groundDetectionToleranceHalfRange)
             {
-                // we are above ground by a meaningful distance
+                // we are above ground by a meaningful distance, consider character airborne
                 // in the air, we don't use tangent dir so just default to horizontal
-                outTangentDir = Vector2.right;
+                outGroundInfo.groundCollider = null;
+                outGroundInfo.tangentDir = Vector2.right;
                 return false;
             }
             else
             {
-                // in all cases we'll update the tangent direction with ground tangent
+                // in all cases we'll update the current ground and tangent direction
+                outGroundInfo.groundCollider = hit.collider;
+
                 Vector2 normal = hit.normal;
-                outTangentDir = VectorUtil.Rotate90CW(normal);
-                if (outGroundDistance <= groundDetectionToleranceHalfRange)
+                outGroundInfo.tangentDir = VectorUtil.Rotate90CW(normal);
+                
+                if (outGroundInfo.groundDistance <= groundDetectionToleranceHalfRange)
                 {
                     // we're close enough to ground (slightly inside or above)
                     // to consider we are grounded and don't need any offset (prevents oscillation around ground Y)
-                    outGroundDistance = 0f;
+                    outGroundInfo.groundDistance = 0f;
                     return true;
                 }
                 else  // outGroundDistance > groundDetectionToleranceHalfRange
@@ -336,8 +361,9 @@ public class CharacterRun : MonoBehaviour
 
         // no ground detected at all, too far from ground
         // in the air, we don't use tangent dir so just default to horizontal
-        outTangentDir = Vector2.right;
-        outGroundDistance = 0f;  // just because we need something for out
+        outGroundInfo.groundCollider = null;
+        outGroundInfo.tangentDir = Vector2.right;
+        outGroundInfo.groundDistance = 0f;  // just because we need something for out
         return false;
     }
     
