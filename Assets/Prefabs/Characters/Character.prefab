@@ -1703,12 +1703,12 @@ MonoBehaviour:
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  groundDetectionStartMargin: 0.1
+  groundDetectionStartMargin: 0.5
   groundDetectionStopMargin: 0.1
   groundDetectionToleranceHalfRange: 0.01
   baseRunSpeed: 7
