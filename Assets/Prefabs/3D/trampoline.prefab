@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5910271217744489801}
   - component: {fileID: 7325768686574183148}
   - component: {fileID: 4777945952252057126}
-  m_Layer: 0
+  - component: {fileID: 4108408696954189951}
+  m_Layer: 10
   m_Name: trampoline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,3 +85,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!68 &4108408696954189951
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435169940710389747}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.8688696, y: 0}
+  - {x: 0.8688696, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
