@@ -351,7 +351,8 @@ public class CharacterRun : MonoBehaviour
     public void JumpWithTrampoline()
     {
         m_State = CharacterState.Jump;
-        m_Rigidbody2D.velocity += trampolineJumpSpeed * Vector2.up;
+        Vector2 velocity = m_Rigidbody2D.velocity;
+        m_Rigidbody2D.velocity = new Vector2(velocity.x, Mathf.Max(trampolineJumpSpeed, velocity.y));
     }
     
     public void FinishRace()
