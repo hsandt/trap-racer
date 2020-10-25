@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 7443365713575361600}
   - component: {fileID: 5828781873395151845}
   - component: {fileID: 8576834403381331759}
-  - component: {fileID: 1662175901764130687}
-  - component: {fileID: 8270569241871710744}
-  - component: {fileID: 3840511270739655815}
   m_Layer: 0
   m_Name: rotateball
   m_TagString: Untagged
@@ -87,42 +84,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1662175901764130687
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7784459872292792058}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.8
-  m_Center: {x: 5.8, y: -1.8, z: 0}
---- !u!135 &8270569241871710744
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7784459872292792058}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.8
-  m_Center: {x: -5.8, y: -1.8, z: 0}
---- !u!65 &3840511270739655815
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7784459872292792058}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 6, z: 3}
-  m_Center: {x: 0, y: 0.13, z: 0}
