@@ -4,7 +4,7 @@ using UnityEngine;
 
 using CommonsHelper;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : Device
 {
     /* Sibling components */
     private Collider2D m_Collider2D;
@@ -27,12 +27,12 @@ public class Obstacle : MonoBehaviour
     private void Start()
     {
         // must be done after ObstacleManager.Awake/Init
-        ObstacleManager.Instance.RegisterObstacle(this);
+        DeviceManager.Instance.RegisterDevice(this);
     }
     
     /// Managed setup
     /// Not called on own Start, must be called in RaceManager.SetupRace > ObstacleManager.SetupObstacles
-    public virtual void Setup()
+    public override void Setup()
     {
         // We assume collider and sprite renderer are enabled on Start
         // And only reenable them if the gate has been opened and we are restarting

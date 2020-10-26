@@ -54,9 +54,8 @@ public class RaceManager : SingletonManager<RaceManager>
 
     private void SetupRace()
     {
-        ObstacleManager.Instance.SetupObstacles();
         GateManager.Instance.SetupGates();
-        SwitchManager.Instance.SetupSwitches();
+        DeviceManager.Instance.SetupDevices();
         
         foreach (var characterRun in m_Runners)
         {

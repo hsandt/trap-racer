@@ -6,7 +6,7 @@ using UnityEngine;
 
 using CommonsHelper;
 
-public class Switch : MonoBehaviour
+public class Switch : Device
 {
     /* Animator parameter hashes */
 
@@ -46,12 +46,12 @@ public class Switch : MonoBehaviour
     private void Start()
     {
         // must be done after SwitchManager.Awake/Init
-        SwitchManager.Instance.RegisterSwitch(this);
+        DeviceManager.Instance.RegisterDevice(this);
         
         Setup();
     }
 
-    public void Setup()
+    public override void Setup()
     {
         SetOn(true);
     }
@@ -59,9 +59,9 @@ public class Switch : MonoBehaviour
     private void OnDestroy()
     {
         // when stopping the game, SwitchManager may have been destroyed first so check it
-        if (SwitchManager.Instance)
+        if (DeviceManager.Instance)
         {
-            SwitchManager.Instance.UnregisterSwitch(this);
+            DeviceManager.Instance.UnregisterDevice(this);
         }
     }
 
