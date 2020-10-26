@@ -337,7 +337,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -653,7 +653,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 50
+    maxNumParticles: 60
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -799,7 +799,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 2
+      value: 1
       mode: 0
       spread: 0
       speed:
