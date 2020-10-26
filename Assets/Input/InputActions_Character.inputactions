@@ -2,7 +2,7 @@
     "name": "InputActions_Character",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerGamepad",
             "id": "f9e662dc-fbc4-435f-a9ea-ff91e5782c76",
             "actions": [
                 {
@@ -163,6 +163,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "negative",
+                    "id": "8e856d04-8c6e-469d-8228-9612cf18c04f",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP1",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "positive",
                     "id": "8478d078-fe04-4f1d-8551-f1c68cb3b395",
                     "path": "",
@@ -188,6 +199,17 @@
                     "name": "negative",
                     "id": "4cd11557-1ee9-47ff-939d-154a4f629a65",
                     "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP2",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "negative",
+                    "id": "88234514-4738-4e03-8ddb-480bbaf8bbb8",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
