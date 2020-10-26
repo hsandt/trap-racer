@@ -53,29 +53,36 @@ public class MovingObstacle : Obstacle
         {
             // Phase 1: move from bottom to top
             float ratio = m_CurrentTimeModulo / moveDuration;
-            m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, Mathf.Lerp(initialY, initialY + moveHeight, ratio)));
+            MoveLerpY(initialY, initialY + moveHeight, ratio);
         }
         else if (m_CurrentTimeModulo < movePeriod / 2f)
         {
             // Phase 2: stay at top
-            if (m_Rigidbody2D.position.y != initialY + moveHeight)
-            {
-                m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, initialY + moveHeight));
-            }
+            MoveY(initialY + moveHeight);
         }
         else if (m_CurrentTimeModulo < movePeriod / 2f + moveDuration)
         {
             // Phase 3: move from top to bottom
             float ratio = (m_CurrentTimeModulo - movePeriod / 2f) / moveDuration;
-            m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, Mathf.Lerp(initialY + moveHeight, initialY, ratio)));
+            MoveLerpY(initialY + moveHeight, initialY, ratio);
         }
         else  // m_CurrentTimeModulo < movePeriod
         {
             // Phase 4: stay at bottom
-            if (m_Rigidbody2D.position.y != initialY)
-            {
-                m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, initialY));
-            }
+            MoveY(initialY);
         }
+    }
+    
+    private void MoveY(float y)
+    {
+        if (m_Rigidbody2D.position.y != y)
+        {
+            m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, y));
+        }
+    }
+    
+    private void MoveLerpY(float a, float b, float ratio)
+    {
+        m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, Mathf.Lerp(a, b, ratio)));
     }
 }

@@ -58,39 +58,40 @@ public class OpeningGround : MonoBehaviour
         {
             // Phase 1: move both panels from center (closed) to edge (open)
             float ratio = m_CurrentTimeModulo / moveDuration;
-            m_RigidbodyPanelLeft.MovePosition(new Vector2(Mathf.Lerp(initialXLeft, initialXLeft - moveWidth, ratio), m_RigidbodyPanelLeft.position.y));
-            m_RigidbodyPanelRight.MovePosition(new Vector2(Mathf.Lerp(initialXRight, initialXRight + moveWidth, ratio), m_RigidbodyPanelRight.position.y));
+            MoveLerpX(m_RigidbodyPanelLeft, initialXLeft, initialXLeft - moveWidth, ratio);
+            MoveLerpX(m_RigidbodyPanelRight, initialXRight, initialXRight + moveWidth, ratio);
         }
         else if (m_CurrentTimeModulo < movePeriod / 2f)
         {
             // Phase 2: stay at edge (open)
-            if (m_RigidbodyPanelLeft.position.x != initialXLeft - moveWidth)
-            {
-                m_RigidbodyPanelLeft.MovePosition(new Vector2( initialXLeft - moveWidth, m_RigidbodyPanelLeft.position.y));
-            }
-            if (m_RigidbodyPanelRight.position.x != initialXRight + moveWidth)
-            {
-                m_RigidbodyPanelRight.MovePosition(new Vector2( initialXRight + moveWidth, m_RigidbodyPanelRight.position.y));
-            }
+            MoveX(m_RigidbodyPanelLeft, initialXLeft - moveWidth);
+            MoveX(m_RigidbodyPanelRight, initialXRight + moveWidth);
         }
         else if (m_CurrentTimeModulo < movePeriod / 2f + moveDuration)
         {
             // Phase 3: move from edge (open) to center (closed)
             float ratio = (m_CurrentTimeModulo - movePeriod / 2f) / moveDuration;
-            m_RigidbodyPanelLeft.MovePosition(new Vector2(Mathf.Lerp(initialXLeft - moveWidth, initialXLeft, ratio), m_RigidbodyPanelLeft.position.y));
-            m_RigidbodyPanelRight.MovePosition(new Vector2(Mathf.Lerp(initialXRight + moveWidth, initialXRight, ratio), m_RigidbodyPanelRight.position.y));
+            MoveLerpX(m_RigidbodyPanelLeft, initialXLeft - moveWidth, initialXLeft, ratio);
+            MoveLerpX(m_RigidbodyPanelRight, initialXRight + moveWidth, initialXRight, ratio);
         }
         else  // m_CurrentTimeModulo < movePeriod
         {
             // Phase 4: stay at center (closed)
-            if (m_RigidbodyPanelLeft.position.x != initialXLeft)
-            {
-                m_RigidbodyPanelLeft.MovePosition(new Vector2( initialXLeft, m_RigidbodyPanelLeft.position.y));
-            }
-            if (m_RigidbodyPanelRight.position.x != initialXRight)
-            {
-                m_RigidbodyPanelRight.MovePosition(new Vector2( initialXRight, m_RigidbodyPanelRight.position.y));
-            }
+            MoveX(m_RigidbodyPanelLeft, initialXLeft);
+            MoveX(m_RigidbodyPanelRight, initialXRight);
         }
+    }
+
+    private static void MoveX(Rigidbody2D rigidbody2d, float x)
+    {
+        if (rigidbody2d.position.x != x)
+        {
+            rigidbody2d.MovePosition(new Vector2(x, rigidbody2d.position.y));
+        }
+    }
+    
+    private static void MoveLerpX(Rigidbody2D rigidbody2d, float a, float b, float ratio)
+    {
+        rigidbody2d.MovePosition(new Vector2(Mathf.Lerp(a, b, ratio), rigidbody2d.position.y));
     }
 }
