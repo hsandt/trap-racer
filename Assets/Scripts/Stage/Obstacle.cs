@@ -8,15 +8,20 @@ public class Obstacle : MonoBehaviour
 {
     /* Sibling components */
     private Collider2D m_Collider2D;
-    private SpriteRenderer m_SpriteRenderer;
+    private Renderer m_Renderer;
     
     /// Is the obstacle active? (set to false when hits a runner, only reset on race restart)
     private bool m_Active = true;
 
     private void Awake()
     {
+        Init();
+    }
+
+    protected virtual void Init()
+    {
         m_Collider2D = this.GetComponentOrFail<Collider2D>();
-        m_SpriteRenderer = this.GetComponentOrFail<SpriteRenderer>();
+        m_Renderer = GetComponentInChildren<Renderer>();
     }
     
     private void Start()
@@ -27,7 +32,7 @@ public class Obstacle : MonoBehaviour
     
     /// Managed setup
     /// Not called on own Start, must be called in RaceManager.SetupRace > ObstacleManager.SetupObstacles
-    public void Setup()
+    public virtual void Setup()
     {
         // We assume collider and sprite renderer are enabled on Start
         // And only reenable them if the gate has been opened and we are restarting
@@ -36,7 +41,7 @@ public class Obstacle : MonoBehaviour
         {
             m_Active = true;
             m_Collider2D.enabled = true;
-            m_SpriteRenderer.enabled = true;
+            m_Renderer.enabled = true;
         }
     }
     
@@ -61,6 +66,6 @@ public class Obstacle : MonoBehaviour
         m_Collider2D.enabled = false;
 
         // no animation yet, for prototype just hide the obstacle
-        m_SpriteRenderer.enabled = false;
+        m_Renderer.enabled = false;
     }
 }

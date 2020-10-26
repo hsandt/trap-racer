@@ -169,7 +169,7 @@ public class CharacterRun : MonoBehaviour
         {
             m_ObstacleSlowDownTimer = Mathf.Max(0f, m_ObstacleSlowDownTimer - Time.deltaTime);
         }
-            
+        
         // Transitions
         
         if (m_State == CharacterState.Run)
