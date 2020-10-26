@@ -17,7 +17,7 @@ public class MovingObstacle : Obstacle
     [SerializeField, Tooltip("Move cycle period. Take half to get duration between start of move phases (s)")]
     private float movePeriod = 4f;
     
-    [SerializeField, Tooltip("Duration of the motion between bottom and top position itself (s). Is part of Move Interval.")]
+    [SerializeField, Tooltip("Duration of the motion between bottom and top position itself (s). Is part of Move Period.")]
     private float moveDuration = 0.5f;
 
     /* Parameters defined on start */
