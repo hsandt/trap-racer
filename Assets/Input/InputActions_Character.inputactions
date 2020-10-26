@@ -219,11 +219,33 @@
                 },
                 {
                     "name": "",
+                    "id": "9496ff42-e1b3-40fd-9e46-f2507c70fea1",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpP1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2ba61bbb-5067-49d4-9ce2-cdf6d0c1269d",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "JumpP2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fede859-a20f-458f-86f5-0f34de7c18ea",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "JumpP2",
                     "isComposite": false,
                     "isPartOfComposite": false
