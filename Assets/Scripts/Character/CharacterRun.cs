@@ -3,14 +3,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 using CommonsDebug;
 using CommonsHelper;
 using UnityEngine.Serialization;
 
+[SelectionBase]
 public class CharacterRun : MonoBehaviour
 {
+    public struct GroundInfo
+    {
+        public Collider2D groundCollider;
+        public float groundDistance;
+        public Vector2 tangentDir;
+    }
+    
     /* Static member for unique raycast allocations for CharacterRun scripts */
     private static readonly RaycastHit2D[] RaycastHits = new RaycastHit2D[2];
 
@@ -94,6 +101,14 @@ public class CharacterRun : MonoBehaviour
     /// Is the player trying to brake? (active slowdown)
     private bool m_BrakeIntention;
 
+    /// Current ground collider
+    private Collider2D currentGround;
+    
+    /// Current tangent direction (unit vector)
+    private Vector2 tangentDir;
+    
+    // Animator param hashes
+
     private static readonly int Airborne = Animator.StringToHash("Airborne");
     private static readonly int Jumping = Animator.StringToHash("Jumping");
     private static readonly int SpeedX = Animator.StringToHash("SpeedX");
@@ -123,6 +138,8 @@ public class CharacterRun : MonoBehaviour
         m_CanControl = false;
         m_ObstacleSlowDownTimer = 0f;
         m_BrakeIntention = false;
+        currentGround = null;
+        tangentDir = Vector2.right;
     }
 
     public void StartRunning()
@@ -158,13 +175,20 @@ public class CharacterRun : MonoBehaviour
             // sense ground to check if no ground anymore
             // for now, we ignore the result groundDistance if ground is detected
             //  as we assume that all platforms are flat and we don't need to escape ground while running
-            if (!SenseGround(out var groundDistance))
+            if (!SenseGround(out GroundInfo groundInfo))
             {
                 // no ground detected, fall (we can wait next frame to start applying gravity)
                 m_State = CharacterState.Fall;
+                currentGround = null;
+                tangentDir = groundInfo.tangentDir;
 #if DEBUG_CHARACTER_RUN
                 Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, Fall", playerNumber);
 #endif
+            }
+            else
+            {
+                currentGround = groundInfo.groundCollider;
+                tangentDir = groundInfo.tangentDir;
             }
         }
         else
@@ -175,11 +199,13 @@ public class CharacterRun : MonoBehaviour
                 case CharacterState.Jump:
                 {
                     // sense ground when character starts falling
-                    if (m_Rigidbody2D.velocity.y < 0f && SenseGround(out var groundDistance))
+                    if (m_Rigidbody2D.velocity.y < 0f && SenseGround(out GroundInfo groundInfo))
                     {
                         // detected ground, leave Jump, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        Land(groundDistance);
+                        currentGround = groundInfo.groundCollider;
+                        tangentDir = groundInfo.tangentDir;
+                        Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
                         Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundDistance);
 #endif
@@ -189,11 +215,13 @@ public class CharacterRun : MonoBehaviour
                 case CharacterState.Fall:
                 {
                     // we assume falling character is moving downward so always sense ground in this state
-                    if (SenseGround(out var groundDistance))
+                    if (SenseGround(out GroundInfo groundInfo))
                     {
                         // detected ground, leave Fall, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        Land(groundDistance);
+                        currentGround = groundInfo.groundCollider;
+                        tangentDir = groundInfo.tangentDir;
+                        Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
                         Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {0}", playerNumber, groundDistance);
 #endif
@@ -203,13 +231,31 @@ public class CharacterRun : MonoBehaviour
             }
         }
 
+        if (m_State == CharacterState.Run)
+        {
+            // run following current slope (magnitude is preserved which means you lose some speed X on slopes,
+            // even descending ones; we can add a slope factor on speed, not accel, to counter that)
+            float runSpeed = ComputeRunSpeed();
+            m_Rigidbody2D.velocity = runSpeed * tangentDir;
+        }
+        else  // airborne
+        {
+            // apply gravity (preserve speed X, so jumping from a slope is disadvantageous)
+            Vector2 velocity = m_Rigidbody2D.velocity;
+            m_Rigidbody2D.velocity = new Vector2(velocity.x, velocity.y - gravity * Time.deltaTime);
+        }
+    }
+
+    /// Return run speed that runner should have now, if running on ground
+    private float ComputeRunSpeed()
+    {
         float runSpeed;
-        
+
         if (m_CanControl)
         {
             // After doing all transitions, set velocity based on the resulting state
             runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
-            
+
             // If runner is behind camera left edge limit, clamp speed to minimum to catch up
             // this is not enough as small offsets may accumulate over time,
             // so must clamp position itself (we still clamp speed in case we have accel based on previous speed
@@ -230,17 +276,8 @@ public class CharacterRun : MonoBehaviour
             // we only lose control completely after finishing the race, and should slow down to a halt at this point
             runSpeed = Mathf.Max(0f, m_Rigidbody2D.velocity.x - finishDecel * Time.deltaTime);
         }
-            
-        if (m_State == CharacterState.Run)
-        {
-            // run horizontally
-            m_Rigidbody2D.velocity = runSpeed * Vector2.right;
-        }
-        else  // airborne
-        {
-            // apply gravity
-            m_Rigidbody2D.velocity = new Vector2(runSpeed, m_Rigidbody2D.velocity.y - gravity * Time.deltaTime);
-        }
+
+        return runSpeed;
     }
 
     /// Compute and return slowdown multiplier from current state
@@ -275,8 +312,10 @@ public class CharacterRun : MonoBehaviour
     /// along with out distance to it, positive upward.
     /// Out distance should be positive or zero, zero if just touching ground and positive if slightly above.
     /// If ground is too high or below feet, no ground is detected, return false with outDistance 0 (unused).
-    private bool SenseGround(out float outGroundDistance)
+    private bool SenseGround(out GroundInfo outGroundInfo)
     {
+        outGroundInfo = new GroundInfo();
+        
         Vector2 origin = (Vector2) groundSensorXTr.position + groundDetectionStartMargin * Vector2.up;
         // make sure to compute sum of start and stop margin, not difference,
         // as the former is upward, the latter backward
@@ -285,29 +324,46 @@ public class CharacterRun : MonoBehaviour
         if (hitCount > 0)
         {
             // only consider first hit
-            float hitDistance = RaycastHits[0].distance;
-            outGroundDistance = groundDetectionStartMargin - hitDistance;
+            RaycastHit2D hit = RaycastHits[0];
+            float hitDistance = hit.distance;
+            outGroundInfo.groundDistance = groundDetectionStartMargin - hitDistance;
 
-            if (Mathf.Abs(outGroundDistance) <= groundDetectionToleranceHalfRange)
+            if (outGroundInfo.groundDistance < -groundDetectionToleranceHalfRange)
             {
-                // we're close enough to ground (slightly inside or above)
-                // to consider we are grounded and don't need any offset (prevents oscillation around ground Y)
-                outGroundDistance = 0f;
-                return true;
-            }
-            else if (outGroundDistance >= 0)  // actually > groundDetectionToleranceHalfRange
-            {
-                // we are inside the ground by a meaningful distance
-                return true;
-            }
-            else  // outGroundDistance < - groundDetectionToleranceHalfRange
-            {
-                // we are above ground by a meaningful distance
+                // we are above ground by a meaningful distance, consider character airborne
+                // in the air, we don't use tangent dir so just default to horizontal
+                outGroundInfo.groundCollider = null;
+                outGroundInfo.tangentDir = Vector2.right;
                 return false;
+            }
+            else
+            {
+                // in all cases we'll update the current ground and tangent direction
+                outGroundInfo.groundCollider = hit.collider;
+
+                Vector2 normal = hit.normal;
+                outGroundInfo.tangentDir = VectorUtil.Rotate90CW(normal);
+                
+                if (outGroundInfo.groundDistance <= groundDetectionToleranceHalfRange)
+                {
+                    // we're close enough to ground (slightly inside or above)
+                    // to consider we are grounded and don't need any offset (prevents oscillation around ground Y)
+                    outGroundInfo.groundDistance = 0f;
+                    return true;
+                }
+                else  // outGroundDistance > groundDetectionToleranceHalfRange
+                {
+                    // we are inside the ground by a meaningful distance, so keep outGroundDistance for Y adjustment
+                    return true;
+                }
             }
         }
 
-        outGroundDistance = 0f;  // just because we need something for out
+        // no ground detected at all, too far from ground
+        // in the air, we don't use tangent dir so just default to horizontal
+        outGroundInfo.groundCollider = null;
+        outGroundInfo.tangentDir = Vector2.right;
+        outGroundInfo.groundDistance = 0f;  // just because we need something for out
         return false;
     }
     
@@ -319,11 +375,17 @@ public class CharacterRun : MonoBehaviour
         //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
         m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
                                    new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, groundDistance));
-        m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0f);
+        // normally no need to update velocity, it will be ignored this frame, and next frame FixedUpdate will set it
+        // but if you fear exploit of jumping immediately after landing on slope to preserve speed X (assuming
+        // input is processed before FixedUpdate, which is easy to fix by only setting intention in OnJump and
+        // processing it in FixedUpdate), then set it now as below
+        float runSpeed = ComputeRunSpeed();
+        m_Rigidbody2D.velocity = runSpeed * tangentDir;
     }
 
     private void UpdateAnimator()
     {
+        // to simplify we don't rotate character on slope and just keep using speed X for animation speed
         meshAnimator.SetFloat(SpeedX, m_Rigidbody2D.velocity.x);
         meshAnimator.SetBool(Airborne, IsAirborne());
         meshAnimator.SetBool(Jumping, m_State == CharacterState.Jump);
@@ -351,7 +413,8 @@ public class CharacterRun : MonoBehaviour
     public void JumpWithTrampoline()
     {
         m_State = CharacterState.Jump;
-        m_Rigidbody2D.velocity += trampolineJumpSpeed * Vector2.up;
+        Vector2 velocity = m_Rigidbody2D.velocity;
+        m_Rigidbody2D.velocity = new Vector2(velocity.x, Mathf.Max(trampolineJumpSpeed, velocity.y));
     }
     
     public void FinishRace()
