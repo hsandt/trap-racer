@@ -25,6 +25,9 @@ public class StartUI : SingletonManager<StartUI>
     private Canvas m_Canvas;
 
     /* Parameters */
+    [SerializeField, Tooltip("Value from which countdown starts (usually 3, set to 0 for fast dev iterations)")]
+    private int countDownStartValue = 3;
+
     [SerializeField, Tooltip("Duration of Countdown 0 message (s)")]
     private float countDown0TextDuration = 1f;
 
@@ -45,7 +48,7 @@ public class StartUI : SingletonManager<StartUI>
     {
         m_Canvas.enabled = true;
 
-        for (int i = 3; i >= 1; --i)
+        for (int i = countDownStartValue; i >= 1; --i)
         {
             countDownText.text = string.Format(countDownTextFormat, i);
             yield return new WaitForSeconds(1f);
