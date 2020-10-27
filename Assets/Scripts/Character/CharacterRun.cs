@@ -1,4 +1,4 @@
-﻿//#define DEBUG_CHARACTER_RUN
+﻿#define DEBUG_CHARACTER_RUN
 
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,6 @@ using UnityEngine;
 
 using CommonsDebug;
 using CommonsHelper;
-using UnityEngine.Serialization;
 
 [SelectionBase]
 public class CharacterRun : MonoBehaviour
@@ -29,7 +28,7 @@ public class CharacterRun : MonoBehaviour
         "Position X from which ground is detected. Y must be at feet level. Place it slightly behind the character to allow last second jump. Actual raycast Y range is defined by Ground Detection Start/Stop Offset parameters.")]
     public Transform groundSensorXTr;
     
-    [FormerlySerializedAs("m_MeshAnimator")] [Tooltip("Mesh animator (Stickman)")]
+    [Tooltip("Mesh animator (Stickman)")]
     public Animator meshAnimator;
 
     /* Sibling components */
@@ -101,8 +100,11 @@ public class CharacterRun : MonoBehaviour
     /// Is the player trying to brake? (active slowdown)
     private bool m_BrakeIntention;
 
-    /// Current ground collider
+    /// Current ground collider, if any
     private Collider2D currentGround;
+    
+    /// Current conveyor belt, if any (can only be component of currentGround)
+    private ConveyorBelt currentConveyorBelt;
     
     /// Current tangent direction (unit vector)
     private Vector2 tangentDir;
@@ -167,7 +169,7 @@ public class CharacterRun : MonoBehaviour
         {
             m_ObstacleSlowDownTimer = Mathf.Max(0f, m_ObstacleSlowDownTimer - Time.deltaTime);
         }
-            
+        
         // Transitions
         
         if (m_State == CharacterState.Run)
@@ -179,7 +181,7 @@ public class CharacterRun : MonoBehaviour
             {
                 // no ground detected, fall (we can wait next frame to start applying gravity)
                 m_State = CharacterState.Fall;
-                currentGround = null;
+                SetGround(null);
                 tangentDir = groundInfo.tangentDir;
 #if DEBUG_CHARACTER_RUN
                 Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, Fall", playerNumber);
@@ -187,7 +189,7 @@ public class CharacterRun : MonoBehaviour
             }
             else
             {
-                currentGround = groundInfo.groundCollider;
+                SetGround(groundInfo.groundCollider);
                 tangentDir = groundInfo.tangentDir;
             }
         }
@@ -203,11 +205,11 @@ public class CharacterRun : MonoBehaviour
                     {
                         // detected ground, leave Jump, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        currentGround = groundInfo.groundCollider;
+                        SetGround(groundInfo.groundCollider);
                         tangentDir = groundInfo.tangentDir;
                         Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
-                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundDistance);
+                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundInfo.groundDistance);
 #endif
                     }
                     break;
@@ -219,11 +221,11 @@ public class CharacterRun : MonoBehaviour
                     {
                         // detected ground, leave Fall, adjust position Y to ground and reset velocity Y
                         m_State = CharacterState.Run;
-                        currentGround = groundInfo.groundCollider;
+                        SetGround(groundInfo.groundCollider);
                         tangentDir = groundInfo.tangentDir;
                         Land(groundInfo.groundDistance);
 #if DEBUG_CHARACTER_RUN
-                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {0}", playerNumber, groundDistance);
+                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {0}", playerNumber, groundInfo.groundDistance);
 #endif
                     }
                     break;
@@ -254,7 +256,7 @@ public class CharacterRun : MonoBehaviour
         if (m_CanControl)
         {
             // After doing all transitions, set velocity based on the resulting state
-            runSpeed = GetSlowDownMultiplier() * baseRunSpeed;
+            runSpeed = GetRunSpeedMultiplier() * baseRunSpeed + GetRunSpeedOffset();
 
             // If runner is behind camera left edge limit, clamp speed to minimum to catch up
             // this is not enough as small offsets may accumulate over time,
@@ -280,32 +282,45 @@ public class CharacterRun : MonoBehaviour
         return runSpeed;
     }
 
-    /// Compute and return slowdown multiplier from current state
-    private float GetSlowDownMultiplier()
+    /// Compute and return speed multiplier from current state
+    private float GetRunSpeedMultiplier()
     {
-        float slowDownMultiplier = 1f;
+        float speedMultiplier = 1f;
 
         bool isSlowedDownByObstacle = m_ObstacleSlowDownTimer > 0f;
         bool isSlowedDownByFlag = m_FlagBearer.HasFlag();
         
         if (isSlowedDownByObstacle)
         {
-            slowDownMultiplier *= obstacleSlowDownRunSpeedMultiplier;
+            speedMultiplier *= obstacleSlowDownRunSpeedMultiplier;
         }
         
         if (isSlowedDownByFlag)
         {
-            slowDownMultiplier *= flagSlowDownRunSpeedMultiplier;
+            speedMultiplier *= flagSlowDownRunSpeedMultiplier;
         }
         
         // only apply active slowdown (brake) when not hurt by obstacle (lose control)
         // nor flag (to avoid escaping the other player going more to the left)
         if (!isSlowedDownByObstacle && !isSlowedDownByFlag && m_BrakeIntention)
         {
-            slowDownMultiplier *= brakeSlowDownRunSpeedMultiplier;
+            speedMultiplier *= brakeSlowDownRunSpeedMultiplier;
+        }
+
+        return speedMultiplier;
+    }
+    
+    /// Compute and return speed offset from current state
+    private float GetRunSpeedOffset()
+    {
+        float speedOffset = 0f;
+
+        if (currentConveyorBelt != null)
+        {
+            speedOffset += currentConveyorBelt.ExtraSpeed;
         }
         
-        return slowDownMultiplier;
+        return speedOffset;
     }
     
     /// Sense ground slightly above or at feet level and return true iff ground is detected,
@@ -365,6 +380,17 @@ public class CharacterRun : MonoBehaviour
         outGroundInfo.tangentDir = Vector2.right;
         outGroundInfo.groundDistance = 0f;  // just because we need something for out
         return false;
+    }
+
+    private void SetGround(Collider2D ground)
+    {
+        currentGround = ground;
+
+        if (ground != null)
+        {
+            // do not fail if no special component is found, anything is possible
+            currentConveyorBelt = currentGround.GetComponent<ConveyorBelt>();
+        }
     }
     
     /// Adjust position to land on ground located at groundDistance, positive upward

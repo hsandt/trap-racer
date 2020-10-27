@@ -48,13 +48,20 @@ public class InGameCamera : MonoBehaviour
             m_CharacterTransforms.Add(characterTr);
         }
         Debug.Assert(m_CharacterTransforms.Count > 0, "No character transforms found");
-        
-        // in real game you can only change aspect ratio in the Options so setting correct zoom on start
-        // should be enough
-        AdjustZoomToShowFixedWidth();
+    }
+
+    /// Managed setup
+    public void Setup()
+    {
+        UpdateCameraPosition();
     }
 
     private void LateUpdate()
+    {
+        UpdateCameraPosition();
+    }
+
+    private void UpdateCameraPosition()
     {
 #if UNITY_EDITOR
         // in Unity it's convenient to adjust zoom when resizing the Game view
@@ -81,6 +88,7 @@ public class InGameCamera : MonoBehaviour
     private void AdjustZoomToShowFixedWidth()
     {
         // in 2D, Zoom means Orthographic Size, in 3D it would mean FoV
+        // TODO: do this with FoV for 3D camera now, if different aspect ratios give weird results
         m_Camera.orthographicSize = fixedHalfWidth / m_Camera.aspect;
     }
 

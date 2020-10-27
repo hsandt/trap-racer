@@ -2,7 +2,7 @@
     "name": "InputActions_Character",
     "maps": [
         {
-            "name": "Player",
+            "name": "PlayerGamepad",
             "id": "f9e662dc-fbc4-435f-a9ea-ff91e5782c76",
             "actions": [
                 {
@@ -163,6 +163,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "negative",
+                    "id": "8e856d04-8c6e-469d-8228-9612cf18c04f",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP1",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "positive",
                     "id": "8478d078-fe04-4f1d-8551-f1c68cb3b395",
                     "path": "",
@@ -196,6 +207,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "negative",
+                    "id": "88234514-4738-4e03-8ddb-480bbaf8bbb8",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MoveP2",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "positive",
                     "id": "f5b60a56-73e8-4d11-a56c-66d93021a558",
                     "path": "",
@@ -219,11 +241,33 @@
                 },
                 {
                     "name": "",
+                    "id": "9496ff42-e1b3-40fd-9e46-f2507c70fea1",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpP1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2ba61bbb-5067-49d4-9ce2-cdf6d0c1269d",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "JumpP2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fede859-a20f-458f-86f5-0f34de7c18ea",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "JumpP2",
                     "isComposite": false,
                     "isPartOfComposite": false

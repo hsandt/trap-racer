@@ -21,6 +21,9 @@ public class RaceManager : SingletonManager<RaceManager>
     [Tooltip("Spawn Point for character with flag (in front)")]
     public Transform spawnPointFlag;
     
+    /* Cached external references */
+    private InGameCamera m_InGameCamera;
+    
     /* State vars */
     
     /// Current state
@@ -43,6 +46,7 @@ public class RaceManager : SingletonManager<RaceManager>
     
     protected override void Init()
     {
+        m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
         RegisterRunners();
     }
@@ -53,10 +57,9 @@ public class RaceManager : SingletonManager<RaceManager>
     }
 
     private void SetupRace()
-    {
-        ObstacleManager.Instance.SetupObstacles();
+    {        
         GateManager.Instance.SetupGates();
-        SwitchManager.Instance.SetupSwitches();
+        DeviceManager.Instance.SetupDevices();
         
         foreach (var characterRun in m_Runners)
         {
@@ -66,6 +69,9 @@ public class RaceManager : SingletonManager<RaceManager>
         
         int firstRunnerIndex = RandomlySortStartPositions();
         GiveFlagToRunner(firstRunnerIndex);
+        
+        // setup camera after spawning runners to target their initial position (including on Restart)
+        m_InGameCamera.Setup();
         
         StartUI.Instance.StartCountDown();
     }
