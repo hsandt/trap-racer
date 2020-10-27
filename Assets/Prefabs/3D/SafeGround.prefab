@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3349750581456214948}
   - component: {fileID: 1835292200325191625}
   m_Layer: 8
-  m_Name: Normal
+  m_Name: SafeGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -749338713933554755, guid: 0f2c32f41def9c9409d033d81dfec111, type: 3}
+  - {fileID: 2100000, guid: 6b5003b4e1a94924ca4817dd23f08211, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,7 +199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b101d9b80aaa5724f8db8d3c334e83f8, type: 2}
+  - {fileID: 2100000, guid: 6b5003b4e1a94924ca4817dd23f08211, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
