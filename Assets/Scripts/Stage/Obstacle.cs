@@ -26,12 +26,21 @@ public class Obstacle : Device
     
     private void Start()
     {
-        // must be done after ObstacleManager.Awake/Init
+        // must be done after DeviceManager.Awake/Init
         DeviceManager.Instance.RegisterDevice(this);
     }
     
+    private void OnDestroy()
+    {
+        // when stopping the game, DeviceManager may have been destroyed first so check it
+        if (DeviceManager.Instance)
+        {
+            DeviceManager.Instance.UnregisterDevice(this);
+        }
+    }
+    
     /// Managed setup
-    /// Not called on own Start, must be called in RaceManager.SetupRace > ObstacleManager.SetupObstacles
+    /// Not called on own Start, must be called in RaceManager.SetupRace > DeviceManager.SetupObstacles
     public override void Setup()
     {
         // We assume collider and sprite renderer are enabled on Start
@@ -42,15 +51,6 @@ public class Obstacle : Device
             m_Active = true;
             m_Collider2D.enabled = true;
             m_Renderer.enabled = true;
-        }
-    }
-    
-    private void OnDestroy()
-    {
-        // when stopping the game, ObstacleManager may have been destroyed first so check it
-        if (ObstacleManager.Instance)
-        {
-            ObstacleManager.Instance.UnregisterObstacle(this);
         }
     }
 

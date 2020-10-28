@@ -443,6 +443,13 @@ public class CharacterRun : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(velocity.x, Mathf.Max(trampolineJumpSpeed, velocity.y));
     }
     
+    // Warp
+    
+    public void WarpTo(Transform targetWarperTr)
+    {
+        m_Rigidbody2D.position = targetWarperTr.position;
+    }
+    
     public void FinishRace()
     {
         m_CanControl = false;

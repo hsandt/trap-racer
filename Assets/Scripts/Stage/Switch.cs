@@ -47,15 +47,8 @@ public class Switch : Device
     {
         // must be done after SwitchManager.Awake/Init
         DeviceManager.Instance.RegisterDevice(this);
+    }
         
-        Setup();
-    }
-
-    public override void Setup()
-    {
-        SetOn(true);
-    }
-    
     private void OnDestroy()
     {
         // when stopping the game, SwitchManager may have been destroyed first so check it
@@ -63,6 +56,11 @@ public class Switch : Device
         {
             DeviceManager.Instance.UnregisterDevice(this);
         }
+    }
+
+    public override void Setup()
+    {
+        SetOn(true);
     }
 
     private void SetOn(bool value)
