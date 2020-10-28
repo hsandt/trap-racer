@@ -6,8 +6,23 @@ using CommonsHelper;
 
 public class Warper : Device
 {
+    /* External references */
+    
     [Tooltip("Target warper")]
     public Transform targetWarperTr;
+    
+    
+    /* Children references */
+
+    [Tooltip("Particle system played continuously")]
+    public ParticleSystem pfx;   
+    
+    
+    /* State */
+    
+    /// Is the warp active? It cannot be used twice.
+    private bool m_Active;
+    
     
     private void Start()
     {
@@ -26,17 +41,38 @@ public class Warper : Device
  
     public override void Setup()
     {
+        SetActive(true);
     }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var characterRun = other.GetComponentOrFail<CharacterRun>();
-        characterRun.WarpTo(targetWarperTr);
-
-        StartAnimation();
+        if (m_Active)
+        {
+            SetActive(false);
+            StartTriggerAnimation();
+            
+            var characterRun = other.GetComponentOrFail<CharacterRun>();
+            characterRun.WarpTo(targetWarperTr);
+        }
     }
 
-    private void StartAnimation()
+    private void SetActive(bool value)
+    {
+        m_Active = value;
+        
+        // pfx indicating warper can be used
+        // make sure to check for null as emission property will create an Emission Module
+        // bound to null otherwise, causing "Do not create your own module instances,
+        // get them from a ParticleSystem instance"
+        Debug.AssertFormat(pfx != null, this, "PFX not set on Warper {0}", this);
+        if (pfx != null)
+        {
+            var emissionModule = pfx.emission;
+            emissionModule.enabled = value;
+        }
+    }
+
+    private void StartTriggerAnimation()
     {
         // TODO
     }
