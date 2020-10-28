@@ -29,6 +29,9 @@ public class InGameCamera : MonoBehaviour
     [SerializeField, Tooltip("Minimum scrolling speed. Left edge blocks runners so that also affect character motion.")]
     private float minScrollingSpeed = 1f;
     public float MinScrollingSpeed => minScrollingSpeed;
+    
+    [SerializeField, Tooltip("Smooth factor applied to Vector3.Lerp")]
+    private float smoothFactor = 0.1f;
 
     /* State vars */
     
@@ -82,7 +85,8 @@ public class InGameCamera : MonoBehaviour
             newPositionX = Mathf.Max(newPositionX, position.x + minScrollingSpeed * Time.deltaTime);
         }
 
-        transform.parent.position = new Vector3(newPositionX, position.y, position.z);
+        Vector3 targetPosition = new Vector3(newPositionX, position.y, position.z);
+        transform.parent.position = Vector3.Lerp(transform.parent.position, targetPosition, smoothFactor);
     }
 
     private void AdjustZoomToShowFixedWidth()

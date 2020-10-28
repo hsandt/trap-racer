@@ -131,3 +131,4 @@ MonoBehaviour:
   fixedHalfWidth: 9
   leftEdgeMargin: 0.5
   minScrollingSpeed: 1
+  smoothFactor: 0.1
