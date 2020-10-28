@@ -3327,7 +3327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1522747535}
   m_Layer: 0
-  m_Name: SpawnPointFlag
+  m_Name: SpawnPointP2
   m_TagString: Untagged
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4922,7 +4922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1919977824}
   m_Layer: 0
-  m_Name: SpawnPointNoFlag
+  m_Name: SpawnPointP1
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -5803,6 +5803,10 @@ PrefabInstance:
       propertyPath: spawnPointFlag
       value: 
       objectReference: {fileID: 1522747535}
+    - target: {fileID: 8518030964861475720, guid: 905666dc6b325df42b97b55f3d9a453e, type: 3}
+      propertyPath: spawnPointParent
+      value: 
+      objectReference: {fileID: 1668655329}
     - target: {fileID: 8518030964861475722, guid: 905666dc6b325df42b97b55f3d9a453e, type: 3}
       propertyPath: m_Name
       value: RaceManager

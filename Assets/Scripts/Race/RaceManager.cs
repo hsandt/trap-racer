@@ -1,4 +1,5 @@
 ﻿#define DEBUG_RACE_MANAGER
+//#define SET_FLAG_ON_START
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +16,12 @@ public class RaceManager : SingletonManager<RaceManager>
     [Tooltip("Characters parent")]
     public Transform charactersParent;
     
-    [Tooltip("Spawn Point for character with no flag (behind)")]
-    public Transform spawnPointNoFlag;
-    
-    [Tooltip("Spawn Point for character with flag (in front)")]
-    public Transform spawnPointFlag;
+    [Tooltip("Spawn point parent")]
+    public Transform spawnPointParent;
     
     /* Cached external references */
     private InGameCamera m_InGameCamera;
+    
     
     /* State vars */
     
@@ -30,8 +29,10 @@ public class RaceManager : SingletonManager<RaceManager>
     private RaceState m_State = RaceState.WaitForStart;
     public RaceState State => m_State;
 
+#if SET_FLAG_ON_START
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;
+#endif
     
     /// List of finishing runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
@@ -39,6 +40,7 @@ public class RaceManager : SingletonManager<RaceManager>
     /// List of finishing runner numbers, from 1st to last
     private readonly List<int> m_RankedRunnerNumbers = new List<int>();
 
+    
     public CharacterRun GetRunner(int index)
     {
         return m_Runners[index];
@@ -47,7 +49,9 @@ public class RaceManager : SingletonManager<RaceManager>
     protected override void Init()
     {
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
+#if SET_FLAG_ON_START
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
+#endif
         RegisterRunners();
     }
 
@@ -64,18 +68,25 @@ public class RaceManager : SingletonManager<RaceManager>
         foreach (var characterRun in m_Runners)
         {
             characterRun.Setup();
+#if SET_FLAG_ON_START
             characterRun.GetComponentOrFail<FlagBearer>().Setup();
+#endif
         }
         
+#if SET_FLAG_ON_START
         int firstRunnerIndex = RandomlySortStartPositions();
         GiveFlagToRunner(firstRunnerIndex);
-        
+#else
+        SpawnRunners();
+#endif
+
         // setup camera after spawning runners to target their initial position (including on Restart)
         m_InGameCamera.Setup();
         
         StartUI.Instance.StartCountDown();
     }
 
+    // Callback for ResultUI Retry Button
     public void RestartRace()
     {
         ResultUI.Instance.Hide();
@@ -92,6 +103,16 @@ public class RaceManager : SingletonManager<RaceManager>
         }
     }
 
+    private void SpawnRunners()
+    {
+        // move character with flag ahead
+        m_Runners[0].transform.position = spawnPointParent.GetChild(0).position;
+        
+        // move character without flag behind
+        m_Runners[1].transform.position = spawnPointParent.GetChild(1).position;
+    }
+
+#if SET_FLAG_ON_START
     private int RandomlySortStartPositions()
     {
         // we get a 0-based index here (number - 1), but it's convenient to get object by index so we keep it
@@ -112,6 +133,7 @@ public class RaceManager : SingletonManager<RaceManager>
         FlagBearer flagBearer = m_Runners[index].GetComponentOrFail<FlagBearer>();
         flagBearer.BearFlag(m_FlagTr);
     }
+#endif
     
     public void NotifyCountDownOver()
     {
