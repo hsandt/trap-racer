@@ -1711,7 +1711,7 @@ MonoBehaviour:
   groundDetectionStartMargin: 0.5
   groundDetectionStopMargin: 0.1
   groundDetectionToleranceHalfRange: 0.01
-  baseRunSpeed: 7
+  baseRunSpeed: 5
   obstacleSlowDownRunSpeedMultiplier: 0.7
   flagSlowDownRunSpeedMultiplier: 0.7
   brakeSlowDownRunSpeedMultiplier: 0.7
