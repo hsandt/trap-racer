@@ -54,7 +54,7 @@ public class Gate : MonoBehaviour
 
     private void OnDestroy()
     {
-        // when stopping the game, GateManager may have been destroyed first so check it
+        // when stopping the game, DeviceManager may have been destroyed first so check it
         if (GateManager.Instance)
         {
             GateManager.Instance.UnregisterGate(this);

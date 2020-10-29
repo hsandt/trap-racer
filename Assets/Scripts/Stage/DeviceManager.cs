@@ -1,4 +1,4 @@
-﻿#define DEBUG_DEVICE_MANAGER
+﻿//#define DEBUG_DEVICE_MANAGER
 
 using System;
 using System.Collections;

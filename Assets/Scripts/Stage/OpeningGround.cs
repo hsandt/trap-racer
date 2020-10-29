@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpeningGround : MonoBehaviour
+public class OpeningGround : Device
 {
     /* Children components */
     
@@ -40,17 +40,29 @@ public class OpeningGround : MonoBehaviour
     {
         initialXLeft = m_RigidbodyPanelLeft.position.x;
         initialXRight = m_RigidbodyPanelRight.position.x;
-        
-        // temporary self-managed until I add manager for this script
-        Setup();
+    }
+    
+    private void Start()
+    {
+        // must be done after SwitchManager.Awake/Init
+        DeviceManager.Instance.RegisterDevice(this);
+    }
+    
+    private void OnDestroy()
+    {
+        // when stopping the game, DeviceManager may have been destroyed first so check it
+        if (DeviceManager.Instance)
+        {
+            DeviceManager.Instance.UnregisterDevice(this);
+        }
     }
 
     /// Managed setup (soon)
-    public void Setup()
+    public override void Setup()
     {
         m_CurrentTimeModulo = 0f;
     }
-    
+
     private void FixedUpdate()
     {
         m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;

@@ -51,7 +51,7 @@ public class Switch : Device
         
     private void OnDestroy()
     {
-        // when stopping the game, SwitchManager may have been destroyed first so check it
+        // when stopping the game, DeviceManager may have been destroyed first so check it
         if (DeviceManager.Instance)
         {
             DeviceManager.Instance.UnregisterDevice(this);
