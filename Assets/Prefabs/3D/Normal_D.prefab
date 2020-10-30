@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4849484582437392523}
   - component: {fileID: 308386519829078961}
   - component: {fileID: 4801685272610352583}
-  - component: {fileID: 2128516136284522957}
   m_Layer: 0
   m_Name: decoration3.2
   m_TagString: Untagged
@@ -163,19 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2128516136284522957
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253911397792600684}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1648968422320245004
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +173,6 @@ GameObject:
   - component: {fileID: 7823278841820815100}
   - component: {fileID: 4461224238772087062}
   - component: {fileID: 2150905102110558578}
-  - component: {fileID: 3089880712836464048}
   m_Layer: 0
   m_Name: decoration3.1
   m_TagString: Untagged
@@ -258,19 +243,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3089880712836464048
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648968422320245004}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2681722928032858398
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +564,6 @@ GameObject:
   - component: {fileID: 4543278571141685256}
   - component: {fileID: 6358314877247391287}
   - component: {fileID: 3784042759977382767}
-  - component: {fileID: 6482337351687052878}
   m_Layer: 0
   m_Name: decoration3.3
   m_TagString: Untagged
@@ -663,19 +634,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6482337351687052878
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8310821259887894569}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8358513257024881799
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +726,6 @@ GameObject:
   - component: {fileID: 2952158676116481118}
   - component: {fileID: 1612499639721377319}
   - component: {fileID: 7781498355786618611}
-  - component: {fileID: 6304659303261913717}
   m_Layer: 0
   m_Name: decoration3
   m_TagString: Untagged
@@ -839,19 +796,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6304659303261913717
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8438385250979995252}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9159835360898115146
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +807,6 @@ GameObject:
   - component: {fileID: 6040163565652130057}
   - component: {fileID: 5678202780769844861}
   - component: {fileID: 8807639655846428709}
-  - component: {fileID: 148605807841667611}
   m_Layer: 0
   m_Name: decoration3.4
   m_TagString: Untagged
@@ -934,16 +877,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &148605807841667611
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9159835360898115146}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

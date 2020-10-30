@@ -8,6 +8,7 @@ using UnityEngine;
 using CommonsHelper;
 using CommonsPattern;
 using UnityConstants;
+using UnityEngine.SceneManagement;
 
 public class RaceManager : SingletonManager<RaceManager>
 {
@@ -23,12 +24,21 @@ public class RaceManager : SingletonManager<RaceManager>
     private InGameCamera m_InGameCamera;
     
     
+    /* Parameters */
+
+    [SerializeField, Tooltip("Total number of stages available for racing")]
+    private int stageCount = 2;
+    
+    
     /* State vars */
     
     /// Current state
     private RaceState m_State = RaceState.WaitForStart;
     public RaceState State => m_State;
 
+    /// Current stage index (also index of scene)
+    private int m_CurrentStageIndex;
+    
 #if SET_FLAG_ON_START
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;
@@ -48,6 +58,11 @@ public class RaceManager : SingletonManager<RaceManager>
     
     protected override void Init()
     {
+        // usually we'd have RaceManager to be DontDestroyOnLoad to preserve the stage index and increment it over races
+        // but we currently use a self-contained scene system with no DontDestroyOnLoad, so on new race start,
+        // a new RaceManager appears and auto-detects the stage index from the build index of the current scene
+        m_CurrentStageIndex = SceneManager.GetActiveScene().buildIndex;
+            
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
 #if SET_FLAG_ON_START
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
@@ -84,14 +99,6 @@ public class RaceManager : SingletonManager<RaceManager>
         m_InGameCamera.Setup();
         
         StartUI.Instance.StartCountDown();
-    }
-
-    // Callback for ResultUI Retry Button
-    public void RestartRace()
-    {
-        ResultUI.Instance.Hide();
-
-        SetupRace();
     }
 
     private void RegisterRunners()
@@ -184,7 +191,23 @@ public class RaceManager : SingletonManager<RaceManager>
         Debug.LogFormat(this, "[RaceManager] Show Result Panel");
 #endif
         Debug.LogFormat("Winner: Player #{0}", m_RankedRunnerNumbers[0]);
-        ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0]);
+        ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0], m_CurrentStageIndex >= stageCount - 1);
+    }
+
+    /// Callback for ResultUI Retry Button
+    public void RestartRace()
+    {
+        ResultUI.Instance.Hide();
+
+        SetupRace();
+    }
+    
+    /// Callback for ResultUI Next Button
+    public void StartNextRace()
+    {
+        // if at last stage, restart from stage 1
+        int nextStageIndex = (m_CurrentStageIndex + 1) % stageCount;
+        SceneManager.LoadScene(nextStageIndex);
     }
     
 #if DEBUG_RACE_MANAGER && (UNITY_EDITOR || DEVELOPMENT_BUILD)

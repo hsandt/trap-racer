@@ -13,15 +13,27 @@ public class ResultUI : SingletonManager<ResultUI>
     [SerializeField, Tooltip("Victory message string format. {0} will be replaced by player number.")]
     private string victoryTextFormat = "Player {0} wins!";
     
+    [SerializeField, Tooltip("Next race button text when there are next stages left.")]
+    private string nextRaceTextString = "Next race";
+    
+    [SerializeField, Tooltip("Next race button text when there are no stages left so we restart from stage 1 (index 0).")]
+    private string firstRaceTextString = "Restart from stage 1";
+    
+    
     /* Child references */
     
     [Tooltip("Victory text component")]
     public TextMeshProUGUI victoryText;
     
+    [Tooltip("Next race button text component")]
+    public TextMeshProUGUI nextRaceText;
+    
+    
     /* Sibling components */
 
     private Canvas m_Canvas;
 
+    
     protected override void Init()
     {
         m_Canvas = this.GetComponentOrFail<Canvas>();
@@ -30,10 +42,11 @@ public class ResultUI : SingletonManager<ResultUI>
         m_Canvas.enabled = false;
     }
     
-    public void ShowResult(int winnerNumber)
+    public void ShowResult(int winnerNumber, bool wasLastRace)
     {
         m_Canvas.enabled = true;
         victoryText.text = string.Format(victoryTextFormat, winnerNumber);
+        nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : victoryTextFormat, winnerNumber);
     }
     
     public void Hide()
