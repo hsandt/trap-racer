@@ -55,12 +55,25 @@ public class InGameCamera : MonoBehaviour
     /// Managed setup
     public void Setup()
     {
-        UpdateCameraPosition();
+        // important to warp without clamping nor warping to get correct position, esp. on restart
+        WarpCameraToTargetPosition();
     }
 
     private void LateUpdate()
     {
         UpdateCameraPosition();
+    }
+
+    private Vector3 ComputeTargetPosition()
+    {
+        float targetX = m_CharacterTransforms.Average(tr => tr.position.x);
+        Vector3 position = transform.parent.position;
+        return new Vector3(targetX, position.y, position.z);
+    }
+
+    private void WarpCameraToTargetPosition()
+    {
+        transform.parent.position = ComputeTargetPosition();
     }
 
     private void UpdateCameraPosition()
@@ -70,7 +83,7 @@ public class InGameCamera : MonoBehaviour
         AdjustZoomToShowFixedWidth();
 #endif
         // center position between all the characters on X, but preserve Y for stability
-        float newPositionX = m_CharacterTransforms.Average(tr => tr.position.x);
+        Vector3 targetPosition = ComputeTargetPosition();
 
         // Camera is now placed on anchor so we can add an offset on X (backward) to make sure we keep the characters
         // in sight despite using a perspective angle (tilted forward)
@@ -79,12 +92,18 @@ public class InGameCamera : MonoBehaviour
         
         if (RaceManager.Instance.State == RaceState.Started)
         {
+            if (targetPosition.x < position.x - 1f)
+            {
+                Debug.LogWarningFormat("[InGameCamera] Target position X {0} is too much behind current position X {1}," +
+                                       "it will still be clamped forward and runners may warp suddenly forward!",
+                    targetPosition.x, position.x);
+            }
+            
             // if during the race, runners are going too slow, apply min scrolling speed so if they continue they'll hit the left edge
             // and are forced to move at minScrollingSpeed too
-            newPositionX = Mathf.Max(newPositionX, position.x + minScrollingSpeed * Time.deltaTime);
+            targetPosition.x = Mathf.Max(targetPosition.x, position.x + minScrollingSpeed * Time.deltaTime);
         }
 
-        Vector3 targetPosition = new Vector3(newPositionX, position.y, position.z);
         transform.parent.position = Vector3.Lerp(transform.parent.position, targetPosition, smoothFactor);
     }
 
