@@ -317,11 +317,13 @@ public class CharacterRun : MonoBehaviour
     {
         float speedOffset = 0f;
 
-        if (currentConveyorBelt != null)
-        {
-            speedOffset += currentConveyorBelt.ExtraSpeed;
-        }
-        
+        // Do nothing... we used to apply conveyor belt speed offset here,
+        // but realized it was more logical to add it along moving ground contribution
+        // (and subtract it to get local speed back) since it really represents ground moving below
+        // character, just not with a rigidbody.
+        // Separating it from the intentional speed will also prevent side effects like clamping at max speed
+        // too early when running on a SpeedUp conveyor belt. 
+
         return speedOffset;
     }
     
@@ -421,19 +423,39 @@ public class CharacterRun : MonoBehaviour
 
         // add any ground velocity to get world velocity and avoid falling into / rising above moving platforms
         // nor running past them at the usual speed as if nothing happened when they have velocity along X
-        Vector2 worldVelocity = localVelocity;
+        m_Rigidbody2D.velocity = localVelocity + ComputeLocalToWorldVelocityContribution();
+    }
+
+    private Vector2 ComputeLocalVelocity()
+    {
+        return m_Rigidbody2D.velocity - ComputeLocalToWorldVelocityContribution();
+    }
+
+    private Vector2 ComputeLocalToWorldVelocityContribution()
+    {
+        Vector2 localToWorldVelocity = Vector2.zero;
+        
         if (currentMovingGroundBody != null)
         {
-            worldVelocity += currentMovingGroundBody.velocity;
+            localToWorldVelocity += currentMovingGroundBody.velocity;
         }
 
-        m_Rigidbody2D.velocity = worldVelocity;
+        if (currentConveyorBelt != null)
+        {
+            // not a rigidbody but in real world it would be a moving ground, so consider it a contribution to world
+            // velocity
+            localToWorldVelocity += currentConveyorBelt.ExtraSpeed * Vector2.right;
+        }
+
+        return localToWorldVelocity;
     }
 
     private void UpdateAnimator()
     {
         // to simplify we don't rotate character on slope and just keep using speed X for animation speed
-        meshAnimator.SetFloat(SpeedX, m_Rigidbody2D.velocity.x);
+        // however we take moving ground / conveyor belts into account so anim matches character's own velocity
+        Vector2 localVelocity = ComputeLocalVelocity();
+        meshAnimator.SetFloat(SpeedX, localVelocity.x);
         meshAnimator.SetBool(Airborne, IsAirborne());
         meshAnimator.SetBool(Jumping, m_State == CharacterState.Jump);
     }
