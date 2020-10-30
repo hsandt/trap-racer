@@ -154,7 +154,7 @@
                 {
                     "name": "negative",
                     "id": "cb6ae392-c33a-4000-b670-4fbfce22085b",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -238,6 +238,17 @@
                     "action": "MoveP2",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "1fa12f3c-9b61-463a-b760-51bb88d1811e",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpP1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
