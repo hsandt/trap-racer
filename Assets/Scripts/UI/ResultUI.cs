@@ -46,7 +46,7 @@ public class ResultUI : SingletonManager<ResultUI>
     {
         m_Canvas.enabled = true;
         victoryText.text = string.Format(victoryTextFormat, winnerNumber);
-        nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : victoryTextFormat, winnerNumber);
+        nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
     }
     
     public void Hide()
