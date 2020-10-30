@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e4e016b20a8124897d39370ab238e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleSwitchClip: {fileID: 8300000, guid: 8a54f3819d4ea02478d9c6bd2bee2607, type: 3}
+  toggleSwitchClip: {fileID: 8300000, guid: 55efc6b368b5d144ca4bf8edbd3b5d31, type: 3}
   color: 0
 --- !u!1 &767516060913221190
 GameObject:
