@@ -85,7 +85,14 @@ public class MovingPlatform : Device
         m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;
         float normalizedT = m_CurrentTimeModulo / movePeriod;
         Vector2 positionOnPath = ComputePositionOnPath(normalizedT);
-        m_RigidbodyPlatform.MovePosition(positionOnPath);
+        
+        // deduce velocity from target position this frame
+        // do not use MovePosition which does not update velocity, preventing us from doing relative velocity
+        // calculation and moving ground contribution calculation in CharacterRun
+        // in counterpart we get some small value division which is not very precise, but fortunately errors are
+        // compensated by moving faster if needed next frame to catch up the target position
+        Vector2 velocity = (positionOnPath - m_RigidbodyPlatform.position) / Time.deltaTime;
+        m_RigidbodyPlatform.velocity = velocity;
     }
     
     private Vector2 ComputePositionOnPath(float normalizedT)

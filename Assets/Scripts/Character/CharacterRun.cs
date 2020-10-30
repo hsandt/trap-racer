@@ -103,6 +103,9 @@ public class CharacterRun : MonoBehaviour
     /// Current ground collider, if any
     private Collider2D currentGround;
     
+    /// Current moving ground rigidbody, if any
+    private Rigidbody2D currentMovingGroundBody;
+    
     /// Current conveyor belt, if any (can only be component of currentGround)
     private ConveyorBelt currentConveyorBelt;
     
@@ -237,8 +240,7 @@ public class CharacterRun : MonoBehaviour
         {
             // run following current slope (magnitude is preserved which means you lose some speed X on slopes,
             // even descending ones; we can add a slope factor on speed, not accel, to counter that)
-            float runSpeed = ComputeRunSpeed();
-            m_Rigidbody2D.velocity = runSpeed * tangentDir;
+            SetVelocityOnGround();
         }
         else  // airborne
         {
@@ -390,6 +392,7 @@ public class CharacterRun : MonoBehaviour
         {
             // do not fail if no special component is found, anything is possible
             currentConveyorBelt = currentGround.GetComponent<ConveyorBelt>();
+            currentMovingGroundBody = currentGround.GetComponent<Rigidbody2D>();
         }
     }
     
@@ -397,16 +400,34 @@ public class CharacterRun : MonoBehaviour
     /// This method does not set the state to Run, do it separately
     private void Land(float groundDistance)
     {
+        Debug.Assert(currentGround != null, "Land should be called *after* setting current ground");
+        
         // after MovePosition, physics velocity is not normally applied,
         //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
         m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
                                    new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, groundDistance));
+        
         // normally no need to update velocity, it will be ignored this frame, and next frame FixedUpdate will set it
         // but if you fear exploit of jumping immediately after landing on slope to preserve speed X (assuming
         // input is processed before FixedUpdate, which is easy to fix by only setting intention in OnJump and
         // processing it in FixedUpdate), then set it now as below
-        float runSpeed = ComputeRunSpeed();
-        m_Rigidbody2D.velocity = runSpeed * tangentDir;
+        SetVelocityOnGround();
+    }
+
+    private void SetVelocityOnGround()
+    {
+        // local velocity is decided by run speed
+        Vector2 localVelocity = ComputeRunSpeed() * tangentDir;
+
+        // add any ground velocity to get world velocity and avoid falling into / rising above moving platforms
+        // nor running past them at the usual speed as if nothing happened when they have velocity along X
+        Vector2 worldVelocity = localVelocity;
+        if (currentMovingGroundBody != null)
+        {
+            worldVelocity += currentMovingGroundBody.velocity;
+        }
+
+        m_Rigidbody2D.velocity = worldVelocity;
     }
 
     private void UpdateAnimator()
