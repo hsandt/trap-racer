@@ -157,7 +157,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "",
                     "action": "MoveP1",
                     "isComposite": false,
                     "isPartOfComposite": true
