@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 24f41dd3f48c95c4c9aa08617b326e0f
+guid: f1a56610cf300e747bdeea16a001232a
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -11,7 +11,10 @@ TrueTypeFontImporter:
   fontNames:
   - Teko
   fallbackFontReferences:
-  - {fileID: 12800000, guid: f1a56610cf300e747bdeea16a001232a, type: 3}
+  - {fileID: 12800000, guid: db6e18f177e68b641a156e5a5d99b03f, type: 3}
+  - {fileID: 12800000, guid: 9eb8e0d2642b2e84892b2c0d663b36c5, type: 3}
+  - {fileID: 12800000, guid: 24f41dd3f48c95c4c9aa08617b326e0f, type: 3}
+  - {fileID: 12800000, guid: 89cd9de96e4bd584eadab7145aa0939e, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
