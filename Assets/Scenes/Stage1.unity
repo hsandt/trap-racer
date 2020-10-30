@@ -2787,6 +2787,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2446
       objectReference: {fileID: 0}
+    - target: {fileID: 27685147085377213, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 27685147772270290, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
       propertyPath: m_Name
       value: Background.1
@@ -2958,6 +2962,14 @@ PrefabInstance:
     - target: {fileID: 27685148629057753, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
       propertyPath: m_LocalPosition.z
       value: -12768
+      objectReference: {fileID: 0}
+    - target: {fileID: 75394806391179919, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932952798710446640, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8097289503051144100, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
       propertyPath: Side.x
