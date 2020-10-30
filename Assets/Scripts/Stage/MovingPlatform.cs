@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 
 using CommonsHelper;
-using UnityEditor.U2D;
-using UnityEngine.ProBuilder;
 
 public class MovingPlatform : Device
 {
