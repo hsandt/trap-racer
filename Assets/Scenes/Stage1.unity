@@ -2959,6 +2959,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -12768
       objectReference: {fileID: 0}
+    - target: {fileID: 8097289503051144100, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: Side.x
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8097289503051144100, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: Side.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8097289503051144100, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
+      propertyPath: MaxWidthCloud
+      value: 130
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5649b71f3cbda948a0c14ea6d162c17, type: 3}
 --- !u!4 &525450213 stripped
