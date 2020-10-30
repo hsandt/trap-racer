@@ -1,4 +1,4 @@
-﻿#define DEBUG_GATE
+﻿//#define DEBUG_GATE
 
 using System.Collections;
 using System.Collections.Generic;

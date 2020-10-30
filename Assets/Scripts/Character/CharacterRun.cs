@@ -1,4 +1,4 @@
-﻿#define DEBUG_CHARACTER_RUN
+﻿//#define DEBUG_CHARACTER_RUN
 
 using System.Collections;
 using System.Collections.Generic;

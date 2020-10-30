@@ -1,4 +1,4 @@
-#define DEBUG_GATE_MANAGER
+//#define DEBUG_GATE_MANAGER
 
 using System;
 using System.Collections;

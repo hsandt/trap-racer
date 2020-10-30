@@ -1,4 +1,4 @@
-﻿#define DEBUG_SWITCH
+﻿//#define DEBUG_SWITCH
 
 using System.Collections;
 using System.Collections.Generic;

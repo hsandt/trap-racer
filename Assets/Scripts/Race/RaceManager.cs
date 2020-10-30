@@ -1,4 +1,4 @@
-﻿#define DEBUG_RACE_MANAGER
+﻿//#define DEBUG_RACE_MANAGER
 //#define SET_FLAG_ON_START
 
 using System.Collections;
