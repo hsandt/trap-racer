@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7569173604254700428}
-  - component: {fileID: 5207181734316592084}
   m_Layer: 8
   m_Name: RotatingPart
   m_TagString: Untagged
@@ -35,32 +34,6 @@ Transform:
   m_Father: {fileID: 39013821921957904}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5207181734316592084
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135299884227266349}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 6.4, y: 0.3}
-  m_EdgeRadius: 0
 --- !u!1 &847040057843729066
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +43,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39013821921957904}
-  m_Layer: 0
+  - component: {fileID: 747582672171434436}
+  m_Layer: 8
   m_Name: seesaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,6 +67,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &747582672171434436
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847040057843729066}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -2.5, y: 1}
+  - {x: -4.3, y: -0.6}
+  - {x: 4.3, y: -0.6}
+  - {x: 2.8, y: 1}
+  - {x: -2.55, y: 1}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1195681409042015089
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +103,7 @@ GameObject:
   - component: {fileID: 8508905931420858197}
   - component: {fileID: 2839728977544096584}
   - component: {fileID: 2586392085229725654}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: side2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +184,7 @@ GameObject:
   - component: {fileID: 8550622483803366318}
   - component: {fileID: 1926993774586242104}
   - component: {fileID: 6383016383347980813}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: side
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +265,7 @@ GameObject:
   - component: {fileID: 4170278398121654652}
   - component: {fileID: 5634782644596331266}
   - component: {fileID: 6669712784007706112}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +346,7 @@ GameObject:
   - component: {fileID: 1423998991608235185}
   - component: {fileID: 4334819655834205177}
   - component: {fileID: 7415938402015306319}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,7 +427,7 @@ GameObject:
   - component: {fileID: 3583570615886628241}
   - component: {fileID: 9196033070764726801}
   - component: {fileID: 5453362959080240209}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: side2_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

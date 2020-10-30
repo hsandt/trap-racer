@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4932391747790120468}
   - component: {fileID: 6165583530554312639}
   - component: {fileID: 8025697089089921612}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: giar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 6068800807012153189}
   - component: {fileID: 8814185424400556500}
   - component: {fileID: 6433954256187438687}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 1752129378189713082}
   - component: {fileID: 8354561108988227918}
   - component: {fileID: 27530494675614677}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
