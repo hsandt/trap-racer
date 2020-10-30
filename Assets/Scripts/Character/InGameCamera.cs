@@ -42,10 +42,9 @@ public class InGameCamera : MonoBehaviour
     private void Awake()
     {
         m_Camera = this.GetComponentOrFail<Camera>();
-    }
-    
-    private void Start()
-    {
+        
+        // register runners earlier than Start as RaceManager will require camera to be ready during Setup
+        // or use RaceManager.GetRunner()
         foreach (Transform characterTr in charactersParent)
         {
             m_CharacterTransforms.Add(characterTr);
