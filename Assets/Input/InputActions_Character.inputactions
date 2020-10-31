@@ -185,6 +185,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "negative",
+                    "id": "b2bc2b86-152c-48be-be82-3073556a0144",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard;KeyboardArrows",
+                    "action": "MoveP1",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "positive",
                     "id": "8478d078-fe04-4f1d-8551-f1c68cb3b395",
                     "path": "",
@@ -265,6 +276,17 @@
                     "name": "",
                     "id": "9496ff42-e1b3-40fd-9e46-f2507c70fea1",
                     "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "JumpP1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ded3ac03-06fb-4676-9e59-8e91b1f9ca0d",
+                    "path": "<Keyboard>/6",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
