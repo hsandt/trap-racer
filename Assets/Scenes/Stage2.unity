@@ -11783,10 +11783,6 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 4276856247951046065, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: firstRaceTextString
-      value: Restart stage 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4276856247951046076, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
       propertyPath: m_Name
       value: ResultCanvas
