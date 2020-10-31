@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 74686249190714745}
   - component: {fileID: 1663520914118829463}
   m_Layer: 8
-  m_Name: speedup
+  m_Name: ConveyorBelt_SpeedUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 6431432876487536095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_Children:
   - {fileID: 2786295226196541701}
   - {fileID: 8795024564835641003}

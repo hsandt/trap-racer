@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 1359612101607716779}
   - component: {fileID: 3194218358744144173}
   m_Layer: 8
-  m_Name: speeddown 1
+  m_Name: ConveyorBelt_SpeedDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ Transform:
   m_GameObject: {fileID: 5108158317974127655}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_Children:
   - {fileID: 4109587934151125245}
   - {fileID: 7326491223611150163}
