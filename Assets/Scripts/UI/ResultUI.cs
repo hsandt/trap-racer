@@ -38,19 +38,21 @@ public class ResultUI : SingletonManager<ResultUI>
     {
         m_Canvas = this.GetComponentOrFail<Canvas>();
 
-        // hide until needed (done on Awake to avoid re-hiding after race start on Start)
-        m_Canvas.enabled = false;
+        // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)
+        // do not only disable canvas, we must prevent any interactions
+        Deactivate();
+    }
+    
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
     
     public void ShowResult(int winnerNumber, bool wasLastRace)
     {
-        m_Canvas.enabled = true;
+        gameObject.SetActive(true);
         victoryText.text = string.Format(victoryTextFormat, winnerNumber);
         nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
     }
-    
-    public void Hide()
-    {
-        m_Canvas.enabled = false;
-    }
+   
 }

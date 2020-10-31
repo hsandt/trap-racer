@@ -197,7 +197,9 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Callback for ResultUI Retry Button
     public void RestartRace()
     {
-        ResultUI.Instance.Hide();
+        // important to completely deactivate the Result UI canvas to prevent using it even when hidden
+        // (if only disabling canvas, we can still press the last selection with gamepad Confirm input to Restart again!)
+        ResultUI.Instance.Deactivate();
 
         SetupRace();
     }

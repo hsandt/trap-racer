@@ -35,19 +35,25 @@ public class StartUI : SingletonManager<StartUI>
     {
         m_Canvas = this.GetComponentOrFail<Canvas>();
 
-        // hide until needed (done on Awake to avoid re-hiding after race start on Start)
-        m_Canvas.enabled = false;
+        // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)
+        // do not only disable canvas, we must prevent any interactions
+        Deactivate();
+    }
+    
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 
     public void StartCountDown()
     {
+        // need to be active to start coroutine (and to display te
+        gameObject.SetActive(true);
         StartCoroutine(ShowCountDownAsync());
     }
 
     private IEnumerator ShowCountDownAsync()
     {
-        m_Canvas.enabled = true;
-
         for (int i = countDownStartValue; i >= 1; --i)
         {
             countDownText.text = string.Format(countDownTextFormat, i);
@@ -60,6 +66,6 @@ public class StartUI : SingletonManager<StartUI>
 
         // still continue the coroutine, we need to hide the last text after some time
         yield return new WaitForSeconds(countDown0TextDuration);
-        m_Canvas.enabled = false;
+        Deactivate();
     }
 }
