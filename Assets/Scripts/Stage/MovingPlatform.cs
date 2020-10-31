@@ -28,8 +28,11 @@ public class MovingPlatform : Device
     
     /* Parameters defined in inspector */
     
-    [SerializeField, Tooltip("Move cycle period")]
+    [SerializeField, Tooltip("Move cycle period (s)")]
     private float movePeriod = 4f;
+    
+    [SerializeField, Tooltip("Move cycle offset (s)")]
+    private float moveCycleOffset = 0f;
     
     
     /* State */
@@ -77,7 +80,7 @@ public class MovingPlatform : Device
     /// Managed setup
     public override void Setup()
     {
-        m_CurrentTimeModulo = 0f;
+        m_CurrentTimeModulo = moveCycleOffset;
     }
 
     private void FixedUpdate()

@@ -168,7 +168,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-133524
+  m_Name: pb_Mesh-512636
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1883753691825074237, guid: bc6f894a5390d170fbd452a3152c419d, type: 3}
       propertyPath: m_Name
-      value: Gear_Square
+      value: RotatingGear
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc6f894a5390d170fbd452a3152c419d, type: 3}
@@ -1440,7 +1440,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-133510
+  m_Name: pb_Mesh-512622
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1836,7 +1836,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-132912
+  m_Name: pb_Mesh-512024
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2000,7 +2000,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-132812
+  m_Name: pb_Mesh-511924
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2169,7 +2169,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-132922
+  m_Name: pb_Mesh-512034
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3675,7 +3675,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-132994
+  m_Name: pb_Mesh-512106
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6031,42 +6031,6 @@ PrefabInstance:
     - target: {fileID: 8307512418203887275, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinBehavior
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_Id
-      value: 4145d108-47bb-4e30-b260-fe7fe19916ba
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_Name
-      value: Join
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_UseReference
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Reference
-      value: 
-      objectReference: {fileID: 8326894406291069146, guid: 3efd3f7f218393042adc9a9a42519300, type: 3}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 8239fa5a-bd60-499e-90f1-3ecffc601874
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[0].m_Action
-      value: Join
-      objectReference: {fileID: 0}
-    - target: {fileID: 9143736467412005533, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
-      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[0].m_Path
-      value: <Gamepad>/start
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
