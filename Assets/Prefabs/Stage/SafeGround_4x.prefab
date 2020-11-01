@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3349750581456214948}
   - component: {fileID: 1835292200325191625}
   m_Layer: 8
-  m_Name: SafeGround
+  m_Name: SafeGround_4x
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.15, y: 0.4}
+  m_Size: {x: 4, y: 0.4}
   m_EdgeRadius: 0
 --- !u!1 &5072045967952213290
 GameObject:
@@ -85,8 +85,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5072045967952213290}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.16913594, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0, y: -0.0308641, z: 0}
+  m_LocalScale: {x: 0.9638554, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3349750581456214948}
   m_RootOrder: 1
@@ -166,8 +166,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7884287333168354392}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0, y: -0.2, z: 0}
+  m_LocalScale: {x: 0.96385545, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3349750581456214948}
   m_RootOrder: 0
@@ -199,7 +199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6b5003b4e1a94924ca4817dd23f08211, type: 2}
+  - {fileID: 2100000, guid: 8be45673c7bddde619511f5423bde946, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

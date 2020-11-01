@@ -137,6 +137,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "CheatForward10m",
+                    "type": "Button",
+                    "id": "2d7ee1d9-e40c-4f3b-babe-f5f59de964a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -313,6 +321,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "JumpP2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "492f0663-b384-4583-b4e8-9fdc8a9d656e",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CheatForward10m",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
