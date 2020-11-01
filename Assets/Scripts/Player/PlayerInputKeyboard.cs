@@ -63,8 +63,9 @@ public class PlayerInputKeyboard : MonoBehaviour
     /// Cheat Input callback: Move all characters by 10m backward
     private void OnCheatBackward10m(InputValue value)
     {
+        // warp all character to Runner 1 pos X - 10m to avoid deepening gap between runners
         runner1.transform.position -= 10 * Vector3.right;
-        runner2.transform.position -= 10 * Vector3.right;
+        runner2.transform.position = new Vector3(runner1.transform.position.x, runner2.transform.position.y, runner2.transform.position.z);
         
         // warp immediately backward, normal update will prevent going backward
         // if you add more stuff to setup, consider making WarpCameraToTargetPosition public and calling that instead
@@ -74,8 +75,9 @@ public class PlayerInputKeyboard : MonoBehaviour
     /// Cheat Input callback: Move all characters by 10m forward
     private void OnCheatForward10m(InputValue value)
     {
+        // same as above, but forward
         runner1.transform.position += 10 * Vector3.right;
-        runner2.transform.position += 10 * Vector3.right;
+        runner2.transform.position = new Vector3(runner1.transform.position.x, runner2.transform.position.y, runner2.transform.position.z);
     }
 #endif
 }
