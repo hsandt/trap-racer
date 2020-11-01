@@ -2460,7 +2460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 69704835504616103, guid: 6f96ea45f51bb8147b838609189a001e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 47
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 69704835504616103, guid: 6f96ea45f51bb8147b838609189a001e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -12804,6 +12804,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 98162155}
     m_Modifications:
+    - target: {fileID: 4720805111096584591, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4720805111169234274, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
       propertyPath: m_Name
       value: StartCanvas
@@ -12903,6 +12907,14 @@ PrefabInstance:
     - target: {fileID: 4720805111169234287, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4720805111377465079, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4720805111377465079, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
