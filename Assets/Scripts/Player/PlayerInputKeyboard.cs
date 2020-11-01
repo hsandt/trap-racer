@@ -46,4 +46,13 @@ public class PlayerInputKeyboard : MonoBehaviour
     {
         runner2.OnMove(value.Get<float>());
     }
+    
+#if UNITY_EDITOR
+    /// Cheat Input callback: Move all characters by 10m forward
+    private void OnCheatForward10m(InputValue value)
+    {
+        runner1.transform.position += 10 * Vector3.right;
+        runner2.transform.position += 10 * Vector3.right;
+    }
+#endif
 }
