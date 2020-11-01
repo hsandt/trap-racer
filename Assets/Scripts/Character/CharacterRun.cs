@@ -434,6 +434,8 @@ public class CharacterRun : MonoBehaviour
         return m_Rigidbody2D.velocity - ComputeLocalToWorldVelocityContribution();
     }
 
+    /// Compute moving ground velocity contribution (but we call it local to world because technically conveyor belt
+    /// is not a moving object)
     private Vector2 ComputeLocalToWorldVelocityContribution()
     {
         Vector2 localToWorldVelocity = Vector2.zero;
@@ -514,9 +516,13 @@ public class CharacterRun : MonoBehaviour
         if (m_CanControl && m_State == CharacterState.Run)
         {
             m_State = CharacterState.Jump;
-            // add jump velocity Y to current velocity (this means you'll jump higher from an ascending slope
-            // or a platform moving upward)
-            float resultingJumpSpeed = Mathf.Max(minResultingJumpSpeed, m_Rigidbody2D.velocity.y + jumpSpeed);
+            // add moving ground velocity Y to jump speed, but NOT full rigidbody velocity from last frame
+            // (this means you'll jump higher from platform moving upward, but not from an ascending slope to avoid
+            // crazy jumps from stairs)
+            float externalVelocityYContribution = ComputeLocalToWorldVelocityContribution().y;
+            // if on a platform moving fast downward, velocity y may be negative and it's unsatisfying, so clamp
+            // jump speed to some minimum
+            float resultingJumpSpeed = Mathf.Max(minResultingJumpSpeed, externalVelocityYContribution + jumpSpeed);
             m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, resultingJumpSpeed);
 
 #if DEBUG_CHARACTER_RUN
