@@ -144,6 +144,9 @@ public class MovingPlatform : Device
         // path is cyclic for segment count = point count
         int segmentCount = polygonalPath.Count;
         
+        // split equal durations between each segments
+        // if segments have different lengths, move speed will not be constant, but always equal to
+        // (segment length / duration). However, this is convenient to add breaks (segment where start = end)
         float pathT = normalizedT * segmentCount;
         int keyIndex = Mathf.FloorToInt(pathT);
             

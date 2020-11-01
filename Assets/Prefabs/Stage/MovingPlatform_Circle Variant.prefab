@@ -23,22 +23,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1926660533700218623, guid: dc645c8003e7a1e64a19ded9fc2122ee, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1926660533700218623, guid: dc645c8003e7a1e64a19ded9fc2122ee, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994844881192000203, guid: dc645c8003e7a1e64a19ded9fc2122ee, type: 3}
-      propertyPath: m_Size.y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1994844881192000203, guid: dc645c8003e7a1e64a19ded9fc2122ee, type: 3}
-      propertyPath: m_Size.x
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 7531110858595404455, guid: dc645c8003e7a1e64a19ded9fc2122ee, type: 3}
       propertyPath: m_Name
       value: MovingPlatform_Circle Variant
