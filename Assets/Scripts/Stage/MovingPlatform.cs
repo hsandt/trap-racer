@@ -121,7 +121,7 @@ public class MovingPlatform : Device
             // note that we don't support closed Bezier curves yet, so make sure to design the Bezier path
             // so the end point = start point, or be close enough to avoid platform suddenly warping when normalizedT = 0.999 -> 0
             // we also don't support relative Bezier paths, so just return position without adding transform.position
-            return movePathBezier.Path.InterpolatePathByNormalizedParameter(normalizedT);
+            return movePathBezier.InterpolatePathByNormalizedParameter(normalizedT);
         }
         
         return (Vector2)transform.position;
