@@ -511,6 +511,8 @@ public class CharacterRun : MonoBehaviour
         if (m_CanControl && m_State == CharacterState.Run)
         {
             m_State = CharacterState.Jump;
+            // add jump velocity Y to current velocity (this means you'll jump higher from an ascending slope
+            // or a platform moving upward)
             m_Rigidbody2D.velocity += jumpSpeed * Vector2.up;
             
 #if DEBUG_CHARACTER_RUN
