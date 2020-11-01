@@ -13,6 +13,9 @@ public class ResultUI : SingletonManager<ResultUI>
     [SerializeField, Tooltip("Victory message string format. {0} will be replaced by player number.")]
     private string victoryTextFormat = "Player {0} wins!";
     
+    [SerializeField, Tooltip("Draw message string format.")]
+    private string drawTextFormat = "Draw!";
+    
     [SerializeField, Tooltip("Next race button text when there are next stages left.")]
     private string nextRaceTextString = "Next race";
     
@@ -51,7 +54,14 @@ public class ResultUI : SingletonManager<ResultUI>
     public void ShowResult(int winnerNumber, bool wasLastRace)
     {
         gameObject.SetActive(true);
-        victoryText.text = string.Format(victoryTextFormat, winnerNumber);
+        if (winnerNumber > 0)
+        {
+            victoryText.text = string.Format(victoryTextFormat, winnerNumber);
+        }
+        else
+        {
+            victoryText.text = string.Format(drawTextFormat, winnerNumber);
+        }
         nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
     }
    

@@ -56,6 +56,16 @@ public class Obstacle : Device
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        // currently we don't check for m_Active, counting on collider to be disabled to avoid this obstacle
+        //   to work twice
+        // this has an interesting effect: if two runners crash into the obstacle at the exact same frame
+        //   (possible since they start at the same X and may run in sync for a moment), BOTH runners are slowed down
+        //   as this will be called twice, but the second time it will already be inactive (but the collisions have
+        //   already been solved for this frame, so too late to disable collider)
+        // this is fairer as only slowing down one runner (which is undeterministic as we don't know in which order
+        //  this callback is called for other colliders), so we kept it
+        // an alternative is to keep the collision active for a short time, which is more likely to happen and be noticed
+        //  by the player as the exact same frame
         var characterRun = other.collider.GetComponentOrFail<CharacterRun>();
         characterRun.CrashIntoObstacle();
 

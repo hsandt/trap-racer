@@ -12,6 +12,15 @@ using UnityEngine.SceneManagement;
 
 public class RaceManager : SingletonManager<RaceManager>
 {
+    public struct FinishInfo
+    {
+        /// Player number (1 or 2).
+        public int playerNumber;
+        
+        /// Finish time (s)
+        public float time;
+    }
+    
     /* External references */
     
     [Tooltip("Characters parent")]
@@ -43,13 +52,18 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;
 #endif
+
+    /// Current time since race start
+    private float m_RaceTime;
     
     /// List of finishing runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
 
-    /// List of finishing runner numbers, from 1st to last
-    private readonly List<int> m_RankedRunnerNumbers = new List<int>();
+    /// List of finishing runner info, from 1st to last
+    private readonly List<FinishInfo> m_FinishInfoList = new List<FinishInfo>();
 
+    /// Winning player number, 0 if draw
+    private int winnerNumber;
     
     public CharacterRun GetRunner(int index)
     {
@@ -73,6 +87,14 @@ public class RaceManager : SingletonManager<RaceManager>
     private void Start()
     {
         SetupRace();
+    }
+
+    private void FixedUpdate()
+    {
+        if (m_State == RaceState.Started)
+        {
+            m_RaceTime += Time.deltaTime;
+        }
     }
 
     private void SetupRace()
@@ -150,6 +172,7 @@ public class RaceManager : SingletonManager<RaceManager>
     private void StartRace()
     {
         m_State = RaceState.Started;
+        m_RaceTime = 0f;
         
         foreach (var characterRun in m_Runners)
         {
@@ -159,11 +182,16 @@ public class RaceManager : SingletonManager<RaceManager>
     
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
-        m_RankedRunnerNumbers.Add(characterRun.PlayerNumber);
+        // Build finish info (rank is not part of it, the index in the list gives it)
+        FinishInfo finishInfo;
+        finishInfo.playerNumber = characterRun.PlayerNumber;
+        finishInfo.time = m_RaceTime;
+        
+        m_FinishInfoList.Add(finishInfo);
         
         // if this was the last runner in the race, finish the race now
         // when adding Character/RunnerManager, replace hardcoded 2 with RunnerManager.GetRunnerCount()
-        if (m_RankedRunnerNumbers.Count >= m_Runners.Count)
+        if (m_FinishInfoList.Count >= m_Runners.Count)
         {
             FinishRace();
         }
@@ -182,7 +210,17 @@ public class RaceManager : SingletonManager<RaceManager>
 #if DEBUG_RACE_MANAGER
         Debug.LogFormat(this, "[RaceManager] Compute Race Result");
 #endif
-        // nothing to do for now, rankedRunnerNumbers says it all
+        // we know that finish time are sorted ascending, but it's possible both players
+        // finished the same frame. In this case we don't bother interpolating the exact winner between frames,
+        // we just declare draw
+        if (m_FinishInfoList[0].time < m_FinishInfoList[1].time)
+        {
+            winnerNumber = m_FinishInfoList[0].playerNumber;
+        }
+        else
+        {
+            winnerNumber = 0;
+        }
     }
     
     private void ShowResultPanel()
@@ -190,8 +228,9 @@ public class RaceManager : SingletonManager<RaceManager>
 #if DEBUG_RACE_MANAGER
         Debug.LogFormat(this, "[RaceManager] Show Result Panel");
 #endif
-        Debug.LogFormat("Winner: Player #{0}", m_RankedRunnerNumbers[0]);
-        ResultUI.Instance.ShowResult(m_RankedRunnerNumbers[0], m_CurrentStageIndex >= stageCount - 1);
+        // if winnerNumber == 0, it's a draw
+        Debug.LogFormat("Winner: Player #{0}", winnerNumber);
+        ResultUI.Instance.ShowResult(winnerNumber, m_CurrentStageIndex >= stageCount - 1);
     }
 
     /// Callback for ResultUI Retry Button
