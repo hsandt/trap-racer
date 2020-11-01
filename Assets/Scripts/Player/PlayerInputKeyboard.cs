@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using CommonsHelper;
+
 /// This script is mainly a proxy between unified keyboard input (which contains both P1 and P2 input as separate
 /// actions instead of separate schemes) and separate player controls
 /// The New Input System doesn't allow device sharing so for the keyboard we need to
@@ -17,6 +19,16 @@ public class PlayerInputKeyboard : MonoBehaviour
     /// Runner controlled by player 2
     private CharacterRun runner2;
     
+#if UNITY_EDITOR
+    /* Cached external references */
+    private InGameCamera m_InGameCamera;
+
+    private void Awake()
+    {
+        m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
+    }
+#endif
+
     private void Start()
     {
         runner1 = RaceManager.Instance.GetRunner(0);
@@ -48,6 +60,17 @@ public class PlayerInputKeyboard : MonoBehaviour
     }
     
 #if UNITY_EDITOR
+    /// Cheat Input callback: Move all characters by 10m backward
+    private void OnCheatBackward10m(InputValue value)
+    {
+        runner1.transform.position -= 10 * Vector3.right;
+        runner2.transform.position -= 10 * Vector3.right;
+        
+        // warp immediately backward, normal update will prevent going backward
+        // if you add more stuff to setup, consider making WarpCameraToTargetPosition public and calling that instead
+        m_InGameCamera.Setup();
+    }
+    
     /// Cheat Input callback: Move all characters by 10m forward
     private void OnCheatForward10m(InputValue value)
     {
