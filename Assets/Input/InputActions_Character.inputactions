@@ -139,6 +139,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "CheatBackward10m",
+                    "type": "Button",
+                    "id": "77bde9b5-11c2-447c-9945-77ef5ae84454",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "CheatForward10m",
                     "type": "Button",
                     "id": "2d7ee1d9-e40c-4f3b-babe-f5f59de964a1",
@@ -332,6 +340,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "CheatForward10m",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "197c9d5a-b2a8-41a4-9ee3-4cb596ddf15b",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CheatBackward10m",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
