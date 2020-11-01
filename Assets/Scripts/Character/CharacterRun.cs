@@ -71,8 +71,11 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Factor applied to run speed X when actively trying to brake with left input")]
     private float brakeSlowDownRunSpeedMultiplier = 0.7f;
 
-    [SerializeField, Tooltip("Jump speed Y")]
+    [SerializeField, Tooltip("Jump speed (added to current velocity Y)")]
     private float jumpSpeed = 10f;
+
+    [SerializeField, Tooltip("Minimum velocity Y after jump in case you jump from a platform moving down so fast it would cancel the jump effect")]
+    private float minResultingJumpSpeed = 1f;
 
     [SerializeField, Tooltip("Trampoline jump speed Y")]
     private float trampolineJumpSpeed = 10f;
@@ -513,8 +516,9 @@ public class CharacterRun : MonoBehaviour
             m_State = CharacterState.Jump;
             // add jump velocity Y to current velocity (this means you'll jump higher from an ascending slope
             // or a platform moving upward)
-            m_Rigidbody2D.velocity += jumpSpeed * Vector2.up;
-            
+            float resultingJumpSpeed = Mathf.Max(minResultingJumpSpeed, m_Rigidbody2D.velocity.y + jumpSpeed);
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, resultingJumpSpeed);
+
 #if DEBUG_CHARACTER_RUN
             Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
 #endif
