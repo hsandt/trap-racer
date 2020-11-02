@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appName: TrapRunner
   majorVersion: 0
-  minorVersion: 1
-  stageVersion: 2
+  minorVersion: 2
+  stageVersion: 0
