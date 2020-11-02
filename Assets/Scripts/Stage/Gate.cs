@@ -6,7 +6,6 @@ using UnityEngine;
 
 using CommonsHelper;
 
-// SEO: after GateManager
 public class Gate : MonoBehaviour
 {
     /* Sibling components */

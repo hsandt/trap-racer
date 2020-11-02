@@ -44,7 +44,7 @@ public class OpeningGround : Device
     
     private void Start()
     {
-        // must be done after SwitchManager.Awake/Init
+        // must be done after DeviceManager.Awake/Init
         DeviceManager.Instance.RegisterDevice(this);
     }
     

@@ -84,8 +84,9 @@ public class RaceManager : SingletonManager<RaceManager>
         RegisterRunners();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
         SetupRace();
     }
 
@@ -96,7 +97,7 @@ public class RaceManager : SingletonManager<RaceManager>
             m_RaceTime += Time.deltaTime;
         }
     }
-
+    
     private void SetupRace()
     {        
         GateManager.Instance.SetupGates();
