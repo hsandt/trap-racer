@@ -79,7 +79,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 2.5}
+  m_Size: {x: 0.3, y: 2.2}
   m_EdgeRadius: 0
 --- !u!114 &-5415348206785601317
 MonoBehaviour:
@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ab13b446cbe82914d8cb0f3469e8c340, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 92136c1c13612c74bb680be10347cb6a, type: 2}
+      objectReference: {fileID: 2100000, guid: d49e3a5002291466abb1a98e0b30f3aa, type: 2}
     - target: {fileID: 919132149155446097, guid: ab13b446cbe82914d8cb0f3469e8c340, type: 3}
       propertyPath: m_Name
       value: hex
