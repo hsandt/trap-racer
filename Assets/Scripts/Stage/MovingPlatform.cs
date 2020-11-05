@@ -86,6 +86,11 @@ public class MovingPlatform : Device
     private void FixedUpdate()
     {
         m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;
+        // if moveCycleOffset is negative, we need to move it to positive range
+        if (m_CurrentTimeModulo < 0f)
+        {
+            m_CurrentTimeModulo += movePeriod;
+        }
         float normalizedT = m_CurrentTimeModulo / movePeriod;
         Vector2 positionOnPath = ComputePositionOnPath(normalizedT);
         
