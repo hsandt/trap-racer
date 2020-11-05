@@ -52,8 +52,14 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Maximum step up distance allowed each frame to escape ground.")]
     private float maxStepUpDistance = 0.4f;
 
-    [SerializeField, Tooltip("Maximum step down distance allowed each frame to stick to ground.")]
-    private float maxStepDownDistance = 0.4f;
+    [SerializeField, Tooltip("Maximum step down distance allowed each frame to stick to ground when grounded. " +
+                             "Tends to be quite high to allow fast descents including on moving platforms " +
+                             "(although velocity should do most of the job)")]
+    private float maxStepDownDistanceGrounded = 0.4f;
+
+    [SerializeField, Tooltip("Maximum step down distance allowed each frame to stick to ground when airborne. " +
+                             "Tends to be smaller than grounded value to avoid sudden landing.")]
+    private float maxStepDownDistanceAirborne = 0.1f;
 
     [SerializeField, Tooltip("Distance below feet to stop detecting ground. Must be at least Max Step Down Distance.")]
     private float groundDetectionStopMargin = 0.5f;
@@ -358,6 +364,8 @@ public class CharacterRun : MonoBehaviour
             // signed ground distance is negative when inside ground, positive when above ground
             outGroundInfo.groundDistance = - groundDetectionStartMargin + hitDistance;
 
+            float maxStepDownDistance = IsAirborne() ? maxStepDownDistanceAirborne : maxStepDownDistanceGrounded;
+
             if (- maxStepUpDistance <= outGroundInfo.groundDistance && outGroundInfo.groundDistance <= maxStepDownDistance)
             {
                 // in all cases we'll update the current ground and tangent direction
@@ -427,7 +435,8 @@ public class CharacterRun : MonoBehaviour
         {
             // after MovePosition, physics velocity is not normally applied,
             //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
-            // since we know call this every frame while grounded, velocity is only used via physics when airborne
+            // since we know call this every frame while grounded (to fix small errors even with tangent velocity and
+            // world contribution, esp. for platforms with complex motion), velocity is only used via physics when airborne
             m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
                                        new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, -groundDistance));
         }
