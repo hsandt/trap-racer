@@ -46,17 +46,22 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Ground raycast contact filter")]
     private ContactFilter2D groundFilter = default;
 
-    [SerializeField, Tooltip("Distance above feet to detect ground (must be at least expected penetration depth)")]
-    private float groundDetectionStartMargin = 0.1f;
+    [SerializeField, Tooltip("Distance above feet to detect ground (must be at least Max Step Up Distance)")]
+    private float groundDetectionStartMargin = 0.5f;
 
-    [SerializeField,
-     Tooltip(
-         "Distance below feet to stop detecting ground. Must be positive to at least detect ground at feet level, but a very small margin is enough. It is only to avoid missing ground just at the tip of a raycast, as ground detected more below will be ignored anyway.")]
-    private float groundDetectionStopMargin = 0.1f;
+    [SerializeField, Tooltip("Maximum step up distance allowed each frame to escape ground.")]
+    private float maxStepUpDistance = 0.4f;
 
-    [SerializeField,
-     Tooltip(
-         "Distance between feet and ground under which we consider character to be just touching ground, so no Y adjustment is applied. This is used for both penetration tolerance (small positive distance sensed) and hover tolerance (small negative distance sensed). This prevents oscillations between Landing and Falling as the feet Y wouldn't exactly match ground Y due to floating precision. Should be lower than margins above.")]
+    [SerializeField, Tooltip("Maximum step down distance allowed each frame to stick to ground.")]
+    private float maxStepDownDistance = 0.4f;
+
+    [SerializeField, Tooltip("Distance below feet to stop detecting ground. Must be at least Max Step Down Distance.")]
+    private float groundDetectionStopMargin = 0.5f;
+
+    [SerializeField, Tooltip("Distance between feet and ground under which we consider character to be just touching ground, " +
+         "so no Y adjustment is applied. This is used for both penetration tolerance (small positive distance sensed) " +
+         "and hover tolerance (small negative distance sensed). This prevents oscillations between Landing and Falling " +
+         "as the feet Y wouldn't exactly match ground Y due to floating precision. Should be lower than margins above.")]
     private float groundDetectionToleranceHalfRange = 0.01f;
 
     [SerializeField, Tooltip("Run speed X at normal pace")]
@@ -197,6 +202,7 @@ public class CharacterRun : MonoBehaviour
             {
                 SetGround(groundInfo.groundCollider);
                 tangentDir = groundInfo.tangentDir;
+                AdjustYToGround(groundInfo.groundDistance);
             }
         }
         else
@@ -348,17 +354,11 @@ public class CharacterRun : MonoBehaviour
             // only consider first hit
             RaycastHit2D hit = RaycastHits[0];
             float hitDistance = hit.distance;
-            outGroundInfo.groundDistance = groundDetectionStartMargin - hitDistance;
+            
+            // signed ground distance is negative when inside ground, positive when above ground
+            outGroundInfo.groundDistance = - groundDetectionStartMargin + hitDistance;
 
-            if (outGroundInfo.groundDistance < -groundDetectionToleranceHalfRange)
-            {
-                // we are above ground by a meaningful distance, consider character airborne
-                // in the air, we don't use tangent dir so just default to horizontal
-                outGroundInfo.groundCollider = null;
-                outGroundInfo.tangentDir = Vector2.right;
-                return false;
-            }
-            else
+            if (- maxStepUpDistance <= outGroundInfo.groundDistance && outGroundInfo.groundDistance <= maxStepDownDistance)
             {
                 // in all cases we'll update the current ground and tangent direction
                 outGroundInfo.groundCollider = hit.collider;
@@ -366,26 +366,29 @@ public class CharacterRun : MonoBehaviour
                 Vector2 normal = hit.normal;
                 outGroundInfo.tangentDir = VectorUtil.Rotate90CW(normal);
                 
-                if (outGroundInfo.groundDistance <= groundDetectionToleranceHalfRange)
+                if (Mathf.Abs(outGroundInfo.groundDistance) <= groundDetectionToleranceHalfRange)
                 {
                     // we're close enough to ground (slightly inside or above)
                     // to consider we are grounded and don't need any offset (prevents oscillation around ground Y)
                     outGroundInfo.groundDistance = 0f;
                     return true;
                 }
-                else  // outGroundDistance > groundDetectionToleranceHalfRange
+                else  // Abs(outGroundInfo.groundDistance) > groundDetectionToleranceHalfRange
                 {
                     // we are inside the ground by a meaningful distance, so keep outGroundDistance for Y adjustment
                     return true;
                 }
             }
+            // else, we are either too much inside ground to step up, or too high above ground to step down
+            // continue below as we consider character airborne
         }
-
-        // no ground detected at all, too far from ground
+        // else, no ground detected at all, so consider character airborne
+        // continue below
+        
         // in the air, we don't use tangent dir so just default to horizontal
         outGroundInfo.groundCollider = null;
         outGroundInfo.tangentDir = Vector2.right;
-        outGroundInfo.groundDistance = 0f;  // just because we need something for out
+        outGroundInfo.groundDistance = 0f;  // just because we need something for out in case we didn't enter the block
         return false;
     }
 
@@ -401,22 +404,33 @@ public class CharacterRun : MonoBehaviour
         }
     }
     
-    /// Adjust position to land on ground located at groundDistance, positive upward
+    /// Adjust position to land on ground located at groundDistance, positive downward
     /// This method does not set the state to Run, do it separately
     private void Land(float groundDistance)
     {
         Debug.Assert(currentGround != null, "Land should be called *after* setting current ground");
         
-        // after MovePosition, physics velocity is not normally applied,
-        //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
-        m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
-                                   new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, groundDistance));
-        
+        AdjustYToGround(groundDistance);
+
         // normally no need to update velocity, it will be ignored this frame, and next frame FixedUpdate will set it
         // but if you fear exploit of jumping immediately after landing on slope to preserve speed X (assuming
         // input is processed before FixedUpdate, which is easy to fix by only setting intention in OnJump and
         // processing it in FixedUpdate), then set it now as below
         SetVelocityOnGround();
+    }
+
+    private void AdjustYToGround(float groundDistance)
+    {
+        // we can afford comparison to 0 here because we are supposed to have checked that abs ground distance
+        // was above groundDetectionToleranceHalfRange
+        if (groundDistance != 0f)
+        {
+            // after MovePosition, physics velocity is not normally applied,
+            //  so to avoid lagging by 1 frame on X on landing, we manually inject dx on landing frame
+            // since we know call this every frame while grounded, velocity is only used via physics when airborne
+            m_Rigidbody2D.MovePosition(m_Rigidbody2D.position +
+                                       new Vector2(m_Rigidbody2D.velocity.x * Time.deltaTime, -groundDistance));
+        }
     }
 
     private void SetVelocityOnGround()
