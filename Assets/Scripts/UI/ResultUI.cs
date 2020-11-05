@@ -34,13 +34,8 @@ public class ResultUI : SingletonManager<ResultUI>
     
     /* Sibling components */
 
-    private Canvas m_Canvas;
-
-    
     protected override void Init()
     {
-        m_Canvas = this.GetComponentOrFail<Canvas>();
-
         // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)
         // do not only disable canvas, we must prevent any interactions
         Deactivate();

@@ -22,8 +22,6 @@ public class StartUI : SingletonManager<StartUI>
 
     /* Sibling components */
 
-    private Canvas m_Canvas;
-
     /* Parameters */
     [SerializeField, Tooltip("Value from which countdown starts (usually 3, set to 0 for fast dev iterations)")]
     private int countDownStartValue = 3;
@@ -33,8 +31,6 @@ public class StartUI : SingletonManager<StartUI>
 
     protected override void Init()
     {
-        m_Canvas = this.GetComponentOrFail<Canvas>();
-
         // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)
         // do not only disable canvas, we must prevent any interactions
         Deactivate();
