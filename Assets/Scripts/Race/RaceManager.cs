@@ -16,38 +16,40 @@ public class RaceManager : SingletonManager<RaceManager>
     {
         /// Player number (1 or 2).
         public int playerNumber;
-        
+
         /// Finish time (s)
         public float time;
     }
+
     
     /* External references */
-    
-    [Tooltip("Characters parent")]
-    public Transform charactersParent;
-    
-    [Tooltip("Spawn point parent")]
-    public Transform spawnPointParent;
-    
+
+    [Tooltip("Characters parent")] public Transform charactersParent;
+
+    [Tooltip("Spawn point parent")] public Transform spawnPointParent;
+
     /* Cached external references */
     private InGameCamera m_InGameCamera;
-    
-    
+
+    private ParticleSystem m_ConfettiParticleSystem;
+
+
     /* Parameters */
 
     [SerializeField, Tooltip("Total number of stages available for racing")]
     private int stageCount = 2;
-    
-    
+
+
     /* State vars */
-    
+
     /// Current state
     private RaceState m_State = RaceState.WaitForStart;
+
     public RaceState State => m_State;
 
     /// Current stage index (also index of scene)
     private int m_CurrentStageIndex;
-    
+
 #if SET_FLAG_ON_START
     /// Flag transform (could be set as external reference, but found with tag at runtime)
     private Transform m_FlagTr;
@@ -55,7 +57,7 @@ public class RaceManager : SingletonManager<RaceManager>
 
     /// Current time since race start
     private float m_RaceTime;
-    
+
     /// List of finishing runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
 
@@ -64,20 +66,23 @@ public class RaceManager : SingletonManager<RaceManager>
 
     /// Winning player number, 0 if draw
     private int winnerNumber;
+
     
     public CharacterRun GetRunner(int index)
     {
         return m_Runners[index];
     }
-    
+
     protected override void Init()
     {
         // usually we'd have RaceManager to be DontDestroyOnLoad to preserve the stage index and increment it over races
         // but we currently use a self-contained scene system with no DontDestroyOnLoad, so on new race start,
         // a new RaceManager appears and auto-detects the stage index from the build index of the current scene
         m_CurrentStageIndex = SceneManager.GetActiveScene().buildIndex;
-            
+
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
+        m_ConfettiParticleSystem = GameObject.FindWithTag(Tags.Confetti).GetComponentOrFail<ParticleSystem>();
+
 #if SET_FLAG_ON_START
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
 #endif
@@ -97,12 +102,12 @@ public class RaceManager : SingletonManager<RaceManager>
             m_RaceTime += Time.deltaTime;
         }
     }
-    
+
     private void SetupRace()
-    {        
+    {
         GateManager.Instance.SetupGates();
         DeviceManager.Instance.SetupDevices();
-        
+
         foreach (var characterRun in m_Runners)
         {
             characterRun.Setup();
@@ -110,7 +115,7 @@ public class RaceManager : SingletonManager<RaceManager>
             characterRun.GetComponentOrFail<FlagBearer>().Setup();
 #endif
         }
-        
+
 #if SET_FLAG_ON_START
         int firstRunnerIndex = RandomlySortStartPositions();
         GiveFlagToRunner(firstRunnerIndex);
@@ -120,7 +125,7 @@ public class RaceManager : SingletonManager<RaceManager>
 
         // setup camera after spawning runners to target their initial position (including on Restart)
         m_InGameCamera.Setup();
-        
+
         StartUI.Instance.StartCountDown();
     }
 
@@ -137,7 +142,7 @@ public class RaceManager : SingletonManager<RaceManager>
     {
         // move character with flag ahead
         m_Runners[0].transform.position = spawnPointParent.GetChild(0).position;
-        
+
         // move character without flag behind
         m_Runners[1].transform.position = spawnPointParent.GetChild(1).position;
     }
@@ -164,7 +169,7 @@ public class RaceManager : SingletonManager<RaceManager>
         flagBearer.BearFlag(m_FlagTr);
     }
 #endif
-    
+
     public void NotifyCountDownOver()
     {
         StartRace();
@@ -174,22 +179,28 @@ public class RaceManager : SingletonManager<RaceManager>
     {
         m_State = RaceState.Started;
         m_RaceTime = 0f;
-        
+
         foreach (var characterRun in m_Runners)
         {
             characterRun.StartRunning();
         }
     }
-    
+
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
         // Build finish info (rank is not part of it, the index in the list gives it)
         FinishInfo finishInfo;
         finishInfo.playerNumber = characterRun.PlayerNumber;
         finishInfo.time = m_RaceTime;
-        
+
         m_FinishInfoList.Add(finishInfo);
-        
+
+        // winner (1st finisher) gets the confetti animation
+        if (m_FinishInfoList.Count == 1)
+        {
+            PlayConfettiAnimation();
+        }
+
         // if this was the last runner in the race, finish the race now
         // when adding Character/RunnerManager, replace hardcoded 2 with RunnerManager.GetRunnerCount()
         if (m_FinishInfoList.Count >= m_Runners.Count)
@@ -201,9 +212,8 @@ public class RaceManager : SingletonManager<RaceManager>
     private void FinishRace()
     {
         m_State = RaceState.Finished;
-
         ComputeRaceResult();
-        ShowResultPanel();
+        StartCoroutine(PlayFinishSequenceAsync());
     }
 
     private void ComputeRaceResult()
@@ -223,7 +233,18 @@ public class RaceManager : SingletonManager<RaceManager>
             winnerNumber = 0;
         }
     }
-    
+
+    private IEnumerator PlayFinishSequenceAsync()
+    {
+        yield return new WaitForSeconds(1f);
+        ShowResultPanel();
+    }
+
+    private void PlayConfettiAnimation()
+    {
+        m_ConfettiParticleSystem.Play();
+    }
+
     private void ShowResultPanel()
     {
 #if DEBUG_RACE_MANAGER

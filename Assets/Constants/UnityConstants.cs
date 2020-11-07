@@ -36,6 +36,10 @@ namespace UnityConstants
         /// Name of tag 'Flag'.
         /// </summary>
         public const string Flag = "Flag";
+        /// <summary>
+        /// Name of tag 'Confetti'.
+        /// </summary>
+        public const string Confetti = "Confetti";
     }
 
     public static class SortingLayers
@@ -93,6 +97,10 @@ namespace UnityConstants
         /// </summary>
         public const int Obstacle = 9;
         /// <summary>
+        /// Index of layer 'SeesawGround'.
+        /// </summary>
+        public const int SeesawGround = 11;
+        /// <summary>
         /// Index of layer 'Interactable'.
         /// </summary>
         public const int Interactable = 12;
@@ -100,6 +108,14 @@ namespace UnityConstants
         /// Index of layer 'Character'.
         /// </summary>
         public const int Character = 16;
+        /// <summary>
+        /// Index of layer 'PostProcessing'.
+        /// </summary>
+        public const int PostProcessing = 21;
+        /// <summary>
+        /// Index of layer 'CloudsToy'.
+        /// </summary>
+        public const int CloudsToy = 31;
 
         /// <summary>
         /// Bitmask of layer 'Default'.
@@ -130,6 +146,10 @@ namespace UnityConstants
         /// </summary>
         public const int ObstacleMask = 1 << 9;
         /// <summary>
+        /// Bitmask of layer 'SeesawGround'.
+        /// </summary>
+        public const int SeesawGroundMask = 1 << 11;
+        /// <summary>
         /// Bitmask of layer 'Interactable'.
         /// </summary>
         public const int InteractableMask = 1 << 12;
@@ -137,19 +157,32 @@ namespace UnityConstants
         /// Bitmask of layer 'Character'.
         /// </summary>
         public const int CharacterMask = 1 << 16;
+        /// <summary>
+        /// Bitmask of layer 'PostProcessing'.
+        /// </summary>
+        public const int PostProcessingMask = 1 << 21;
+        /// <summary>
+        /// Bitmask of layer 'CloudsToy'.
+        /// </summary>
+        public const int CloudsToyMask = 1 << 31;
     }
 
     public static class Scenes
     {
         /// <summary>
-        /// ID of scene 'Stage_Test'.
+        /// ID of scene 'Stage1'.
         /// </summary>
-        public const int Stage_Test = 0;
+        public const int Stage1 = 0;
+        /// <summary>
+        /// ID of scene 'Stage2'.
+        /// </summary>
+        public const int Stage2 = 1;
     }
 
     public enum ScenesEnum
     {
-        Stage_Test = 0,
+        Stage1 = 0,
+        Stage2 = 1,
     }
 
     public static class Axes
