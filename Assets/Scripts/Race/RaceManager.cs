@@ -89,9 +89,8 @@ public class RaceManager : SingletonManager<RaceManager>
         RegisterRunners();
     }
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return null;
         SetupRace();
     }
 
@@ -102,12 +101,26 @@ public class RaceManager : SingletonManager<RaceManager>
             m_RaceTime += Time.deltaTime;
         }
     }
-
+    
     private void SetupRace()
     {
-        GateManager.Instance.SetupGates();
-        DeviceManager.Instance.SetupDevices();
+        StartCoroutine(SetupAsync());
+    }
 
+    private IEnumerator SetupAsync()
+    {
+        SetupInstant();
+        // wait 1 frame so devices are all registered
+        yield return null;
+        SetupDelayed();
+    }
+
+    private void SetupInstant()
+    {
+        m_State = RaceState.WaitForStart;
+        m_RaceTime = 0f;
+        winnerNumber = 0;
+        
         foreach (var characterRun in m_Runners)
         {
             characterRun.Setup();
@@ -125,7 +138,13 @@ public class RaceManager : SingletonManager<RaceManager>
 
         // setup camera after spawning runners to target their initial position (including on Restart)
         m_InGameCamera.Setup();
+    }
 
+    private void SetupDelayed()
+    {
+        GateManager.Instance.SetupGates();
+        DeviceManager.Instance.SetupDevices();
+        
         StartUI.Instance.StartCountDown();
     }
 
@@ -178,7 +197,7 @@ public class RaceManager : SingletonManager<RaceManager>
     private void StartRace()
     {
         m_State = RaceState.Started;
-        m_RaceTime = 0f;
+        // m_RaceTime should have been set to 0f on SetupRace
 
         foreach (var characterRun in m_Runners)
         {
@@ -262,6 +281,13 @@ public class RaceManager : SingletonManager<RaceManager>
         // (if only disabling canvas, we can still press the last selection with gamepad Confirm input to Restart again!)
         ResultUI.Instance.Deactivate();
 
+        // preserve m_CurrentStageIndex as a different scene has a different RaceManager
+        
+        // preserve m_Runners as runners remain in the scene
+        
+        // clear other lists
+        m_FinishInfoList.Clear();
+        
         SetupRace();
     }
     
