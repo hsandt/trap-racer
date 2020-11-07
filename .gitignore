@@ -37,6 +37,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+# Keeps changing between Windows and Linux
+.idea/**/indexLayout.xml
+
 # Generated files
 .idea/**/contentModel.xml
 
