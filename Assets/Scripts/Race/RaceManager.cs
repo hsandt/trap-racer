@@ -4,11 +4,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using CommonsHelper;
 using CommonsPattern;
 using UnityConstants;
-using UnityEngine.SceneManagement;
 
 public class RaceManager : SingletonManager<RaceManager>
 {
@@ -211,6 +211,12 @@ public class RaceManager : SingletonManager<RaceManager>
         FinishInfo finishInfo;
         finishInfo.playerNumber = characterRun.PlayerNumber;
         finishInfo.time = m_RaceTime;
+
+        if (m_FinishInfoList.Exists(info => info.playerNumber == finishInfo.playerNumber))
+        {
+            Debug.LogWarningFormat(characterRun, "Runner #{0} already finished, cannot finish again", finishInfo.playerNumber);
+            return;
+        }
 
         m_FinishInfoList.Add(finishInfo);
 
