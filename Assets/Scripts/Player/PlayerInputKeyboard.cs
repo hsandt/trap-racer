@@ -79,5 +79,11 @@ public class PlayerInputKeyboard : MonoBehaviour
         runner1.transform.position += 10 * Vector3.right;
         runner2.transform.position = new Vector3(runner1.transform.position.x, runner2.transform.position.y, runner2.transform.position.z);
     }
+    
+    /// Cheat Input callback: Restart race immediately
+    private void OnCheatRestartRace(InputValue value)
+    {
+        RaceManager.Instance.RestartRace();
+    }
 #endif
 }

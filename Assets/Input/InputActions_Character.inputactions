@@ -153,6 +153,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "CheatRestartRace",
+                    "type": "Button",
+                    "id": "f3ff1f6b-7437-4bdd-8f41-be862338619b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -351,6 +359,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "CheatBackward10m",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02a2edb9-9e64-4b4e-947a-5cbb77491475",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CheatRestartRace",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cf9b9b8-9419-4522-939f-ea1d89351d24",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "CheatRestartRace",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
