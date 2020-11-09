@@ -94,8 +94,11 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Gravity acceleration (positive downward)")]
     private float gravity = 10f;
 
-    [SerializeField, Tooltip("Slowdown duration on obstacle hit")]
+    [SerializeField, Tooltip("Slowdown duration on obstacle hit (running only)")]
     private float obstacleSlowdownDuration = 1f;
+
+    [SerializeField, Tooltip("Slowdown factor applied to velocity X when airborne")]
+    private float obstacleSlowdownFactorAirborne = 0.5f;
 
     [SerializeField, Tooltip("Auto-deceleration on X after race finish")]
     private float finishDecel = 3f;
@@ -495,7 +498,14 @@ public class CharacterRun : MonoBehaviour
     /// If you already hit an obstacle and timer is still active, just reset it to duration
     public void CrashIntoObstacle()
     {
+        // set timer for slow down when running on ground
         m_ObstacleSlowDownTimer = obstacleSlowdownDuration;
+
+        // when airborne, we still need to slow down character for penalty so apply it directly to velocity X
+        if (IsAirborne())
+        {
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x * obstacleSlowdownFactorAirborne, m_Rigidbody2D.velocity.y);
+        }
     }
     
     // Switch
