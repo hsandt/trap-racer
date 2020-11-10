@@ -17,6 +17,9 @@ public class MovingObstacle : Obstacle
     [SerializeField, Tooltip("Move cycle period. Take half to get duration between start of move phases (s)")]
     private float movePeriod = 4f;
     
+    [SerializeField, Tooltip("Move cycle offset (s)")]
+    private float moveCycleOffset = 0f;
+    
     [SerializeField, Tooltip("Duration of the motion between bottom and top position itself (s). Is part of Move Period.")]
     private float moveDuration = 0.5f;
 
@@ -43,12 +46,20 @@ public class MovingObstacle : Obstacle
     {
         base.Setup();
         
-        m_CurrentTimeModulo = 0f;
+        m_CurrentTimeModulo = moveCycleOffset % movePeriod;
+        
+        // if moveCycleOffset is negative, we need to move it to positive range
+        if (m_CurrentTimeModulo < 0f)
+        {
+            m_CurrentTimeModulo += movePeriod;
+        }
     }
-    
+
     private void FixedUpdate()
     {
+        // advance time (assuming we did positive modulo properly in Setup, it should remain in the correct range)
         m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;
+        
         if (m_CurrentTimeModulo < moveDuration)
         {
             // Phase 1: move from bottom to top
@@ -85,4 +96,11 @@ public class MovingObstacle : Obstacle
     {
         m_Rigidbody2D.MovePosition(new Vector2(m_Rigidbody2D.position.x, Mathf.Lerp(a, b, ratio)));
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        GizmosUtil.DrawLocalLine(Vector3.zero, moveHeight * Vector3.up, transform, Color.green);
+    }
+#endif
 }
