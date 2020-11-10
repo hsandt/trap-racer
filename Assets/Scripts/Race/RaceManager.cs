@@ -58,9 +58,12 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Current time since race start
     private float m_RaceTime;
 
-    /// List of finishing runner numbers, from 1st to last
+    /// List of runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
 
+    /// Array of animation scripts that need to be restarted (typically stuff that must sync with other objects' motion)
+    private FixedUpdateAnimationScript[] m_FixedUpdateAnimationScripts = null;
+    
     /// List of finishing runner info, from 1st to last
     private readonly List<FinishInfo> m_FinishInfoList = new List<FinishInfo>();
 
@@ -87,6 +90,7 @@ public class RaceManager : SingletonManager<RaceManager>
         m_FlagTr = GameObject.FindWithTag(Tags.Flag).transform;
 #endif
         RegisterRunners();
+        RegisterScriptsToRestart();
     }
 
     private void Start()
@@ -136,6 +140,11 @@ public class RaceManager : SingletonManager<RaceManager>
         SpawnRunners();
 #endif
 
+        foreach (var animationScript in m_FixedUpdateAnimationScripts)
+        {
+            animationScript.Setup();
+        }
+
         // setup camera after spawning runners to target their initial position (including on Restart)
         m_InGameCamera.Setup();
     }
@@ -155,6 +164,11 @@ public class RaceManager : SingletonManager<RaceManager>
             var characterRun = characterTr.GetComponentOrFail<CharacterRun>();
             m_Runners.Add(characterRun);
         }
+    }
+
+    private void RegisterScriptsToRestart()
+    {
+        m_FixedUpdateAnimationScripts = FindObjectsOfType<FixedUpdateAnimationScript>();
     }
 
     private void SpawnRunners()
