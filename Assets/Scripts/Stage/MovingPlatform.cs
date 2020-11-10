@@ -80,17 +80,20 @@ public class MovingPlatform : Device
     /// Managed setup
     public override void Setup()
     {
-        m_CurrentTimeModulo = moveCycleOffset;
-    }
-
-    private void FixedUpdate()
-    {
-        m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;
+        m_CurrentTimeModulo = moveCycleOffset % movePeriod;
+        
         // if moveCycleOffset is negative, we need to move it to positive range
         if (m_CurrentTimeModulo < 0f)
         {
             m_CurrentTimeModulo += movePeriod;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        // advance time (assuming we did positive modulo properly in Setup, it should remain in the correct range)
+        m_CurrentTimeModulo = (m_CurrentTimeModulo + Time.deltaTime) % movePeriod;
+        
         float normalizedT = m_CurrentTimeModulo / movePeriod;
         Vector2 positionOnPath = ComputePositionOnPath(normalizedT);
         
