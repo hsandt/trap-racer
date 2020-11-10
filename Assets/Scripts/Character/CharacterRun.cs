@@ -221,17 +221,14 @@ public class CharacterRun : MonoBehaviour
             {
                 case CharacterState.Jump:
                 {
-                    // sense ground when character starts falling
-                    if (m_Rigidbody2D.velocity.y < 0f && SenseGround(out GroundInfo groundInfo))
+                    // character starts falling when velocity is downward
+                    if (m_Rigidbody2D.velocity.y < 0f)
                     {
-                        // detected ground, leave Jump, adjust position Y to ground and reset velocity Y
-                        m_State = CharacterState.Run;
-                        SetGround(groundInfo.groundCollider);
-                        tangentDir = groundInfo.tangentDir;
-                        Land(groundInfo.groundDistance);
-#if DEBUG_CHARACTER_RUN
-                        Debug.LogFormat(this, "[CharacterRun] #{0} Ground detected, Land at groundDistance: {1}", playerNumber, groundInfo.groundDistance);
-#endif
+                        // no need to detect ground this frame, just update state
+                        // and starting next frame, we will sense ground as part of the Fall state update
+                        // (animation transition from Jump to Fall uses exit time, not condition,
+                        // so this will not start the Fall animation)
+                        m_State = CharacterState.Fall;
                     }
                     break;
                 }
