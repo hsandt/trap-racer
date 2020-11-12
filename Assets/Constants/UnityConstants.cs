@@ -113,6 +113,10 @@ namespace UnityConstants
         /// </summary>
         public const int PostProcessing = 21;
         /// <summary>
+        /// Index of layer 'TitleUI'.
+        /// </summary>
+        public const int TitleUI = 29;
+        /// <summary>
         /// Index of layer 'CloudsToy'.
         /// </summary>
         public const int CloudsToy = 31;
@@ -162,6 +166,10 @@ namespace UnityConstants
         /// </summary>
         public const int PostProcessingMask = 1 << 21;
         /// <summary>
+        /// Bitmask of layer 'TitleUI'.
+        /// </summary>
+        public const int TitleUIMask = 1 << 29;
+        /// <summary>
         /// Bitmask of layer 'CloudsToy'.
         /// </summary>
         public const int CloudsToyMask = 1 << 31;
@@ -170,19 +178,24 @@ namespace UnityConstants
     public static class Scenes
     {
         /// <summary>
+        /// ID of scene 'Title'.
+        /// </summary>
+        public const int Title = 0;
+        /// <summary>
         /// ID of scene 'Stage1'.
         /// </summary>
-        public const int Stage1 = 0;
+        public const int Stage1 = 1;
         /// <summary>
         /// ID of scene 'Stage2'.
         /// </summary>
-        public const int Stage2 = 1;
+        public const int Stage2 = 2;
     }
 
     public enum ScenesEnum
     {
-        Stage1 = 0,
-        Stage2 = 1,
+        Title = 0,
+        Stage1 = 1,
+        Stage2 = 2,
     }
 
     public static class Axes
