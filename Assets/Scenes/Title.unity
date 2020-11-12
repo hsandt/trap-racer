@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 1041986001}
   - component: {fileID: 1041986000}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Title Main Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ Camera:
   m_GameObject: {fileID: 1041985999}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -180,7 +180,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 536870912
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1250747479}
   - component: {fileID: 1250747481}
   - component: {fileID: 1250747480}
-  m_Layer: 5
+  m_Layer: 29
   m_Name: Start Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 1404870074}
   - component: {fileID: 1404870076}
   - component: {fileID: 1404870075}
-  m_Layer: 5
+  m_Layer: 29
   m_Name: Copyright Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,6 +474,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404870073}
   m_CullTransparentMesh: 0
+--- !u!1 &1571775419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571775422}
+  - component: {fileID: 1571775421}
+  - component: {fileID: 1571775420}
+  m_Layer: 0
+  m_Name: SkyBox Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &1571775420
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571775419}
+  m_Enabled: 1
+--- !u!20 &1571775421
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571775419}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 4000
+  field of view: 90
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: -2
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 0
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &1571775422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571775419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1705409691
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +568,7 @@ GameObject:
   - component: {fileID: 1705409692}
   - component: {fileID: 1705409694}
   - component: {fileID: 1705409693}
-  m_Layer: 5
+  m_Layer: 29
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +645,7 @@ GameObject:
   - component: {fileID: 1789958426}
   - component: {fileID: 1789958428}
   - component: {fileID: 1789958429}
-  m_Layer: 5
+  m_Layer: 29
   m_Name: Version Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,7 +804,7 @@ GameObject:
   - component: {fileID: 2123142486}
   - component: {fileID: 2123142485}
   - component: {fileID: 2123142484}
-  m_Layer: 5
+  m_Layer: 29
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -804,7 +887,7 @@ RectTransform:
   - {fileID: 1789958425}
   - {fileID: 1705409692}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -848,7 +931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9089073966993687806, guid: c0004266de223b62fb4546d18ff83056, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9089073966993687806, guid: c0004266de223b62fb4546d18ff83056, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

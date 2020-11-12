@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9089149294161908404}
   - component: {fileID: 9003525287044295106}
   - component: {fileID: 9003020046713042136}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 9096274458339106114}
   - component: {fileID: 9003565123545362182}
   - component: {fileID: 9004622330716881082}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9635,7 +9635,7 @@ GameObject:
   - component: {fileID: 9088955560007940442}
   - component: {fileID: 9003603465703081962}
   - component: {fileID: 9004884153643226042}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14447,7 +14447,7 @@ GameObject:
   - component: {fileID: 9089073966993687806}
   - component: {fileID: 9003758155347425170}
   - component: {fileID: 9004522474528777284}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Magic fire pro blue custom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19263,7 +19263,7 @@ GameObject:
   - component: {fileID: 9096548565369959010}
   - component: {fileID: 9003417317168292038}
   - component: {fileID: 9003143430137928800}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: FireDark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
