@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CommonsHelper;
 using UnityEngine;
 
@@ -25,6 +26,11 @@ public class LobbyUI : SingletonManager<LobbyUI>
     
     [Tooltip("Player joined with gamepad text game object array, by player index")]
     public GameObject[] playerJoinedWithGamepadTextObjects;
+    
+    /* State */
+
+    /// Array of flags indicating if player has joined, by player index
+    private bool[] hasPlayerJoinedArray = {false, false};
 
     protected override void Init()
     {
@@ -33,6 +39,7 @@ public class LobbyUI : SingletonManager<LobbyUI>
 
         for (int playerIndex = 0; playerIndex < 2; playerIndex++)
         {
+            playerJoinTextObjects[playerIndex].SetActive(true);
             playerJoinedWithKeyboardTextObjects[playerIndex].SetActive(false);
             playerJoinedWithGamepadTextObjects[playerIndex].SetActive(false);
         }
@@ -52,23 +59,45 @@ public class LobbyUI : SingletonManager<LobbyUI>
 
     private void OnKeyboardJoinActionPerformedP1(InputAction.CallbackContext ctx)
     {
-        ConfirmPlayerJoinedWithKeyboard(0);
+        if (!hasPlayerJoinedArray[0])
+        {
+            ConfirmPlayerJoinedWithKeyboard(0);
+        }
     }
 
     private void OnKeyboardJoinActionPerformedP2(InputAction.CallbackContext ctx)
     {
-        ConfirmPlayerJoinedWithKeyboard(1);
+        if (!hasPlayerJoinedArray[1])
+        {
+            ConfirmPlayerJoinedWithKeyboard(1);
+        }
     }
 
     private void ConfirmPlayerJoinedWithKeyboard(int playerIndex)
     {
         playerJoinTextObjects[playerIndex].SetActive(false);
         playerJoinedWithKeyboardTextObjects[playerIndex].SetActive(true);
+
+        hasPlayerJoinedArray[playerIndex] = true;
+        CheckAllPlayersJoined();
     }
     
     public void ConfirmPlayerJoinedWithGamepad(int playerIndex)
     {
+        Debug.AssertFormat(!hasPlayerJoinedArray[playerIndex], "Player index {0} has already joined", playerIndex);
+
         playerJoinTextObjects[playerIndex].SetActive(false);
         playerJoinedWithGamepadTextObjects[playerIndex].SetActive(true);
+        
+        hasPlayerJoinedArray[playerIndex] = true;
+        CheckAllPlayersJoined();
+    }
+
+    private void CheckAllPlayersJoined()
+    {
+        if (hasPlayerJoinedArray.All(value => value))
+        {
+            TitleUI.Instance.ShowStageSelectUI();
+        }
     }
 }

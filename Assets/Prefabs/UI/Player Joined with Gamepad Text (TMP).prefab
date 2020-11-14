@@ -25,7 +25,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6895238399130254067}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -65,7 +65,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Joined with Gamepad!
+  m_text: 'Joined with Gamepad!
+
+    Left: slow down
+
+    A: jump'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
   m_sharedMaterial: {fileID: -5429830970847550783, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
@@ -104,7 +108,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 1.68
   m_wordSpacing: 0
-  m_lineSpacing: -16.8
+  m_lineSpacing: -53.4
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
