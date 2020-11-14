@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#define DEBUG_PLAYER_INPUT_GAMEPAD
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,9 +30,11 @@ public class PlayerInputGamepad : MonoBehaviour
 
     private void Start()
     {
+#if DEBUG_PLAYER_INPUT_GAMEPAD
         Debug.LogFormat("Player #{0} joined, registered with player index {1}. Notifying lobby.",
             m_PlayerIndex + 1, m_PlayerIndex);
-        LobbyUI.Instance.ConfirmPlayerJoined(m_PlayerIndex);
+#endif
+        LobbyUI.Instance.ConfirmPlayerJoinedWithGamepad(m_PlayerIndex);
     }
 
     public void SetupControl()
