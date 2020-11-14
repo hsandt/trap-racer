@@ -509,7 +509,7 @@ RectTransform:
   m_AnchorMin: {x: 0.37016156, y: 0.023516502}
   m_AnchorMax: {x: 0.62983835, y: 0.0729649}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 305.8418, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404870075
 MonoBehaviour:
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA9 2020 komehara, yuiyui"
+  m_text: "\xA9 2020 komehara, R3GameCreate (yuiyui)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
   m_sharedMaterial: {fileID: -5429830970847550783, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
