@@ -10,31 +10,52 @@ public class PlayerInputGamepad : MonoBehaviour
 {
     /* Parameters initialized on start */
 
+    /// Index of player associated to this gamepad control
+    /// Used to retrieve runner to control
+    /// Since this is initialized in the titlemenu where there is no PlayerInputKeyboard, 1st player has index 0
+    private int m_PlayerIndex;
+
+    /* References set on Race Setup */
+    
     /// Runner controlled by this player
     private CharacterRun runner;
     
     private void Awake()
     {
-        // PlayerInputKeyboard is always present and count as player index/number 0
-        // so at this point, playerCount is already 1 + this runner index + 1 = this runner number + 1
-        // This also means that the max player count on Player Input Manager should be the max runner count + 1
-        int playerNumber = PlayerInputManager.instance.playerCount - 1;
-        int runnerIndex = playerNumber - 1;
-        Debug.AssertFormat(runnerIndex >= 0, "runnerIndex is {0} make sure PlayerInputKeyboard is active on start to count as player number 0", runnerIndex);
-        Debug.LogFormat("Player #{0} joined, associating PlayerInputGamepad to runner of index {1}", playerNumber, runnerIndex);
-        
-        runner = RaceManager.Instance.GetRunner(runnerIndex);
+        // 1st player has index 0
+        m_PlayerIndex = PlayerInputManager.instance.playerCount - 1;
     }
+
+    private void Start()
+    {
+        Debug.LogFormat("Player #{0} joined, registered with player index {1}. Notifying lobby.",
+            m_PlayerIndex + 1, m_PlayerIndex);
+        LobbyUI.Instance.ConfirmPlayerJoined(m_PlayerIndex);
+    }
+
+    public void SetupControl()
+    {
+        runner = RaceManager.Instance.GetRunner(m_PlayerIndex);
+    }
+    
+    // Input callbacks below will be called even in the title menu, so check that runner exists
+    // so we don't crash
 
     /// Input callback: Jump action
     private void OnJump()
     {
-        runner.OnJump();
+        if (runner != null)
+        {
+            runner.OnJump();
+        }
     }
 
     /// Input callback: Move action
     private void OnMoveXY(InputValue value)
     {
-        runner.OnMove(value.Get<Vector2>().x);
+        if (runner != null)
+        {
+            runner.OnMove(value.Get<Vector2>().x);
+        }
     }
 }

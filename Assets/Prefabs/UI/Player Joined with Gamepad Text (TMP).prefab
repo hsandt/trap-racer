@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &965065554520409146
+--- !u!1 &6895238399130254067
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 965065554520409147}
-  - component: {fileID: 965065554520409141}
-  - component: {fileID: 965065554520409140}
+  - component: {fileID: 6895238399130254066}
+  - component: {fileID: 6895238399130254064}
+  - component: {fileID: 6895238399130254065}
   m_Layer: 29
-  m_Name: Player Join Text (TMP)
+  m_Name: Player Joined with Gamepad Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &965065554520409147
+--- !u!224 &6895238399130254066
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 965065554520409146}
+  m_GameObject: {fileID: 6895238399130254067}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -37,21 +37,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &965065554520409141
+--- !u!222 &6895238399130254064
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 965065554520409146}
+  m_GameObject: {fileID: 6895238399130254067}
   m_CullTransparentMesh: 0
---- !u!114 &965065554520409140
+--- !u!114 &6895238399130254065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 965065554520409146}
+  m_GameObject: {fileID: 6895238399130254067}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -65,9 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Keyboard: press W or C
-
-    Gamepad: press Start'
+  m_text: Joined with Gamepad!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
   m_sharedMaterial: {fileID: -5429830970847550783, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
@@ -106,7 +104,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 1.68
   m_wordSpacing: 0
-  m_lineSpacing: -39.3
+  m_lineSpacing: -16.8
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0

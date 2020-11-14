@@ -9,12 +9,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 965065554520409140, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_text
-      value: '<b>Player 2</b>
+      value: 'Keyboard: press Up
 
-        Press Up on keyboard
-
-        Press Start
-        on gamepad'
+        Gamepad: press Start'
       objectReference: {fileID: 0}
     - target: {fileID: 965065554520409146, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_Name
