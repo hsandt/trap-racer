@@ -9,9 +9,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 965065554520409140, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_text
-      value: 'Keyboard: press Up
+      value: 'Keyboard: press Up to join
 
-        Gamepad: press Start'
+        Gamepad: press Start to join'
       objectReference: {fileID: 0}
     - target: {fileID: 965065554520409146, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_Name

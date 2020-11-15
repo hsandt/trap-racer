@@ -71,6 +71,6 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: PlayerGamepad
+  m_DefaultActionMap: f9e662dc-fbc4-435f-a9ea-ff91e5782c76
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

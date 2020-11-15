@@ -65,9 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Keyboard: press W or C
+  m_text: 'Keyboard: press W or C to join
 
-    Gamepad: press Start'
+    Gamepad: press Start to join'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}
   m_sharedMaterial: {fileID: -5429830970847550783, guid: 28b36bcf2c79807749a96f6a8da3d758, type: 2}

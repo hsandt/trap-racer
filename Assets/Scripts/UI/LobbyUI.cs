@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿#define DEBUG_LOBBY_UI
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CommonsHelper;
@@ -75,6 +77,10 @@ public class LobbyUI : SingletonManager<LobbyUI>
 
     private void ConfirmPlayerJoinedWithKeyboard(int playerIndex)
     {
+#if DEBUG_LOBBY_UI
+        Debug.LogFormat("Player with index {0} joined.", playerIndex);
+#endif
+        
         playerJoinTextObjects[playerIndex].SetActive(false);
         playerJoinedWithKeyboardTextObjects[playerIndex].SetActive(true);
 
@@ -84,6 +90,10 @@ public class LobbyUI : SingletonManager<LobbyUI>
     
     public void ConfirmPlayerJoinedWithGamepad(int playerIndex)
     {
+#if DEBUG_LOBBY_UI
+        Debug.LogFormat("Player with index {0} joined.", playerIndex);
+#endif
+        
         Debug.AssertFormat(!hasPlayerJoinedArray[playerIndex], "Player index {0} has already joined", playerIndex);
 
         playerJoinTextObjects[playerIndex].SetActive(false);

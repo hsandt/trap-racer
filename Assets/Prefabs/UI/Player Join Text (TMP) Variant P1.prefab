@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 965065554520409146, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_Name
-      value: Player Join Text (TMP)
+      value: Player Join Text (TMP) Variant P1
       objectReference: {fileID: 0}
     - target: {fileID: 965065554520409147, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
       propertyPath: m_LocalPosition.x
