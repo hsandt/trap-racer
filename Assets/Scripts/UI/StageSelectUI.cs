@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class StageSelectUI : MonoBehaviour
+using CommonsPattern;
+
+public class StageSelectUI : SingletonManager<StageSelectUI>
 {
-    // Start is called before the first frame update
-    void Start()
+    // Load stage by number (1 or 2)
+    public void LoadStage(int stageNumber)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SceneManager.LoadScene(stageNumber);
     }
 }

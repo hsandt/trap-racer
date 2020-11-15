@@ -117,6 +117,9 @@ public class LobbyUI : SingletonManager<LobbyUI>
         Debug.LogFormat(playerInputGamepad, "PlayerInputGamepad instance {0} joins, bound to player index {1}.", playerInputGamepad, newPlayerIndex);
 #endif
 
+        // PlayerInputGamepad game object must be preserved in Stage scene as we currently load new scene from scratch,
+        // not additively
+        DontDestroyOnLoad(playerInputGamepad.gameObject);
         playerInputGamepad.PlayerIndex = newPlayerIndex;
 
         playerJoinTextObjects[newPlayerIndex].SetActive(false);

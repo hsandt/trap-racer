@@ -29,16 +29,24 @@ public class PlayerInputGamepad : MonoBehaviour
     /// Used to retrieve runner to control
     /// Since this is initialized in the titlemenu where there is no PlayerInputKeyboard, 1st player has index 0
 
-
-    private void Awake()
-    {
-        // 1st player has index 0
-        m_PlayerIndex = PlayerInputManager.instance.playerCount - 1;
-    }
-
     private void Start()
     {
-        LobbyUI.Instance.ConfirmPlayerJoinedWithGamepad(this);
+        if (LobbyUI.Instance)
+        {
+            // will assign m_PlayerIndex to first available player index
+            LobbyUI.Instance.ConfirmPlayerJoinedWithGamepad(this);
+        }
+        else
+        {
+            // in the Editor only, we have a last minute PlayerManager_StageLiveJoin_EditorOnly in the stage scenes
+            // to make it easier to test with gamepad when directly running game from stage (or if we forgot to bind
+            // gamepad in Title)
+            // this time we have the PlayerInputKeyboardCommon to consider, so subtract 2 from new player input count
+            m_PlayerIndex = PlayerInputManager.instance.playerCount - 2;
+            
+            // Race must have already started, so don't rely on RaceManager and SetupControl yourself
+            SetupControl();
+        }
     }
 
     public void SetupControl()

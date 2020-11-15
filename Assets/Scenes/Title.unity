@@ -466,6 +466,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9037313186700538779, guid: 0f04c65f8db2d953e9e48dcd1a6e6eef, type: 3}
+      propertyPath: stageNumber
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f04c65f8db2d953e9e48dcd1a6e6eef, type: 3}
 --- !u!224 &387711524 stripped
@@ -746,6 +750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1003382584}
+  - component: {fileID: 1003382585}
   m_Layer: 29
   m_Name: StageSelectUI
   m_TagString: Untagged
@@ -773,6 +778,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1003382585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003382583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d87ec5d400201b92968813d1b75261a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1017714450
 PrefabInstance:
   m_ObjectHideFlags: 0

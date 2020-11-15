@@ -91,6 +91,10 @@ public class RaceManager : SingletonManager<RaceManager>
 #endif
         RegisterRunners();
         RegisterScriptsToRestart();
+
+        // If going from the title menu, some DontDestroyOnLoad PlayerInputGamepad have been preserved from the lobby,
+        // and they know the player they should be bound to. Bind control to the matching runner now.
+        SetupPlayerInputGamepadControls();
     }
 
     private void Start()
@@ -163,6 +167,15 @@ public class RaceManager : SingletonManager<RaceManager>
         {
             var characterRun = characterTr.GetComponentOrFail<CharacterRun>();
             m_Runners.Add(characterRun);
+        }
+    }
+
+    /// Setup control for all player input gamepads (must be done after RegisterRunners)
+    private void SetupPlayerInputGamepadControls()
+    {
+        foreach (var playerInputGamepad in FindObjectsOfType<PlayerInputGamepad>())
+        {
+            playerInputGamepad.SetupControl();
         }
     }
 
