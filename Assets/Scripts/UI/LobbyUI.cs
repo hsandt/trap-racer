@@ -32,7 +32,7 @@ public class LobbyUI : SingletonManager<LobbyUI>
     /* State */
 
     /// Array of flags indicating if player has joined, by player index
-    private bool[] hasPlayerJoinedArray = {false, false};
+    private readonly bool[] hasPlayerJoinedArray = {false, false};
 
     protected override void Init()
     {
@@ -63,7 +63,7 @@ public class LobbyUI : SingletonManager<LobbyUI>
     {
         if (!hasPlayerJoinedArray[0])
         {
-            ConfirmPlayerJoinedWithKeyboard(0);
+            ConfirmPlayerJoinedWithKeyboardHalf(0);
         }
     }
 
@@ -71,11 +71,11 @@ public class LobbyUI : SingletonManager<LobbyUI>
     {
         if (!hasPlayerJoinedArray[1])
         {
-            ConfirmPlayerJoinedWithKeyboard(1);
+            ConfirmPlayerJoinedWithKeyboardHalf(1);
         }
     }
 
-    private void ConfirmPlayerJoinedWithKeyboard(int playerIndex)
+    private void ConfirmPlayerJoinedWithKeyboardHalf(int playerIndex)
     {
 #if DEBUG_LOBBY_UI
         Debug.LogFormat("Player with index {0} joined.", playerIndex);
@@ -88,18 +88,41 @@ public class LobbyUI : SingletonManager<LobbyUI>
         CheckAllPlayersJoined();
     }
     
-    public void ConfirmPlayerJoinedWithGamepad(int playerIndex)
+    /// Register player joining with gamepad to first available slot if possible,
+    /// assigning player index to playerInputGamepad (-1 if none available)
+    public void ConfirmPlayerJoinedWithGamepad(PlayerInputGamepad playerInputGamepad)
     {
+        // determine index of player this gamepad will be associated to,
+        // by checking for the first available slot
+        int newPlayerIndex;
+        
+        if (!hasPlayerJoinedArray[0])
+        {
+            newPlayerIndex = 0;
+        }
+        else if (!hasPlayerJoinedArray[1])
+        {
+            newPlayerIndex = 1;
+        }
+        else
+        {
+            // both players have joined with keyboard already, ignore PlayerInputGamepad (don't bind it)
 #if DEBUG_LOBBY_UI
-        Debug.LogFormat("Player with index {0} joined.", playerIndex);
+            Debug.LogFormat(playerInputGamepad, "Both players already joined, ignoring new PlayerInputGamepad instance {0}.", playerInputGamepad);
 #endif
+            return;
+        }
         
-        Debug.AssertFormat(!hasPlayerJoinedArray[playerIndex], "Player index {0} has already joined", playerIndex);
+#if DEBUG_LOBBY_UI
+        Debug.LogFormat(playerInputGamepad, "PlayerInputGamepad instance {0} joins, bound to player index {1}.", playerInputGamepad, newPlayerIndex);
+#endif
 
-        playerJoinTextObjects[playerIndex].SetActive(false);
-        playerJoinedWithGamepadTextObjects[playerIndex].SetActive(true);
+        playerInputGamepad.PlayerIndex = newPlayerIndex;
+
+        playerJoinTextObjects[newPlayerIndex].SetActive(false);
+        playerJoinedWithGamepadTextObjects[newPlayerIndex].SetActive(true);
         
-        hasPlayerJoinedArray[playerIndex] = true;
+        hasPlayerJoinedArray[newPlayerIndex] = true;
         CheckAllPlayersJoined();
     }
 

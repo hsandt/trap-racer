@@ -14,12 +14,22 @@ public class PlayerInputGamepad : MonoBehaviour
     /// Used to retrieve runner to control
     /// Since this is initialized in the titlemenu where there is no PlayerInputKeyboard, 1st player has index 0
     private int m_PlayerIndex;
-
+    public int PlayerIndex
+    {
+        get => m_PlayerIndex;
+        set => m_PlayerIndex = value;
+    }
+    
     /* References set on Race Setup */
     
     /// Runner controlled by this player
     private CharacterRun runner;
-    
+
+    /// Index of player associated to this gamepad control
+    /// Used to retrieve runner to control
+    /// Since this is initialized in the titlemenu where there is no PlayerInputKeyboard, 1st player has index 0
+
+
     private void Awake()
     {
         // 1st player has index 0
@@ -28,7 +38,7 @@ public class PlayerInputGamepad : MonoBehaviour
 
     private void Start()
     {
-        LobbyUI.Instance.ConfirmPlayerJoinedWithGamepad(m_PlayerIndex);
+        LobbyUI.Instance.ConfirmPlayerJoinedWithGamepad(this);
     }
 
     public void SetupControl()
