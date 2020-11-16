@@ -78,10 +78,11 @@ public class RaceManager : SingletonManager<RaceManager>
 
     protected override void Init()
     {
-        // usually we'd have RaceManager to be DontDestroyOnLoad to preserve the stage index and increment it over races
-        // but we currently use a self-contained scene system with no DontDestroyOnLoad, so on new race start,
-        // a new RaceManager appears and auto-detects the stage index from the build index of the current scene
-        m_CurrentStageIndex = SceneManager.GetActiveScene().buildIndex;
+        // Usually we'd have RaceManager to be DontDestroyOnLoad to preserve the stage index and increment it over races
+        // but we currently use a self-contained scene system with no DontDestroyOnLoad (except PlayerInputGamepad),
+        // so on new race start, a new RaceManager appears and auto-detects the stage index from the build index of the
+        // current scene. Title scene is 0 and Stage scenes start at index 1, so subtract 1.
+        m_CurrentStageIndex = SceneManager.GetActiveScene().buildIndex - 1;
 
         m_InGameCamera = Camera.main.GetComponentOrFail<InGameCamera>();
         m_ConfettiParticleSystem = GameObject.FindWithTag(Tags.Confetti).GetComponentOrFail<ParticleSystem>();
@@ -327,9 +328,9 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Callback for ResultUI Next Button
     public void StartNextRace()
     {
-        // if at last stage, restart from stage 1
+        // if at last stage, restart from stage 1 (add 1 since Stage 1 is at index 1)
         int nextStageIndex = (m_CurrentStageIndex + 1) % stageCount;
-        SceneManager.LoadScene(nextStageIndex);
+        SceneManager.LoadScene(nextStageIndex + 1);
     }
     
 #if DEBUG_RACE_MANAGER && (UNITY_EDITOR || DEVELOPMENT_BUILD)
