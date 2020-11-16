@@ -61,6 +61,9 @@ public class RaceManager : SingletonManager<RaceManager>
     /// List of runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
 
+    /// Array of player input gamepads
+    private PlayerInputGamepad[] m_PlayerInputGamepads = null;
+
     /// Array of animation scripts that need to be restarted (typically stuff that must sync with other objects' motion)
     private FixedUpdateAnimationScript[] m_FixedUpdateAnimationScripts = null;
     
@@ -95,7 +98,7 @@ public class RaceManager : SingletonManager<RaceManager>
 
         // If going from the title menu, some DontDestroyOnLoad PlayerInputGamepad have been preserved from the lobby,
         // and they know the player they should be bound to. Bind control to the matching runner now.
-        SetupPlayerInputGamepadControls();
+        RegisterAndSetupPlayerInputGamepadControls();
     }
 
     private void Start()
@@ -172,9 +175,11 @@ public class RaceManager : SingletonManager<RaceManager>
     }
 
     /// Setup control for all player input gamepads (must be done after RegisterRunners)
-    private void SetupPlayerInputGamepadControls()
+    private void RegisterAndSetupPlayerInputGamepadControls()
     {
-        foreach (var playerInputGamepad in FindObjectsOfType<PlayerInputGamepad>())
+        m_PlayerInputGamepads = FindObjectsOfType<PlayerInputGamepad>();
+        
+        foreach (var playerInputGamepad in m_PlayerInputGamepads)
         {
             playerInputGamepad.SetupControl();
         }
@@ -308,7 +313,7 @@ public class RaceManager : SingletonManager<RaceManager>
         ResultUI.Instance.ShowResult(winnerNumber, m_CurrentStageIndex >= stageCount - 1);
     }
 
-    /// Callback for ResultUI Retry Button
+    /// Restart race in same stage
     public void RestartRace()
     {
         // important to completely deactivate the Result UI canvas to prevent using it even when hidden
@@ -325,12 +330,31 @@ public class RaceManager : SingletonManager<RaceManager>
         SetupRace();
     }
     
-    /// Callback for ResultUI Next Button
+    /// Start next race (loop if reached last stage)
     public void StartNextRace()
     {
         // if at last stage, restart from stage 1 (add 1 since Stage 1 is at index 1)
         int nextStageIndex = (m_CurrentStageIndex + 1) % stageCount;
         SceneManager.LoadScene(nextStageIndex + 1);
+    }
+    
+    /// Go back to title scene
+    public void GoBackToTitle()
+    {
+        // DontDestroyOnLoad objects should now be destroyed since Title scene will recreate them  
+        CleanUpPersistentObjects();
+        
+        SceneManager.LoadScene(Scenes.Title);
+    }
+
+    private void CleanUpPersistentObjects()
+    {
+        // player may go back to Title to reassign gamepad, and currently there's no way
+        // to unassign controller from Lobby, so just destroy player input object completely now
+        foreach (PlayerInputGamepad playerInputGamepad in m_PlayerInputGamepads)
+        {
+            Destroy(playerInputGamepad.gameObject);
+        }
     }
     
 #if DEBUG_RACE_MANAGER && (UNITY_EDITOR || DEVELOPMENT_BUILD)
