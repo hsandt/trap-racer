@@ -134,6 +134,7 @@ public class CharacterRun : MonoBehaviour
     private static readonly int Airborne = Animator.StringToHash("Airborne");
     private static readonly int Jumping = Animator.StringToHash("Jumping");
     private static readonly int SpeedX = Animator.StringToHash("SpeedX");
+    private static readonly int Stumbling = Animator.StringToHash("Stumbling");
 
     public bool IsAirborne()
     {
@@ -497,6 +498,9 @@ public class CharacterRun : MonoBehaviour
     {
         // set timer for slow down when running on ground
         m_ObstacleSlowDownTimer = obstacleSlowdownDuration;
+        
+        // set trigger for Stumbling animation once (it will exit after animation finished)
+        meshAnimator.SetTrigger(Stumbling);
 
         // when airborne, we still need to slow down character for penalty so apply it directly to velocity X
         if (IsAirborne())
