@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charactersParent: {fileID: 0}
   fixedHalfWidth: 9
-  leftEdgeMargin: 0.5
+  leftEdgeMargin: 2.4
   minScrollingSpeed: 1
   smoothFactor: 0.1
 --- !u!114 &1851847115
