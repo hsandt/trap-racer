@@ -118,7 +118,13 @@ public class InGameCamera : MonoBehaviour
 
     private void AdjustZoomToShowFixedWidth()
     {
-        m_Camera.fieldOfView = baseFoV * (16f / 9f) / m_Camera.aspect;
+        // since camera is tilted to the right and downward, we cannot apply the exact tangent formula
+        // to compute the FoV required to see exactly fixedHalfWidth for a camera at a given Z distance
+        // from the game plane, and would a combination of trigonometric calculations
+        // but to simplify, let's say the camera is at 12m of the game plane, looking orthogonally into it
+        float gamePlaneHalfHeight = fixedHalfWidth / m_Camera.aspect;
+        float estimatedCameraToGamePlaneDistance = 12f;
+        m_Camera.fieldOfView = Mathf.Rad2Deg * 2 * Mathf.Atan2(gamePlaneHalfHeight, estimatedCameraToGamePlaneDistance);
     }
 
     public float GetLeftEdgeX()
