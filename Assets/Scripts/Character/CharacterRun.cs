@@ -82,6 +82,10 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Factor applied to run speed X when actively trying to brake with left input")]
     private float brakeSlowDownRunSpeedMultiplier = 0.7f;
 
+    [SerializeField, Tooltip("Distance to the right of camera left edge until which jump velocity X is clamped to " +
+                             "camera speed to avoid leaving screen to the left during a jump")]
+    private float leftEdgeMarginToClampJumpVelocityX = 10f;
+
     [SerializeField, Tooltip("Jump speed (added to current velocity Y)")]
     private float jumpSpeed = 10f;
 
@@ -256,13 +260,28 @@ public class CharacterRun : MonoBehaviour
         {
             // run following current slope (magnitude is preserved which means you lose some speed X on slopes,
             // even descending ones; we can add a slope factor on speed, not accel, to counter that)
+            // this includes screen left edge check
             SetVelocityOnGround();
         }
         else  // airborne
         {
             // apply gravity (preserve speed X, so jumping from a slope is disadvantageous)
-            Vector2 velocity = m_Rigidbody2D.velocity;
-            m_Rigidbody2D.velocity = new Vector2(velocity.x, velocity.y - gravity * Time.deltaTime);
+            Vector2 newVelocity = m_Rigidbody2D.velocity;
+            
+//            float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
+//            if (m_Rigidbody2D.position.x < leftEdgeX)
+//            {
+//                float catchupVelocityX = ComputeRequiredCatchupVelocityX(leftEdgeX);
+//                if (newVelocity.x < catchupVelocityX)
+//                {
+//                    Debug.LogFormat("Setting vx from {0} to catchup vx: {1}", newVelocity.x, catchupVelocityX);
+//                    newVelocity.x = catchupVelocityX;
+//                }
+//            }
+
+            newVelocity.y -= gravity * Time.deltaTime;
+
+            m_Rigidbody2D.velocity = newVelocity;
         }
     }
 
@@ -287,9 +306,8 @@ public class CharacterRun : MonoBehaviour
             float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
             if (m_Rigidbody2D.position.x < leftEdgeX)
             {
-                float requiredCatchupVelocityX = (leftEdgeX - m_Rigidbody2D.position.x) / Time.deltaTime;
-                float catchupVelocityX = Mathf.Max(requiredCatchupVelocityX, m_InGameCamera.MinScrollingSpeed);
-                
+                float catchupVelocityX = ComputeRequiredCatchupVelocityX(leftEdgeX);
+
                 // if character is on a slope, they need to run even faster to catch up on X
                 // (tangentDir.x should always be positive, the check is just for division safety)
                 if (tangentDir.x > 0f && runSpeed * tangentDir.x < catchupVelocityX)
@@ -305,6 +323,16 @@ public class CharacterRun : MonoBehaviour
         }
 
         return runSpeed;
+    }
+    
+    /// Return catchup velocity on X so runner doesn't go beyond screen left edge
+    private float ComputeRequiredCatchupVelocityX(float leftEdgeX)
+    {
+        float requiredCatchupVelocityX = (leftEdgeX - m_Rigidbody2D.position.x) / Time.deltaTime;
+        Debug.LogFormat("requiredCatchupVelocityX: {0} = ({1} - {2}) / {3}", requiredCatchupVelocityX, leftEdgeX, m_Rigidbody2D.position.x, Time.deltaTime);
+        float catchupVelocityX = Mathf.Max(requiredCatchupVelocityX, m_InGameCamera.MinScrollingSpeed);
+        Debug.LogFormat("catchupVelocityX: {0} (camera scroll {1})", catchupVelocityX, m_InGameCamera.MinScrollingSpeed);
+        return catchupVelocityX;
     }
 
     /// Compute and return speed multiplier from current state
@@ -557,6 +585,19 @@ public class CharacterRun : MonoBehaviour
         if (m_CanControl && m_State == CharacterState.Run)
         {
             m_State = CharacterState.Jump;
+
+            float jumpVelocityX = m_Rigidbody2D.velocity.x;
+            
+            float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
+            if (m_Rigidbody2D.position.x < leftEdgeX + leftEdgeMarginToClampJumpVelocityX)
+            {
+                if (jumpVelocityX < m_InGameCamera.MinScrollingSpeed)
+                {
+                    Debug.LogFormat("Setting vx from {0} to catchup vx: {1}", jumpVelocityX, m_InGameCamera.MinScrollingSpeed);
+                    jumpVelocityX = m_InGameCamera.MinScrollingSpeed;
+                }
+            }
+            
             // add moving ground velocity Y to jump speed, but NOT full rigidbody velocity from last frame
             // (this means you'll jump higher from platform moving upward, but not from an ascending slope to avoid
             // crazy jumps from stairs)
@@ -564,7 +605,8 @@ public class CharacterRun : MonoBehaviour
             // if on a platform moving fast downward, velocity y may be negative and it's unsatisfying, so clamp
             // jump speed to some minimum
             float resultingJumpSpeed = Mathf.Max(minResultingJumpSpeed, externalVelocityYContribution + jumpSpeed);
-            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, resultingJumpSpeed);
+            
+            m_Rigidbody2D.velocity = new Vector2(jumpVelocityX, resultingJumpSpeed);
 
 #if DEBUG_CHARACTER_RUN
             Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
