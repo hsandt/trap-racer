@@ -276,10 +276,10 @@ public class CharacterRun : MonoBehaviour
             // After doing all transitions, set velocity based on the resulting state
             runSpeed = GetRunSpeedMultiplier() * baseRunSpeed + GetRunSpeedOffset();
 
-            // If runner is behind camera left edge limit, clamp speed to minimum to catch up
-            // this is not enough as small offsets may accumulate over time,
-            // so must clamp position itself (we still clamp speed in case we have accel based on previous speed
-            //  or speed-based animations later)
+            // If runner is behind camera left edge limit, clamp speed to minimum to catch up.
+            // This is sometimes not enough as small offsets may accumulate over time,
+            // so to be safe we take the max of the camera scrolling speed and the actual speed required for
+            // full catchup this frame.
             // Currently there's some jittering due to the fact that we use positions at the beginning of the frame,
             //  but we see the game through the camera at the end of the frame (after LateUpdate)
             // It may be fixed by applying clamping at the end of the frame (but InGameCamera.LateUpdate should not contain
@@ -287,8 +287,15 @@ public class CharacterRun : MonoBehaviour
             float leftEdgeX = m_InGameCamera.GetLeftEdgeX();
             if (m_Rigidbody2D.position.x < leftEdgeX)
             {
-                runSpeed = m_InGameCamera.MinScrollingSpeed;
-                m_Rigidbody2D.MovePosition(new Vector2(leftEdgeX, m_Rigidbody2D.position.y));
+                float requiredCatchupVelocityX = (leftEdgeX - m_Rigidbody2D.position.x) / Time.deltaTime;
+                float catchupVelocityX = Mathf.Max(requiredCatchupVelocityX, m_InGameCamera.MinScrollingSpeed);
+                
+                // if character is on a slope, they need to run even faster to catch up on X
+                // (tangentDir.x should always be positive, the check is just for division safety)
+                if (tangentDir.x > 0f && runSpeed * tangentDir.x < catchupVelocityX)
+                {
+                    runSpeed = catchupVelocityX / tangentDir.x;
+                }
             }
         }
         else
