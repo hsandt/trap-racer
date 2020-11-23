@@ -32,6 +32,13 @@ public class InGameCamera : MonoBehaviour
     
     [SerializeField, Tooltip("Smooth factor applied to Vector3.Lerp")]
     private float smoothFactor = 0.1f;
+    
+    
+    /* Parameters defined on start */
+
+    /// Base FoV set to initial FoV prepared for 16:9 aspect, used to calculate adapted FoV
+    private float baseFoV;
+    
 
     /* State vars */
     
@@ -42,6 +49,8 @@ public class InGameCamera : MonoBehaviour
     private void Awake()
     {
         m_Camera = this.GetComponentOrFail<Camera>();
+        
+        baseFoV = m_Camera.fieldOfView;
         
         // register runners earlier than Start as RaceManager will require camera to be ready during Setup
         // or use RaceManager.GetRunner()
@@ -109,9 +118,7 @@ public class InGameCamera : MonoBehaviour
 
     private void AdjustZoomToShowFixedWidth()
     {
-        // in 2D, Zoom means Orthographic Size, in 3D it would mean FoV
-        // TODO: do this with FoV for 3D camera now, if different aspect ratios give weird results
-        m_Camera.orthographicSize = fixedHalfWidth / m_Camera.aspect;
+        m_Camera.fieldOfView = baseFoV * (16f / 9f) / m_Camera.aspect;
     }
 
     public float GetLeftEdgeX()
