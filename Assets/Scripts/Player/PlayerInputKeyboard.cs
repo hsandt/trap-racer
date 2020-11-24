@@ -73,6 +73,12 @@ public class PlayerInputKeyboard : MonoBehaviour
         runner2.OnMove(value.Get<float>());
     }
     
+    /// Input callback: TogglePauseMenu action
+    private void OnTogglePauseMenu(InputValue value)
+    {
+        RaceManager.Instance.OnTogglePauseMenu();
+    }
+    
 #if UNITY_EDITOR
     /// Cheat Input callback: Move all characters by 10m backward
     private void OnCheatBackward10m(InputValue value)

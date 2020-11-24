@@ -238,6 +238,33 @@ public class RaceManager : SingletonManager<RaceManager>
         }
     }
 
+    public void OnTogglePauseMenu()
+    {
+        // we can only toggle pause during race, and during pause itself to resume race
+        switch (m_State)
+        {
+            case RaceState.Started:
+                PauseRace();
+                // for next stage number, we want to loop and have a 1-based number, so +1 after modulo
+                PauseUI.Instance.ShowPauseMenu((m_CurrentStageIndex + 1) % stageCount + 1);
+                break;
+            case RaceState.Paused:
+                PauseUI.Instance.HidePauseMenu();
+                ResumeRace();
+                break;
+        }
+    }
+
+    private void PauseRace()
+    {
+        m_State = RaceState.Paused;
+    }
+
+    public void ResumeRace()
+    {
+        m_State = RaceState.Started;
+    }
+
     public void NotifyRunnerFinished(CharacterRun characterRun)
     {
         // Build finish info (rank is not part of it, the index in the list gives it)

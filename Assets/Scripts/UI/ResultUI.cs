@@ -19,8 +19,7 @@ public class ResultUI : SingletonManager<ResultUI>
     [SerializeField, Tooltip("Next race button text when there are next stages left.")]
     private string nextRaceTextString = "Next race";
 
-    [SerializeField,
-     Tooltip("Next race button text when there are no stages left so we restart from stage 1 (index 0).")]
+    [SerializeField, Tooltip("Next race button text when there are no stages left so we restart from stage 1 (index 0).")]
     private string firstRaceTextString = "Restart from stage 1";
 
 
@@ -49,15 +48,8 @@ public class ResultUI : SingletonManager<ResultUI>
     public void ShowResult(int winnerNumber, bool wasLastRace)
     {
         gameObject.SetActive(true);
-        if (winnerNumber > 0)
-        {
-            victoryText.text = string.Format(victoryTextFormat, winnerNumber);
-        }
-        else
-        {
-            victoryText.text = string.Format(drawTextFormat, winnerNumber);
-        }
 
+        victoryText.text = string.Format(winnerNumber > 0 ? victoryTextFormat : drawTextFormat, winnerNumber);
         nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
     }
 

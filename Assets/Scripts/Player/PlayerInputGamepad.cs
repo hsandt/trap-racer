@@ -81,4 +81,10 @@ public class PlayerInputGamepad : MonoBehaviour
             runner.OnMove(value.Get<Vector2>().x);
         }
     }
+    
+    /// Input callback: TogglePauseMenu action
+    private void OnTogglePauseMenu(InputValue value)
+    {
+        RaceManager.Instance.OnTogglePauseMenu();
+    }
 }

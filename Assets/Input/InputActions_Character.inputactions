@@ -20,6 +20,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "TogglePauseMenu",
+                    "type": "Button",
+                    "id": "bf739fd0-8bbe-4a76-b91a-ebec3bed570a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -99,6 +107,17 @@
                     "action": "MoveXY",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb5faad4-a85c-4c21-b0e4-588412793a23",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "TogglePauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -137,6 +156,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "TogglePauseMenu",
+                    "type": "Button",
+                    "id": "16633a5b-9fd1-4c22-9503-cf0e86c775a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 },
                 {
                     "name": "CheatBackward10m",
@@ -370,6 +397,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "CheatRestartRace",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69b2cda2-b9eb-4b7a-9dd3-d13ca160602b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TogglePauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
