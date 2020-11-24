@@ -58,11 +58,18 @@ public class PlayerInputGamepad : MonoBehaviour
     // so we don't crash
 
     /// Input callback: Jump action
-    private void OnJump()
+    private void OnJump(InputValue value)
     {
         if (runner != null)
         {
-            runner.OnJump();
+            if (value.isPressed)
+            {
+                runner.OnJump();
+            }
+            else
+            {
+                runner.OnJumpReleased();
+            }
         }
     }
 

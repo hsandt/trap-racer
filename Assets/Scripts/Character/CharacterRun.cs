@@ -87,7 +87,10 @@ public class CharacterRun : MonoBehaviour
     private float maxLeftEdgeCatchupSpeed = 7f;
 
     [SerializeField, Tooltip("Jump speed (added to current velocity Y)")]
-    private float jumpSpeed = 10f;
+    private float jumpSpeed = 15f;
+
+    [SerializeField, Tooltip("Jump interrupt speed (set when releasing Jump input, if not already slower)")]
+    private float jumpInterruptSpeed = 5f;
 
     [SerializeField, Tooltip("Minimum velocity Y after jump in case you jump from a platform moving down so fast it would cancel the jump effect")]
     private float minResultingJumpSpeed = 1f;
@@ -540,7 +543,7 @@ public class CharacterRun : MonoBehaviour
     
     public void PlayToggleSwitchAnim()
     {
-        // TODO
+        // WONT DO: we don't have switches anymore in levels
     }
     
     // Trampoline
@@ -571,7 +574,7 @@ public class CharacterRun : MonoBehaviour
         // TODO
     }
     
-    /// Input callback: Jump action
+    /// Input callback: Jump action pressed
     public void OnJump()
     {
         if (m_CanControl && m_State == CharacterState.Run)
@@ -593,6 +596,25 @@ public class CharacterRun : MonoBehaviour
 #if DEBUG_CHARACTER_RUN
             Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
 #endif
+        }
+    }
+    
+    /// Input callback: Jump action released
+    public void OnJumpReleased()
+    {
+        if (m_CanControl && m_State == CharacterState.Jump)
+        {
+            float newVelocityY = m_Rigidbody2D.velocity.y;
+            
+            if (newVelocityY > jumpInterruptSpeed)
+            {
+                newVelocityY = jumpInterruptSpeed;
+#if DEBUG_CHARACTER_RUN
+                Debug.LogFormat(this, "[CharacterRun] #{0} Interrupt jump, down to velocity Y: {1}", playerNumber, newVelocityY);
+#endif
+            }
+            
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, newVelocityY);
         }
     }
     

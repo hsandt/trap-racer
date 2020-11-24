@@ -36,15 +36,29 @@ public class PlayerInputKeyboard : MonoBehaviour
     }
 
     /// Input callback: Jump action for P1
-    private void OnJumpP1()
+    private void OnJumpP1(InputValue value)
     {
-        runner1.OnJump();
+        if (value.isPressed)
+        {
+            runner1.OnJump();
+        }
+        else
+        {
+            runner1.OnJumpReleased();
+        }
     }
     
     /// Input callback: Jump action for P2
-    private void OnJumpP2()
+    private void OnJumpP2(InputValue value)
     {
-        runner2.OnJump();
+        if (value.isPressed)
+        {
+            runner2.OnJump();
+        }
+        else
+        {
+            runner2.OnJumpReleased();
+        }
     }
     
     /// Input callback: Move action for P1

@@ -19,7 +19,7 @@
                     "id": "5ecfe873-11e8-470f-aa2a-01cb84f6b50a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -128,7 +128,7 @@
                     "id": "f7733791-7ea1-4ac4-912c-002a90ea5169",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "JumpP2",
@@ -136,7 +136,7 @@
                     "id": "72e0af34-b79b-4a44-bf8b-bda959951b30",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "CheatBackward10m",

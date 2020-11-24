@@ -1710,18 +1710,22 @@ MonoBehaviour:
     maxNormalAngle: 0
   groundDetectionStartMargin: 0.6
   maxStepUpDistance: 0.5
-  maxStepDownDistance: 0.5
+  maxStepDownDistanceGrounded: 0.4
+  maxStepDownDistanceAirborne: 0.1
   groundDetectionStopMargin: 0.6
   groundDetectionToleranceHalfRange: 0.01
   baseRunSpeed: 5.5
   obstacleSlowDownRunSpeedMultiplier: 0.7
   flagSlowDownRunSpeedMultiplier: 0.7
   brakeSlowDownRunSpeedMultiplier: 0.7
+  maxLeftEdgeCatchupSpeed: 7
   jumpSpeed: 15
+  jumpInterruptSpeed: 8
   minResultingJumpSpeed: 1
   trampolineJumpSpeed: 20
   gravity: 30
   obstacleSlowdownDuration: 1
+  obstacleSlowdownFactorAirborne: 0.5
   finishDecel: 3
 --- !u!114 &2273261713193810135
 MonoBehaviour:
