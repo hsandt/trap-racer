@@ -14,7 +14,7 @@ public class PauseUI : SingletonManager<PauseUI>
     private string skipToNextStageTextFormat = "Skip to stage {0}";
 
     [SerializeField, Tooltip("Skip race button text when there are no stages left so we restart from stage 1 (index 0).")]
-    private string skipTofirstStageTextString = "Restart from stage 1";
+    private string skipToFirstStageTextString = "Restart from stage 1";
 
 
     /* Child references */
@@ -41,7 +41,7 @@ public class PauseUI : SingletonManager<PauseUI>
     {
         gameObject.SetActive(true);
 
-        skipRaceText.text = nextStageNumber == 1 ? skipTofirstStageTextString : string.Format(skipToNextStageTextFormat, nextStageNumber);
+        skipRaceText.text = nextStageNumber == 1 ? skipToFirstStageTextString : string.Format(skipToNextStageTextFormat, nextStageNumber);
     }
 
     public void HidePauseMenu()

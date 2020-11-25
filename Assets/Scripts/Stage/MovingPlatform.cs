@@ -105,7 +105,19 @@ public class MovingPlatform : Device
         Vector2 velocity = (positionOnPath - m_RigidbodyPlatform.position) / Time.deltaTime;
         m_RigidbodyPlatform.velocity = velocity;
     }
-    
+
+    public override void Pause()
+    {
+        enabled = false;
+        m_RigidbodyPlatform.simulated = false;
+    }
+
+    public override void Resume()
+    {
+        enabled = true;
+        m_RigidbodyPlatform.simulated = true;
+    }
+
     private Vector2 ComputePositionOnPath(float normalizedT)
     {
         if (movePathPolygonal != null)

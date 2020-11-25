@@ -184,6 +184,22 @@ public class CharacterRun : MonoBehaviour
         UpdateAnimator();
     }
     
+    public void Pause()
+    {
+        enabled = false;
+        m_Rigidbody2D.simulated = false;
+        m_Collider2D.enabled = false;  // nothing is moving during pause, but just in case we disable runner collider
+        meshAnimator.enabled = false;
+    }
+    
+    public void Resume()
+    {
+        enabled = true;
+        m_Rigidbody2D.simulated = true;
+        m_Collider2D.enabled = true;
+        meshAnimator.enabled = true;
+    }
+    
     private void UpdateMotion()
     {
         // don't move before race start

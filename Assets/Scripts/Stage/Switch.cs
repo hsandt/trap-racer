@@ -62,6 +62,14 @@ public class Switch : Device
     {
         SetOn(true);
     }
+    
+    public override void Pause()
+    {
+    }
+
+    public override void Resume()
+    {
+    }
 
     private void SetOn(bool value)
     {

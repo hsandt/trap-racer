@@ -44,6 +44,14 @@ public class Warper : Device
         SetActive(true);
     }
     
+    public override void Pause()
+    {
+    }
+
+    public override void Resume()
+    {
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (m_Active)

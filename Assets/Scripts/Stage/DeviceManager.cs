@@ -35,4 +35,20 @@ public class DeviceManager : SingletonManager<DeviceManager>
             device.Setup();
         }
     }
+
+    public void PauseDevices()
+    {
+        foreach (var device in m_Devices)
+        {
+            device.Pause();
+        }
+    }
+    
+    public void ResumeDevices()
+    {
+        foreach (var device in m_Devices)
+        {
+            device.Resume();
+        }
+    }
 }

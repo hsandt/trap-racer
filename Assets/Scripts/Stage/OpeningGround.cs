@@ -93,6 +93,20 @@ public class OpeningGround : Device
             MoveX(m_RigidbodyPanelRight, initialXRight);
         }
     }
+    
+    public override void Pause()
+    {
+        enabled = false;
+        m_RigidbodyPanelLeft.simulated = false;
+        m_RigidbodyPanelRight.simulated = false;
+    }
+
+    public override void Resume()
+    {
+        enabled = true;
+        m_RigidbodyPanelLeft.simulated = true;
+        m_RigidbodyPanelRight.simulated = true;
+    }
 
     private static void MoveX(Rigidbody2D rigidbody2d, float x)
     {

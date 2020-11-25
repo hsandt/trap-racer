@@ -258,11 +258,25 @@ public class RaceManager : SingletonManager<RaceManager>
     private void PauseRace()
     {
         m_State = RaceState.Paused;
+        
+        foreach (var characterRun in m_Runners)
+        {
+            characterRun.Pause();
+        }
+        
+        DeviceManager.Instance.PauseDevices();
     }
 
     public void ResumeRace()
     {
         m_State = RaceState.Started;
+        
+        foreach (var characterRun in m_Runners)
+        {
+            characterRun.Resume();
+        }
+        
+        DeviceManager.Instance.ResumeDevices();
     }
 
     public void NotifyRunnerFinished(CharacterRun characterRun)

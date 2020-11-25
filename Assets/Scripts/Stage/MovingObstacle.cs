@@ -84,6 +84,18 @@ public class MovingObstacle : Obstacle
         }
     }
     
+    public override void Pause()
+    {
+        enabled = false;
+        m_Rigidbody2D.simulated = false;
+    }
+
+    public override void Resume()
+    {
+        enabled = true;
+        m_Rigidbody2D.simulated = true;
+    }
+    
     private void MoveY(float y)
     {
         if (m_Rigidbody2D.position.y != y)

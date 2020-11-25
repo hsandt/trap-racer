@@ -5057,8 +5057,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skipToNextStageTextFormat: Skip to stage {0}
-  skipTofirstStageTextString: Restart from stage 1
-  skipRaceText: {fileID: 0}
+  skipToFirstStageTextString: Restart from stage 1
+  skipRaceText: {fileID: 3740036319384242579}
 --- !u!1 &262846926090929240
 GameObject:
   m_ObjectHideFlags: 0

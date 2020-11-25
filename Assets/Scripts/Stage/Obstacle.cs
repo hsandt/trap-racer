@@ -53,6 +53,15 @@ public class Obstacle : Device
             m_Renderer.enabled = true;
         }
     }
+    
+    public override void Pause()
+    {
+        // nothing needs to be done, assuming nothing is moving during pause so collision can be triggered
+    }
+
+    public override void Resume()
+    {
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {

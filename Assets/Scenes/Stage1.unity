@@ -9747,7 +9747,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2141024974678821451, guid: 7a8624d427b681443b94454a69d7b1bc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -58.241943
+      value: -58.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2141024974678821451, guid: 7a8624d427b681443b94454a69d7b1bc, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581112917265807705, guid: 7a8624d427b681443b94454a69d7b1bc, type: 3}
       propertyPath: m_AnchorMin.y
@@ -9980,6 +9984,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1564343488}
     m_Modifications:
+    - target: {fileID: 7409931448058809025, guid: 416a7d61a8d0d3147a8700a33ba107f3, type: 3}
+      propertyPath: groundFilter.useOutsideNormalAngle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8026341196856634753, guid: 416a7d61a8d0d3147a8700a33ba107f3, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.9234855
