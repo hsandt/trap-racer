@@ -10,7 +10,7 @@ public class PlayStageButton : MonoBehaviour
     /// Callback for click action
     public void OnClick()
     {
-        TitleUI.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlayConfirmSFX();
         StageSelectUI.Instance.LoadStage(stageNumber);
     }
 }
