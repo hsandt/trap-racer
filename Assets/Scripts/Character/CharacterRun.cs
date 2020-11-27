@@ -34,6 +34,7 @@ public class CharacterRun : MonoBehaviour
     /* Sibling components */
     private Rigidbody2D m_Rigidbody2D;
     private BoxCollider2D m_Collider2D;
+    private AudioSource m_AudioSource;
     private FlagBearer m_FlagBearer;
 
     /* Parameters */
@@ -109,6 +110,12 @@ public class CharacterRun : MonoBehaviour
 
     [SerializeField, Tooltip("Auto-deceleration on X after race finish")]
     private float finishDecel = 3f;
+    
+    [Tooltip("Jump start SFX")]
+    public AudioClip jumpStartSFX;
+
+    [Tooltip("Jump end SFX")]
+    public AudioClip jumpEndSFX;
 
     /* State vars */
 
@@ -154,6 +161,7 @@ public class CharacterRun : MonoBehaviour
 
         m_Rigidbody2D = this.GetComponentOrFail<Rigidbody2D>();
         m_Collider2D = this.GetComponentOrFail<BoxCollider2D>();
+        m_AudioSource = this.GetComponentOrFail<AudioSource>();
         m_FlagBearer = this.GetComponentOrFail<FlagBearer>();
     }
 
@@ -472,6 +480,9 @@ public class CharacterRun : MonoBehaviour
         // input is processed before FixedUpdate, which is easy to fix by only setting intention in OnJump and
         // processing it in FixedUpdate), then set it now as below
         SetVelocityOnGround();
+        
+//        Audio
+        m_AudioSource.PlayOneShot(jumpEndSFX);
     }
 
     private void AdjustYToGround(float groundDistance)
@@ -608,6 +619,9 @@ public class CharacterRun : MonoBehaviour
             float resultingJumpSpeed = Mathf.Max(minResultingJumpSpeed, externalVelocityYContribution + jumpSpeed);
             
             m_Rigidbody2D.velocity = new Vector2(jumpVelocityX, resultingJumpSpeed);
+            
+            // Audio
+            m_AudioSource.PlayOneShot(jumpStartSFX);
 
 #if DEBUG_CHARACTER_RUN
             Debug.LogFormat(this, "[CharacterRun] #{0} Jump with jumpSpeed: {1}", playerNumber, jumpSpeed);
