@@ -13,12 +13,21 @@ public class UISFXPlayer : SingletonManager<UISFXPlayer>
     
     /* Parameters */
     
-    [Tooltip("Confirm SFX")]
+    [Tooltip("Menu SFX: open menu")]
+    public AudioClip menuSFX;
+
+    [Tooltip("Confirm SFX: click on button or press Confirm")]
     public AudioClip confirmSFX;
 
     protected override void Init()
     {
         m_AudioSource = this.GetComponentOrFail<AudioSource>();
+    }
+    
+    public void PlayMenuSFX()
+    {
+        // Audio
+        m_AudioSource.PlayOneShot(menuSFX);
     }
     
     public void PlayConfirmSFX()
