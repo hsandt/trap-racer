@@ -13171,10 +13171,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3254602005851700562, guid: 962b8b2df8b6d77eba69be59938bf461, type: 3}
-      propertyPath: menuSFX
-      value: 
-      objectReference: {fileID: 8300000, guid: 55efc6b368b5d144ca4bf8edbd3b5d31, type: 3}
     - target: {fileID: 6484849256918562451, guid: 962b8b2df8b6d77eba69be59938bf461, type: 3}
       propertyPath: m_Name
       value: UISFXPlayer
@@ -14110,14 +14106,6 @@ PrefabInstance:
     - target: {fileID: 4720805111169234275, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4720805111169234284, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
-      propertyPath: countDownStartValue
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4720805111169234284, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
-      propertyPath: countDown0TextDuration
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4720805111169234287, guid: 6ac650635452e2741946b9c19ec577c9, type: 3}
       propertyPath: m_Enabled

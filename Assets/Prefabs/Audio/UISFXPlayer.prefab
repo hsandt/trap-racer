@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6815839735147740623}
   - component: {fileID: 3254602005851700562}
   m_Layer: 0
-  m_Name: SFXPlayer
+  m_Name: UISFXPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,4 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68409eee98e4c4df49acf9013a940b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuSFX: {fileID: 8300000, guid: 55efc6b368b5d144ca4bf8edbd3b5d31, type: 3}
   confirmSFX: {fileID: 8300000, guid: 997aacea08108bd40a69a65714123089, type: 3}
+  cancelSFX: {fileID: 8300000, guid: 3ec75d83018dabb4490bd05979defba1, type: 3}
+  startGameSFX: {fileID: 8300000, guid: 17e2434f45eb3da41ac013a52b317938, type: 3}
+  countDownSFX: {fileID: 8300000, guid: 55efc6b368b5d144ca4bf8edbd3b5d31, type: 3}
+  startRaceSFX: {fileID: 8300000, guid: 8a733f2bd8bb01848a3e5a567cb5900b, type: 3}

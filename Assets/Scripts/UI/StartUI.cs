@@ -53,6 +53,7 @@ public class StartUI : SingletonManager<StartUI>
         for (int i = countDownStartValue; i >= 1; --i)
         {
             countDownText.text = string.Format(countDownTextFormat, i);
+            UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.CountDown);
             yield return new WaitForSeconds(1f);
         }
 

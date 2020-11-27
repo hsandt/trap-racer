@@ -57,19 +57,19 @@ public class ResultUI : SingletonManager<ResultUI>
     
     public void OnRetryButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
         RaceManager.Instance.RestartRace();
     }
 
     public void OnNextButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
         RaceManager.Instance.StartNextRace();
     }
 
     public void OnExitButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Cancel);
         RaceManager.Instance.GoBackToTitle();
     }
 }

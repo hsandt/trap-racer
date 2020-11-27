@@ -53,14 +53,14 @@ public class PauseUI : SingletonManager<PauseUI>
     
     public void OnResumeButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
         HidePauseMenu();
         RaceManager.Instance.ResumeRace();
     }
 
     public void OnRetryButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
         HidePauseMenu();
         RaceManager.Instance.ResumeRace();
         RaceManager.Instance.RestartRace();
@@ -68,7 +68,7 @@ public class PauseUI : SingletonManager<PauseUI>
 
     public void OnSkipButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
 
         // Skip really acts like a Next, except we haven't finished the race
         RaceManager.Instance.StartNextRace();
@@ -76,7 +76,7 @@ public class PauseUI : SingletonManager<PauseUI>
 
     public void OnExitButtonClick()
     {
-        UISFXPlayer.Instance.PlayConfirmSFX();
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Cancel);
         RaceManager.Instance.GoBackToTitle();
     }
 }

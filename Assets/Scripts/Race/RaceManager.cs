@@ -224,6 +224,7 @@ public class RaceManager : SingletonManager<RaceManager>
 
     public void NotifyCountDownOver()
     {
+        UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.StartRace);
         StartRace();
     }
 
@@ -247,11 +248,11 @@ public class RaceManager : SingletonManager<RaceManager>
                 PauseRace();
                 // for next stage number, we want to loop and have a 1-based number, so +1 after modulo
                 PauseUI.Instance.ShowPauseMenu((m_CurrentStageIndex + 1) % stageCount + 1);
-                UISFXPlayer.Instance.PlayMenuSFX();
+                UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Menu);
                 break;
             case RaceState.Paused:
                 PauseUI.Instance.HidePauseMenu();
-                UISFXPlayer.Instance.PlayConfirmSFX();
+                UISFXPlayer.Instance.PlaySFX(UISFXPlayer.SFX.Confirm);
                 ResumeRace();
                 break;
         }

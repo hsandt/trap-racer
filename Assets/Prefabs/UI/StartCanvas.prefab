@@ -249,7 +249,7 @@ MonoBehaviour:
   countDownTextFormat: '{0}'
   countDown0TextFormat: GO!
   countDownText: {fileID: 4720805111096584584}
-  countDownStartValue: 0
+  countDownStartValue: 3
   countDown0TextDuration: 1
 --- !u!1 &4720805111377465078
 GameObject:
