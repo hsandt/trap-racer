@@ -62,6 +62,7 @@ public class PauseUI : SingletonManager<PauseUI>
     {
         UISFXPlayer.Instance.PlayConfirmSFX();
         HidePauseMenu();
+        RaceManager.Instance.ResumeRace();
         RaceManager.Instance.RestartRace();
     }
 
