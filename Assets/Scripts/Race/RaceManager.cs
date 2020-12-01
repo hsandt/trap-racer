@@ -40,26 +40,20 @@ public class RaceManager : SingletonManager<RaceManager>
     private int stageCount = 2;
 
 
-    /* State vars */
-
-    /// Current state
-    private RaceState m_State = RaceState.WaitForStart;
-
-    public RaceState State => m_State;
-
+    /* Race parameters initialized on setup */
+    
     /// Current stage index (also index of scene)
     private int m_CurrentStageIndex;
+    
+    /// Evaluated race start X
+    private float m_RaceStartX;
 
-#if SET_FLAG_ON_START
-    /// Flag transform (could be set as external reference, but found with tag at runtime)
-    private Transform m_FlagTr;
-#endif
-
-    /// Current time since race start
-    private float m_RaceTime;
+    /// Evaluated race length
+    private float m_RaceLength;
 
     /// List of runner numbers, from 1st to last
     private readonly List<CharacterRun> m_Runners = new List<CharacterRun>();
+    private readonly List<Transform> m_RunnerTransforms = new List<Transform>();
 
     /// Array of player input gamepads
     private PlayerInputGamepad[] m_PlayerInputGamepads = null;
@@ -67,9 +61,24 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Array of animation scripts that need to be restarted (typically stuff that must sync with other objects' motion)
     private FixedUpdateAnimationScript[] m_FixedUpdateAnimationScripts = null;
     
+#if SET_FLAG_ON_START
+/// Flag transform (could be set as external reference, but found with tag at runtime)
+    private Transform m_FlagTr;
+#endif
+    
+    
+    /* State vars */
+
+    /// Current state
+    private RaceState m_State = RaceState.WaitForStart;
+    public RaceState State => m_State;
+    
     /// List of finishing runner info, from 1st to last
     private readonly List<FinishInfo> m_FinishInfoList = new List<FinishInfo>();
 
+    /// Current time since race start
+    private float m_RaceTime;
+    
     /// Winning player number, 0 if draw
     private int winnerNumber;
 
@@ -99,6 +108,17 @@ public class RaceManager : SingletonManager<RaceManager>
         // If going from the title menu, some DontDestroyOnLoad PlayerInputGamepad have been preserved from the lobby,
         // and they know the player they should be bound to. Bind control to the matching runner now.
         RegisterAndSetupPlayerInputGamepadControls();
+
+        EvaluateRaceLength();
+    }
+
+    private void EvaluateRaceLength()
+    {
+        // race length is distance from spawn point to goal left marker
+        // (we assume P1 and P2 start at same X)
+        m_RaceStartX = spawnPointParent.GetChild(0).position.x;
+        var goalMiniMapMarkerTr = GameObject.FindWithTag(Tags.GoalMiniMapMarker).transform;
+        m_RaceLength = goalMiniMapMarkerTr.position.x - m_RaceStartX;
     }
 
     private void Start()
@@ -171,6 +191,7 @@ public class RaceManager : SingletonManager<RaceManager>
         {
             var characterRun = characterTr.GetComponentOrFail<CharacterRun>();
             m_Runners.Add(characterRun);
+            m_RunnerTransforms.Add(characterTr);
         }
     }
 
@@ -193,10 +214,10 @@ public class RaceManager : SingletonManager<RaceManager>
     private void SpawnRunners()
     {
         // move character with flag ahead
-        m_Runners[0].transform.position = spawnPointParent.GetChild(0).position;
+        m_RunnerTransforms[0].position = spawnPointParent.GetChild(0).position;
 
         // move character without flag behind
-        m_Runners[1].transform.position = spawnPointParent.GetChild(1).position;
+        m_RunnerTransforms[1].position = spawnPointParent.GetChild(1).position;
     }
 
 #if SET_FLAG_ON_START
@@ -238,6 +259,12 @@ public class RaceManager : SingletonManager<RaceManager>
             characterRun.StartRunning();
         }
     }
+    
+    /// Return progress of runner with given index (0-based), as a clamped ratio from start to goal
+    public float GetRunnerProgress(int index)
+    {
+        return Mathf.Clamp01((m_RunnerTransforms[index].position.x - m_RaceStartX) / m_RaceLength);
+    }
 
     public void OnTogglePauseMenu()
     {
@@ -268,6 +295,9 @@ public class RaceManager : SingletonManager<RaceManager>
         }
         
         DeviceManager.Instance.PauseDevices();
+        
+        // runners won't move so minimap indicators neither, but just to avoid useless processing
+        MiniMapUI.Instance.enabled = false;
     }
 
     public void ResumeRace()
@@ -280,6 +310,8 @@ public class RaceManager : SingletonManager<RaceManager>
         }
         
         DeviceManager.Instance.ResumeDevices();
+
+        MiniMapUI.Instance.enabled = true;
     }
 
     public void NotifyRunnerFinished(CharacterRun characterRun)

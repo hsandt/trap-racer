@@ -40,6 +40,10 @@ namespace UnityConstants
         /// Name of tag 'Confetti'.
         /// </summary>
         public const string Confetti = "Confetti";
+        /// <summary>
+        /// Name of tag 'GoalMiniMapMarker'.
+        /// </summary>
+        public const string GoalMiniMapMarker = "GoalMiniMapMarker";
     }
 
     public static class SortingLayers

@@ -23,8 +23,6 @@ public class PauseUI : SingletonManager<PauseUI>
     public TextMeshProUGUI skipRaceText;
 
 
-    /* Sibling components */
-
     protected override void Init()
     {
         // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)

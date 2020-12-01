@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Flag
   - Confetti
+  - GoalMiniMapMarker
   layers:
   - Default
   - TransparentFX

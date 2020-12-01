@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 12323, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: UI color palette
   m_EditorClassIdentifier: 
-  m_Presets: []
+  m_Presets:
+  - m_Name: 
+    m_Color: {r: 0.34939393, g: 0.016637806, b: 0.116464645, a: 1}
+  - m_Name: 
+    m_Color: {r: 0.3862414, g: 0.4441776, b: 0.03862414, a: 1}
