@@ -1,25 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 using CommonsPattern;
-using UnityEngine.EventSystems;
 
 public class StageSelectUI : SingletonManager<StageSelectUI>
 {
     [Tooltip("First button to select")]
     public GameObject firstSelected;
     
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+    
     public void Show()
     {
         gameObject.SetActive(true);
         EventSystem.current.SetSelectedGameObject(firstSelected);
-    }
-    
-    public void Hide()
-    {
-        gameObject.SetActive(false);
     }
     
     /// Load stage by number (1 or 2)

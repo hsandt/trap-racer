@@ -11,7 +11,7 @@ public class TitleUI : SingletonManager<TitleUI>
 
     private void Start()
     {
-        stageSelectUI.Hide();
+        stageSelectUI.Deactivate();
     }
 
     public void ShowStageSelectUI()

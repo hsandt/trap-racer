@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using CommonsHelper;
 using CommonsPattern;
@@ -24,6 +25,9 @@ public class ResultUI : SingletonManager<ResultUI>
 
 
     /* Child references */
+    
+    [Tooltip("First button to select")]
+    public GameObject firstSelected;
 
     [Tooltip("Victory text component")] public TextMeshProUGUI victoryText;
 
@@ -51,6 +55,8 @@ public class ResultUI : SingletonManager<ResultUI>
 
         victoryText.text = string.Format(winnerNumber > 0 ? victoryTextFormat : drawTextFormat, winnerNumber);
         nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
+        
+        EventSystem.current.SetSelectedGameObject(firstSelected);
     }
 
     // Button callbacks

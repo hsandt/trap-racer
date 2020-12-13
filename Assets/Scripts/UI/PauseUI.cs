@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using CommonsHelper;
 using CommonsPattern;
@@ -19,9 +20,11 @@ public class PauseUI : SingletonManager<PauseUI>
 
     /* Child references */
 
+    [Tooltip("First button to select")]
+    public GameObject firstSelected;
+    
     [Tooltip("Skip race button text component")]
     public TextMeshProUGUI skipRaceText;
-
 
     protected override void Init()
     {
@@ -40,10 +43,15 @@ public class PauseUI : SingletonManager<PauseUI>
         gameObject.SetActive(true);
 
         skipRaceText.text = nextStageNumber == 1 ? skipToFirstStageTextString : string.Format(skipToNextStageTextFormat, nextStageNumber);
+        
+        EventSystem.current.SetSelectedGameObject(firstSelected);
     }
 
     public void HidePauseMenu()
     {
+        // safer to stop selecting button on hide (but it shouldn't be usable while inactive),
+        // and required if firstSelected is currently selected, or it won't be re-highlighted on next ShowPauseMenu
+        EventSystem.current.SetSelectedGameObject(null);
         gameObject.SetActive(false);
     }
 
