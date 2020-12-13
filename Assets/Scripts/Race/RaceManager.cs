@@ -386,7 +386,7 @@ public class RaceManager : SingletonManager<RaceManager>
 #endif
         // if winnerNumber == 0, it's a draw
         Debug.LogFormat("Winner: Player #{0}", winnerNumber);
-        ResultUI.Instance.ShowResult(winnerNumber, m_CurrentStageIndex >= stageCount - 1);
+        ResultUI.Instance.ShowResult(winnerNumber, m_FinishInfoList, m_CurrentStageIndex >= stageCount - 1);
     }
 
     /// Restart race in same stage

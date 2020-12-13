@@ -33,12 +33,24 @@ public class ResultUI : SingletonManager<ResultUI>
 
     [Tooltip("Next race button text component")]
     public TextMeshProUGUI nextRaceText;
+    
+    [Tooltip("Player time widgets parent transform")]
+    public Transform playerTimesParent;
+    
+    /// List of player time widgets
+    private readonly List<PlayerTime> m_PlayerTimes = new List<PlayerTime>();
 
 
     /* Sibling components */
 
     protected override void Init()
     {
+        foreach (Transform playerTimeTr in playerTimesParent)
+        {
+            var playerTime = playerTimeTr.GetComponentOrFail<PlayerTime>();
+            m_PlayerTimes.Add(playerTime);
+        }
+        
         // deactivate until needed (done on Awake to avoid re-hiding after race start on Start)
         // do not only disable canvas, we must prevent any interactions
         Deactivate();
@@ -49,11 +61,18 @@ public class ResultUI : SingletonManager<ResultUI>
         gameObject.SetActive(false);
     }
 
-    public void ShowResult(int winnerNumber, bool wasLastRace)
+    public void ShowResult(int winnerNumber, List<RaceManager.FinishInfo> finishInfoList, bool wasLastRace)
     {
         gameObject.SetActive(true);
 
         victoryText.text = string.Format(winnerNumber > 0 ? victoryTextFormat : drawTextFormat, winnerNumber);
+
+        // show finish time for each player
+        for (int i = 0; i < finishInfoList.Count; i++)
+        {
+            m_PlayerTimes[i].SetTime(finishInfoList[i].time);
+        }
+        
         nextRaceText.text = string.Format(wasLastRace ? firstRaceTextString : nextRaceTextString, winnerNumber);
         
         EventSystem.current.SetSelectedGameObject(firstSelected);
