@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03972839, g: 0.07261374, b: 0.124726035, a: 1}
+  m_IndirectSpecularColor: {r: 0.039728254, g: 0.07261375, b: 0.124725886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -790,6 +790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d87ec5d400201b92968813d1b75261a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstSelected: {fileID: 2017205485}
 --- !u!1001 &1017714450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2039,6 +2040,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef75b1ed24d67134ab5c411319800fdb, type: 3}
+--- !u!1 &2017205485 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4960761691030217034, guid: 0f04c65f8db2d953e9e48dcd1a6e6eef, type: 3}
+  m_PrefabInstance: {fileID: 7959770188623947717}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2123142483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,7 +2162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef69669051b4ee0bd7bd3bd76e46c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageSelectUI: {fileID: 1003382583}
+  stageSelectUI: {fileID: 1003382585}
 --- !u!82 &2123142489
 AudioSource:
   m_ObjectHideFlags: 0
