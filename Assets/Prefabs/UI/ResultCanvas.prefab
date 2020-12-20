@@ -633,7 +633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.08531135, y: 0.37342814}
   m_AnchorMax: {x: 0.9, y: 0.628393}
-  m_AnchoredPosition: {x: 13, y: 14.619995}
+  m_AnchoredPosition: {x: 13, y: 14.625}
   m_SizeDelta: {x: -26, y: -29.240555}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4276856248633636536
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 118.25
+  m_fontSize: 127.55
   m_fontSizeBase: 129.4
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10887,7 +10887,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.21252304, y: 0.32392663}
   m_AnchorMax: {x: 0.7873703, y: 0.44354066}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.000000053085387, y: 1}
 --- !u!114 &659230207554547516
@@ -11199,7 +11199,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2333397603443316787, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_fontSize
-      value: 57.65
+      value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 5025780903034527153, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_Name
@@ -11231,7 +11231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6266799630136550153, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_fontSize
-      value: 57.65
+      value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 6266799630136550153, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_text
@@ -11361,7 +11361,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2333397603443316787, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_fontSize
-      value: 57.65
+      value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 5025780903034527153, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_Name
@@ -11393,7 +11393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6266799630136550153, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_fontSize
-      value: 57.65
+      value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 7115078523284380460, guid: 50ee8cf1f03c9be47a455ca993d567a8, type: 3}
       propertyPath: m_LocalPosition.x

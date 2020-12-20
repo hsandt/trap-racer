@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03972839, g: 0.07261374, b: 0.124726035, a: 1}
+  m_IndirectSpecularColor: {r: 0.039728254, g: 0.07261375, b: 0.124725886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10868,6 +10868,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 98162155}
     m_Modifications:
+    - target: {fileID: 8103806331736415880, guid: 885eeb04915866b1282a2ff1e3fd6e16, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 29.101562
+      objectReference: {fileID: 0}
+    - target: {fileID: 8103806332005926526, guid: 885eeb04915866b1282a2ff1e3fd6e16, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -27.296875
+      objectReference: {fileID: 0}
     - target: {fileID: 8103806332212013642, guid: 885eeb04915866b1282a2ff1e3fd6e16, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -12659,22 +12667,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 98162155}
     m_Modifications:
-    - target: {fileID: 4078971877820182185, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078971877820182185, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078971877820182185, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4078971877820182185, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4276856247951046076, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
       propertyPath: m_Name
       value: ResultCanvas
@@ -12761,46 +12753,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4276856247951046077, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248575745496, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248575745496, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248575745496, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248575745496, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248633636538, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 14.625
-      objectReference: {fileID: 0}
-    - target: {fileID: 4276856248633636539, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_fontSize
-      value: 108.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820585954176683373, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820585954176683373, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820585954176683373, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8820585954176683373, guid: b142ac3683adb7d44a79b44d04970e82, type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
