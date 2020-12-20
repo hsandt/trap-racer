@@ -1728,6 +1728,7 @@ MonoBehaviour:
   obstacleSlowdownDuration: 1
   obstacleSlowdownFactorAirborne: 0.5
   finishDecel: 3
+  jumpOffGroundToleranceDuration: 0.08
   jumpStartSFX: {fileID: 8300000, guid: ec136fcc2077550449a042bdf9c2d459, type: 3}
   jumpEndSFX: {fileID: 8300000, guid: 47ca17aeb2eaa804fa1cf834df4d59a7, type: 3}
 --- !u!82 &5272719789823548106

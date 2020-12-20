@@ -111,6 +111,9 @@ public class CharacterRun : MonoBehaviour
     [SerializeField, Tooltip("Auto-deceleration on X after race finish")]
     private float finishDecel = 3f;
     
+    [SerializeField, Tooltip("Time after leaving ground before confirming fall and preventing jump")]
+    private float jumpOffGroundToleranceDuration = 0.5f;
+    
     [Tooltip("Jump start SFX")]
     public AudioClip jumpStartSFX;
 
@@ -142,6 +145,10 @@ public class CharacterRun : MonoBehaviour
     
     /// Current tangent direction (unit vector)
     private Vector2 tangentDir;
+    
+    /// Time left before confirming character falling from ground (to allow jump short after leaving ground)
+    /// Timer is active when time > 0
+    private float m_TimeBeforeFallFromGround;
     
     // Animator param hashes
 
@@ -178,6 +185,7 @@ public class CharacterRun : MonoBehaviour
         m_BrakeIntention = false;
         currentGround = null;
         tangentDir = Vector2.right;
+        m_TimeBeforeFallFromGround = 0f;
     }
 
     public void StartRunning()
@@ -231,19 +239,47 @@ public class CharacterRun : MonoBehaviour
             //  as we assume that all platforms are flat and we don't need to escape ground while running
             if (!SenseGround(out GroundInfo groundInfo))
             {
-                // no ground detected, fall (we can wait next frame to start applying gravity)
-                m_State = CharacterState.Fall;
-                SetGround(null);
-                tangentDir = groundInfo.tangentDir;
-#if DEBUG_CHARACTER_RUN
-                Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, Fall", playerNumber);
-#endif
+                if (m_TimeBeforeFallFromGround <= 0f)
+                {
+                    // no ground detected, and no fall timer already active,
+                    // so start fall timer
+                    // note that character enters a hybrid state where there is no ground below,
+                    // but old ground/tangent is still stored as currentGround/tangentDir so character
+                    // will continue running in that direction with the run animation for a short duration
+                    // clamp to min value as 0 would make character never fall
+                    m_TimeBeforeFallFromGround = Mathf.Max(0.01f, jumpOffGroundToleranceDuration);
+    #if DEBUG_CHARACTER_RUN
+                    Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, start Fall timer", playerNumber);
+    #endif
+                }
             }
             else
             {
                 SetGround(groundInfo.groundCollider);
                 tangentDir = groundInfo.tangentDir;
                 AdjustYToGround(groundInfo.groundDistance);
+                
+                // cancel fall timer
+                m_TimeBeforeFallFromGround = 0f;
+            }
+
+            if (m_TimeBeforeFallFromGround > 0)
+            {
+                m_TimeBeforeFallFromGround -= Time.deltaTime;
+                if (m_TimeBeforeFallFromGround <= 0)
+                {
+                    m_TimeBeforeFallFromGround = 0f;
+                    
+                    // start fall
+                    // (we can wait next frame to start applying gravity)
+                    m_State = CharacterState.Fall;
+                    SetGround(null);
+                    tangentDir = groundInfo.tangentDir;
+    #if DEBUG_CHARACTER_RUN
+                    Debug.LogFormat(this, "[CharacterRun] #{0} No ground detected, start Fall timer", playerNumber);
+    #endif
+                }
+                    
             }
         }
         else
@@ -578,6 +614,10 @@ public class CharacterRun : MonoBehaviour
     public void JumpWithTrampoline()
     {
         m_State = CharacterState.Jump;
+        
+        // clean up Run state vars
+        m_TimeBeforeFallFromGround = 0f;
+        
         Vector2 velocity = m_Rigidbody2D.velocity;
         m_Rigidbody2D.velocity = new Vector2(velocity.x, Mathf.Max(trampolineJumpSpeed, velocity.y));
     }
@@ -607,6 +647,9 @@ public class CharacterRun : MonoBehaviour
         if (m_CanControl && m_State == CharacterState.Run)
         {
             m_State = CharacterState.Jump;
+            
+            // clean up Run state vars
+            m_TimeBeforeFallFromGround = 0f;
 
             float jumpVelocityX = m_Rigidbody2D.velocity.x;
             
