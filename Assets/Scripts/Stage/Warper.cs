@@ -15,7 +15,10 @@ public class Warper : Device
     /* Children references */
 
     [Tooltip("Particle system played continuously")]
-    public ParticleSystem pfx;   
+    public ParticleSystem activePfx;   
+    
+    [Tooltip("Particle system played when warping")]
+    public ParticleSystem warpPfx;   
     
     
     /* State */
@@ -72,16 +75,16 @@ public class Warper : Device
         // make sure to check for null as emission property will create an Emission Module
         // bound to null otherwise, causing "Do not create your own module instances,
         // get them from a ParticleSystem instance"
-        Debug.AssertFormat(pfx != null, this, "PFX not set on Warper {0}", this);
-        if (pfx != null)
+        Debug.AssertFormat(activePfx != null, this, "PFX not set on Warper {0}", this);
+        if (activePfx != null)
         {
-            var emissionModule = pfx.emission;
+            var emissionModule = activePfx.emission;
             emissionModule.enabled = value;
         }
     }
 
     private void StartTriggerAnimation()
     {
-        // TODO
+        warpPfx.Play();
     }
 }
