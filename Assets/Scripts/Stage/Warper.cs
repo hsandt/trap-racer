@@ -26,6 +26,11 @@ public class Warper : Device
     /// Is the warp active? It cannot be used twice.
     private bool m_Active;
     
+    /// Flag to remember we should deactivate this warper at the end of the turn
+    /// It allows us to keep it active until all collisions have been processed
+    /// in case the 2 characters touch it at the same time
+    private bool m_ShouldDeactivateOnNextFixedUpdate;
+    
     
     private void Start()
     {
@@ -45,6 +50,7 @@ public class Warper : Device
     public override void Setup()
     {
         SetActive(true);
+        m_ShouldDeactivateOnNextFixedUpdate = false;
     }
     
     public override void Pause()
@@ -54,16 +60,26 @@ public class Warper : Device
     public override void Resume()
     {
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (m_Active)
         {
-            SetActive(false);
+            m_ShouldDeactivateOnNextFixedUpdate = true;
+            
             StartTriggerAnimation();
             
             var characterRun = other.GetComponentOrFail<CharacterRun>();
             characterRun.WarpTo(targetWarperTr);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (m_ShouldDeactivateOnNextFixedUpdate)
+        {
+            m_ShouldDeactivateOnNextFixedUpdate = false;
+            SetActive(false);
         }
     }
 
@@ -82,7 +98,7 @@ public class Warper : Device
             emissionModule.enabled = value;
         }
     }
-
+    
     private void StartTriggerAnimation()
     {
         warpPfx.Play();
