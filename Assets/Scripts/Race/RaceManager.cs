@@ -406,6 +406,15 @@ public class RaceManager : SingletonManager<RaceManager>
         SetupRace();
     }
     
+    /// Restart race in same stage if race is Started
+    public void TryRestartRace()
+    {
+        if (m_State == RaceState.Started)
+        {
+            RestartRace();
+        }
+    }
+    
     /// Start next race (loop if reached last stage)
     public void StartNextRace()
     {

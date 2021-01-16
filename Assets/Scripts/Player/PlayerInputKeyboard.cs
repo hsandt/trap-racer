@@ -103,7 +103,7 @@ public class PlayerInputKeyboard : MonoBehaviour
     /// Cheat Input callback: Restart race immediately
     private void OnCheatRestartRace(InputValue value)
     {
-        RaceManager.Instance.RestartRace();
+        RaceManager.Instance.TryRestartRace();
     }
 #endif
 }
