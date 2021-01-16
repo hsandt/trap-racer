@@ -392,8 +392,17 @@ public class RaceManager : SingletonManager<RaceManager>
     /// Restart race in same stage
     public void RestartRace()
     {
+        // All coroutines that can be played while race is Started must be cleared
+        // in this case, the GO! is still displayed at the very beginning of the race so stop the coroutine saying
+        // it should be hidden in a short moment, and hide it yourself immediately (although countdown will restart
+        // one frame later and re-display StartUI anyway; if you really want to avoid 1 frame of absence, remove the
+        // StartUI.Instance.Deactivate() line)
+        StartUI.Instance.StopAllCoroutines();
+        StartUI.Instance.Deactivate();
+        
         // important to completely deactivate the Result UI canvas to prevent using it even when hidden
         // (if only disabling canvas, we can still press the last selection with gamepad Confirm input to Restart again!)
+        // this will also clear any
         ResultUI.Instance.Deactivate();
 
         // preserve m_CurrentStageIndex as a different scene has a different RaceManager
