@@ -1,9 +1,7 @@
 name: Acquire activation file
 
 on:
-  push:
-    tags:
-      - activation-unity-2020.1.8f1
+  workflow_dispatch:
 
 jobs:
   activation:
@@ -22,3 +20,4 @@ jobs:
         with:
           name: ${{ steps.getManualLicenseFile.outputs.filePath }}
           path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          retention-days: 3
