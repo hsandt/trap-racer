@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+          submodules: true
 
       # Cache
       - uses: actions/cache@v2
@@ -26,10 +27,10 @@ jobs:
           key: Library
 
       # Test
-      # - name: Run tests
-      #   uses: game-ci/unity-test-runner@v1.7
-      #   with:
-      #     unityVersion: 2020.1.8f1
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v1.7
+        with:
+          unityVersion: 2020.1.8f1
 
       # Build
       - name: Build project
