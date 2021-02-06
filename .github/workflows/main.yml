@@ -27,10 +27,12 @@ jobs:
           key: Library
 
       # Test
-      - name: Run tests
-        uses: game-ci/unity-test-runner@v1.7
-        with:
-          unityVersion: 2020.1.8f1
+      # (no tests yet, we don't want to fail on edit/playmode-results.xml: No such file
+      # so comment this out)
+      # - name: Run tests
+      #   uses: game-ci/unity-test-runner@v1.7
+      #   with:
+      #     unityVersion: 2020.1.8f1
 
       # Build
       - name: Build project
