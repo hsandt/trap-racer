@@ -1,8 +1,9 @@
-name: Actions
+name: Build
 
 on:
   pull_request: {}
   push: { branches: [master] }
+  workflow_dispatch:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -25,10 +26,10 @@ jobs:
           key: Library
 
       # Test
-      - name: Run tests
-        uses: game-ci/unity-test-runner@v1.7
-        with:
-          unityVersion: 2020.1.8f1
+      # - name: Run tests
+      #   uses: game-ci/unity-test-runner@v1.7
+      #   with:
+      #     unityVersion: 2020.1.8f1
 
       # Build
       - name: Build project
