@@ -29,7 +29,8 @@ public class ResultUI : SingletonManager<ResultUI>
     [Tooltip("First button to select")]
     public GameObject firstSelected;
 
-    [Tooltip("Victory text component")] public TextMeshProUGUI victoryText;
+    [Tooltip("Victory text component")]
+    public TextMeshProUGUI victoryText;
 
     [Tooltip("Next race button text component")]
     public TextMeshProUGUI nextRaceText;
