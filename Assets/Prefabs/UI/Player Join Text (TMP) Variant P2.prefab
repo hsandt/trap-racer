@@ -101,5 +101,9 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1410601737292958313, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
+      propertyPath: webGLText
+      value: 'Keyboard: press Up to join'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42a5a28acfdd6e977bcbb1f9e417ae2b, type: 3}
