@@ -18,4 +18,11 @@ public class TitleUI : SingletonManager<TitleUI>
     {
         stageSelectUI.Show();
     }
+   
+#if !UNITY_WEBGL
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+#endif
 }
